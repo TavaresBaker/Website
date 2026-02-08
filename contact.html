@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact | Baker Tech Solutions</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <div class="bg-grid" aria-hidden="true"></div>
+
+  <header class="glass-nav">
+    <div class="container nav-wrap">
+      <a class="brand" href="index.html">
+        <span class="brand-mark" aria-hidden="true">◆</span>
+        <span class="brand-text">Baker Tech Solutions</span>
+      </a>
+
+      <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav class="nav-links" data-nav>
+        <a href="index.html">Home</a>
+        <a href="services.html">Services</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="community.html">Community</a>
+        <a href="contact.html" class="nav-btn" aria-current="page">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">Contact</p>
+          <h1>Let’s talk.</h1>
+          <p class="subhead">
+            Tell us what you’re trying to accomplish and we’ll respond with a clear plan and estimate.
+            The more details you provide, the faster we can help.
+          </p>
+
+          <div class="hero-actions">
+            <a class="btn primary" href="#form">Start a request</a>
+            <a class="btn ghost" href="pricing.html">View Pricing</a>
+          </div>
+
+          <div class="trust-row">
+            <div class="trust-pill">Quick response</div>
+            <div class="trust-pill">Clear scope</div>
+            <div class="trust-pill">No jargon</div>
+            <div class="trust-pill">Security-first</div>
+          </div>
+        </div>
+
+        <div class="hero-card" role="note" aria-label="What to include">
+          <h2>What to include</h2>
+          <ul class="checklist">
+            <li>Device type (PC / Mac / phone / network)</li>
+            <li>What you want to happen (goal)</li>
+            <li>Any error messages / screenshots</li>
+            <li>Urgency + best time to reach you</li>
+          </ul>
+          <a class="mini-link" href="services.html">See services →</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt" id="form">
+      <div class="container">
+        <div class="section-head">
+          <h2>Contact form</h2>
+          <p>This is a front-end form layout. To make it send email, we’ll connect it to a service (Formspree, Netlify, etc.).</p>
+        </div>
+
+        <div class="split">
+          <div class="card reveal">
+            <h3>Send a request</h3>
+            <p class="muted" style="margin-bottom:12px;">Fill this out and we’ll get back to you.</p>
+
+            <form>
+              <div style="display:grid; gap:10px;">
+                <label>
+                  <span class="muted" style="display:block; margin-bottom:6px;">Name</span>
+                  <input required type="text" name="name" placeholder="Your name"
+                    style="width:100%; padding:12px 12px; border-radius:14px; border:1px solid rgba(255,255,255,0.12); background:rgba(255,255,255,0.06); color:var(--text);" />
+                </label>
+
+                <label>
+                  <span class="muted" style="display:block; margin-bottom:6px;">Email</span>
+                  <input required type="email" name="email" placeholder="you@example.com"
+                    style="width:100%; padding:12px 12px; border-radius:14px; border:1px solid rgba(255,255,255,0.12); background:rgba(255,255,255,0.06); color:var(--text);" />
+                </label>
+
+                <label>
+                  <span class="muted" style="display:block; margin-bottom:6px;">Service category</span>
+                  <select name="category"
+                    style="width:100%; padding:12px 12px; border-radius:14px; border:1px solid rgba(255,255,255,0.12); background:rgba(255,255,255,0.06); color:var(--text);">
+                    <option>Hardware</option>
+                    <option>Software</option>
+                    <option>Networking</option>
+                    <option>Security</option>
+                    <option>Programming</option>
+                    <option>Not sure</option>
+                  </select>
+                </label>
+
+                <label>
+                  <span class="muted" style="display:block; margin-bottom:6px;">Message</span>
+                  <textarea required name="message" rows="6" placeholder="What’s going on? What’s your goal?"
+                    style="width:100%; padding:12px 12px; border-radius:14px; border:1px solid rgba(255,255,255,0.12); background:rgba(255,255,255,0.06); color:var(--text); resize:vertical;"></textarea>
+                </label>
+
+                <button class="btn primary" type="submit">Send</button>
+              </div>
+            </form>
+          </div>
+
+          <div class="image-card reveal">
+            <h3>Other ways to reach us</h3>
+            <p class="muted" style="margin-top:8px;">
+              Add your real contact details here:
+            </p>
+
+            <ul class="checklist" style="margin-top:12px;">
+              <li>Email: <span class="muted">your-email@domain.com</span></li>
+              <li>Phone: <span class="muted">(555) 555-5555</span></li>
+              <li>Service area: <span class="muted">Your city / region</span></li>
+              <li>Hours: <span class="muted">By appointment</span></li>
+            </ul>
+
+            <div class="cta-band" style="margin-top:16px;">
+              <div>
+                <h2 style="margin:0;">Want a fast quote?</h2>
+                <p style="margin-top:8px;">Include photos/screenshots and a short description of the issue.</p>
+              </div>
+            </div>
+
+            <p class="caption">Tip: If it’s security-related, don’t send passwords — we’ll guide you safely.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div>
+        <div class="footer-brand">Baker Tech Solutions</div>
+        <p class="muted">Custom hardware • Secure systems • Automation</p>
+      </div>
+      <div class="footer-links">
+        <a href="services.html">Services</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="community.html">Community</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <p>© 2026 Baker Tech Solutions</p>
+    </div>
+  </footer>
+
+  <script src="scripts.js"></script>
+</body>
+</html>
