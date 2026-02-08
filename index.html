@@ -1,86 +1,204 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Baker Tech Solutions</title>
-<link rel="stylesheet" href="styles.css">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
-<div class="bg-grid"></div>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Baker Tech Solutions</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css" />
 </head>
+
 <body>
+  <!-- Background decoration belongs in BODY, not HEAD -->
+  <div class="bg-grid" aria-hidden="true"></div>
 
-<header class="glass-nav">
-  <div class="nav-wrap">
-    <h1>Baker Tech</h1>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="services.html">Services</a>
-      <a href="portfolio.html">Projects</a>
-      <a href="contact.html" class="nav-btn">Contact</a>
-    </nav>
-  </div>
-</header>
+  <header class="glass-nav">
+    <div class="nav-wrap">
+      <a class="brand" href="index.html">
+        <span class="brand-mark" aria-hidden="true">◆</span>
+        <span class="brand-text">Baker Tech Solutions</span>
+      </a>
 
-<!-- HERO -->
-<section class="hero-apple">
-  <div class="hero-content">
-    <h2>Engineering the Future of Personal Technology</h2>
-    <p>Custom hardware. Secure systems. Intelligent automation.</p>
-    <a href="contact.html" class="btn-apple">Get a Quote</a>
-  </div>
-</section>
+      <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
 
-<!-- FEATURE GRID -->
-<section class="feature-grid">
-  <div class="feature">
-    <h3>Performance</h3>
-    <p>Precision-built systems optimized for speed and reliability.</p>
-  </div>
-  <div class="feature">
-    <h3>Security</h3>
-    <p>Cybersecurity-first configurations and hardened environments.</p>
-  </div>
-  <div class="feature">
-    <h3>Automation</h3>
-    <p>Custom scripts and tools to eliminate repetitive tasks.</p>
-  </div>
-</section>
-
-<!-- IMAGE SHOWCASE -->
-<section class="showcase">
-  <h2>Built With Precision</h2>
-  <div class="showcase-grid">
-    <img src="images/hardware.jpg">
-    <img src="images/networking.jpg">
-    <img src="images/programming.png">
-  </div>
-</section>
-
-<!-- FOUNDER -->
-<section class="founder-apple">
-  <div class="founder-box">
-    <img src="images/you.jpg">
-    <div>
-      <h2>Designed and Built by Baker Tech</h2>
-      <p>
-        Baker Tech Solutions delivers enterprise-level engineering with small-business pricing.
-        Every system is documented, tested, and security-hardened.
-      </p>
+      <nav class="nav-links" data-nav>
+        <a href="index.html" aria-current="page">Home</a>
+        <a href="services.html">Services</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="community.html">Community</a>
+        <a href="contact.html" class="nav-btn">Contact</a>
+      </nav>
     </div>
-  </div>
-</section>
+  </header>
 
-<!-- CTA -->
-<section class="cta-apple">
-  <h2>Let’s Build Something Powerful</h2>
-  <a href="contact.html" class="btn-apple">Start a Project</a>
-</section>
+  <main>
+    <!-- HERO (about the business) -->
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">Local • Reliable • Security-first</p>
+          <h1>Tech help that feels professional — without corporate pricing.</h1>
+          <p class="subhead">
+            Baker Tech Solutions helps people and small organizations with hardware, software,
+            networking, security, and automation — done right, documented, and built to last.
+          </p>
 
-<footer>
-  <p>© 2026 Baker Tech Solutions</p>
-</footer>
+          <div class="hero-actions">
+            <a class="btn primary" href="services.html">Explore Services</a>
+            <a class="btn ghost" href="contact.html">Get a Quote</a>
+          </div>
 
-<script src="scripts.js"></script>
+          <div class="trust-row">
+            <div class="trust-pill">Clear pricing</div>
+            <div class="trust-pill">No jargon</div>
+            <div class="trust-pill">Secure setups</div>
+            <div class="trust-pill">Fast turnaround</div>
+          </div>
+        </div>
+
+        <div class="hero-card" role="note" aria-label="Quick summary card">
+          <h2>What we do</h2>
+          <ul class="checklist">
+            <li>Custom PC builds & upgrades</li>
+            <li>OS installs, troubleshooting, backups</li>
+            <li>Home network & VPN setup</li>
+            <li>Device & service hardening</li>
+            <li>Custom automation & scripting</li>
+          </ul>
+          <a class="mini-link" href="pricing.html">See pricing →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="section">
+      <div class="container split">
+        <div>
+          <h2>About Baker Tech</h2>
+          <p>
+            We’re a small team focused on high-quality work: clean builds, reliable setups, and security you can trust.
+            Every job is handled with care, and we keep things transparent — what we’re doing, why we’re doing it,
+            and how to maintain it after we’re done.
+          </p>
+          <div class="bullets">
+            <div class="bullet">
+              <h3>Professional process</h3>
+              <p>Documented work, clear handoff, and practical recommendations.</p>
+            </div>
+            <div class="bullet">
+              <h3>Security-first mindset</h3>
+              <p>Hardening, best practices, and safer defaults — included.</p>
+            </div>
+            <div class="bullet">
+              <h3>Small-business pricing</h3>
+              <p>Fair rates and straightforward estimates.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="image-card">
+          <!-- Replace with your real image when ready -->
+          <div class="image-placeholder" aria-hidden="true">
+            <span>Replace with: team / work photo</span>
+          </div>
+          <p class="caption">Serving clients with reliable tech, clean installs, and secure configurations.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES PREVIEW -->
+    <section class="section alt">
+      <div class="container">
+        <div class="section-head">
+          <h2>Services</h2>
+          <p>Everything from quick fixes to full builds.</p>
+        </div>
+
+        <div class="cards">
+          <article class="card reveal">
+            <h3>Hardware</h3>
+            <p>Custom builds, upgrades, cable management, troubleshooting.</p>
+            <a href="services.html#hardware" class="mini-link">Learn more →</a>
+          </article>
+
+          <article class="card reveal">
+            <h3>Software</h3>
+            <p>OS installs, program setup, backups, performance tuning.</p>
+            <a href="services.html#software" class="mini-link">Learn more →</a>
+          </article>
+
+          <article class="card reveal">
+            <h3>Networking</h3>
+            <p>Routers, firewalls, VPNs, troubleshooting, service setup.</p>
+            <a href="services.html#networking" class="mini-link">Learn more →</a>
+          </article>
+
+          <article class="card reveal">
+            <h3>Security</h3>
+            <p>Device hardening, malware cleanup, basic assessments.</p>
+            <a href="services.html#security" class="mini-link">Learn more →</a>
+          </article>
+
+          <article class="card reveal">
+            <h3>Programming</h3>
+            <p>Automation, scripts, code review, troubleshooting.</p>
+            <a href="services.html#programming" class="mini-link">Learn more →</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMMUNITY PREVIEW -->
+    <section class="section">
+      <div class="container cta-band">
+        <div>
+          <h2>Community involvement</h2>
+          <p>
+            We support local events, student programs, and community initiatives.
+            If you’re organizing something and need tech support or sponsorship, reach out.
+          </p>
+        </div>
+        <div class="cta-actions">
+          <a class="btn primary" href="community.html">See Community Work</a>
+          <a class="btn ghost" href="contact.html">Partner With Us</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section class="section alt">
+      <div class="container final-cta">
+        <h2>Ready when you are.</h2>
+        <p>Tell us what you’re trying to do — we’ll recommend the cleanest solution and price it clearly.</p>
+        <a class="btn primary" href="contact.html">Contact Baker Tech</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div>
+        <div class="footer-brand">Baker Tech Solutions</div>
+        <p class="muted">Custom hardware • Secure systems • Automation</p>
+      </div>
+      <div class="footer-links">
+        <a href="services.html">Services</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="community.html">Community</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <p>© 2026 Baker Tech Solutions</p>
+    </div>
+  </footer>
+
+  <script src="scripts.js"></script>
 </body>
 </html>
