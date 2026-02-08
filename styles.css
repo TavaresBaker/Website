@@ -1,239 +1,215 @@
-/* ===== RESET & BASE ===== */
-*,
-*::before,
-*::after {
+/* ================= GLOBAL RESET ================= */
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
 }
 
 html {
   scroll-behavior: smooth;
-  background: #0b0b0f;
-  color: #f5f5f7;
 }
 
-/* ===== GLOBAL ===== */
 body {
-  line-height: 1.6;
+  background: radial-gradient(circle at 20% 10%, #0a0f2e, #05070f 60%);
+  color: #fff;
   overflow-x: hidden;
 }
 
-a {
-  text-decoration: none;
-  color: inherit;
-}
-
-img {
-  max-width: 100%;
-  display: block;
-}
-
-/* ===== NAVBAR ===== */
-.navbar {
+/* ================= GLASSMORPHISM NAVBAR ================= */
+nav {
   position: fixed;
   top: 0;
   width: 100%;
-  padding: 14px 40px;
-  background: rgba(10, 10, 20, 0.6);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  backdrop-filter: blur(20px);
+  background: rgba(10, 15, 40, 0.4);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  padding: 15px 60px;
   z-index: 1000;
 }
 
-.navbar h1 {
-  font-size: 1.3rem;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-}
-
-.navbar ul {
+nav ul {
   display: flex;
-  gap: 28px;
+  gap: 30px;
   list-style: none;
+  justify-content: center;
 }
 
-.navbar li a {
-  font-size: 0.95rem;
-  opacity: 0.8;
-  transition: 0.2s;
+nav a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 15px;
+  transition: 0.3s;
 }
 
-.navbar li a:hover {
-  opacity: 1;
+nav a:hover {
+  color: #4af1ff;
 }
 
-/* ===== HERO SECTION ===== */
+/* ================= HERO SECTION ================= */
 .hero {
   height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 0 20px;
-  background: radial-gradient(circle at top, #1a1a2e, #0b0b0f 70%);
+  padding: 0 10%;
+  position: relative;
 }
 
-.hero h2 {
-  font-size: 3.2rem;
-  font-weight: 700;
-  max-width: 900px;
+/* Animated gradient glow */
+.hero::before {
+  content: "";
+  position: absolute;
+  width: 1200px;
+  height: 1200px;
+  background: radial-gradient(circle, rgba(74,241,255,0.25), transparent 70%);
+  filter: blur(200px);
+  animation: floatGlow 12s infinite alternate ease-in-out;
+}
+
+@keyframes floatGlow {
+  0% { transform: translate(-200px, -200px); }
+  100% { transform: translate(200px, 200px); }
+}
+
+.hero h1 {
+  font-size: 4rem;
+  font-weight: 800;
+  background: linear-gradient(90deg, #4af1ff, #6f7cff, #ff4fd8);
+  -webkit-background-clip: text;
+  color: transparent;
 }
 
 .hero p {
-  margin-top: 20px;
   font-size: 1.2rem;
-  color: #aaa;
   max-width: 700px;
-  margin-inline: auto;
+  margin: 20px auto;
+  color: rgba(255,255,255,0.8);
 }
 
-.hero button {
-  margin-top: 40px;
-  padding: 14px 32px;
+/* ================= BUTTONS ================= */
+.btn {
+  padding: 14px 34px;
   border-radius: 40px;
   border: none;
-  background: linear-gradient(135deg, #0a84ff, #6f00ff);
-  color: white;
-  font-size: 1rem;
+  font-weight: 700;
+  font-size: 16px;
   cursor: pointer;
-  transition: 0.2s ease;
+  transition: 0.4s;
+  background: linear-gradient(135deg, #4af1ff, #6f7cff);
+  color: black;
+  box-shadow: 0 0 30px rgba(74,241,255,0.4);
 }
 
-.hero button:hover {
-  transform: scale(1.05);
+.btn:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 60px rgba(74,241,255,0.8);
 }
 
-/* ===== SECTIONS ===== */
-.section {
-  padding: 120px 8%;
-  text-align: center;
+/* ================= SECTIONS ================= */
+section {
+  padding: 140px 12%;
 }
 
-.section h3 {
-  font-size: 2.2rem;
-  font-weight: 600;
-  margin-bottom: 20px;
-}
-
-.section p {
-  font-size: 1.05rem;
-  color: #bbb;
-  max-width: 800px;
-  margin: auto;
-}
-
-/* ===== FEATURE GRID ===== */
-.features {
-  margin-top: 60px;
+/* Glass cards */
+.card-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 30px;
+  gap: 40px;
 }
 
-.feature-card {
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.05);
+.card {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(255,255,255,0.1);
   padding: 30px;
-  border-radius: 20px;
-  backdrop-filter: blur(10px);
-  transition: 0.3s ease;
+  border-radius: 22px;
+  transition: 0.4s;
+  position: relative;
 }
 
-.feature-card:hover {
-  transform: translateY(-8px);
-  background: rgba(255,255,255,0.07);
+.card:hover {
+  transform: translateY(-15px) scale(1.02);
+  border-color: rgba(74,241,255,0.5);
+  box-shadow: 0 0 60px rgba(74,241,255,0.25);
 }
 
-.feature-card h4 {
-  font-size: 1.3rem;
+/* Neon border effect */
+.card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 22px;
+  padding: 1px;
+  background: linear-gradient(135deg, #4af1ff, #ff4fd8);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  opacity: 0.3;
+}
+
+.card h3 {
+  font-size: 1.4rem;
   margin-bottom: 10px;
 }
 
-.feature-card p {
-  font-size: 0.95rem;
-  color: #aaa;
+.card p {
+  color: rgba(255,255,255,0.75);
+  font-size: 15px;
 }
 
-/* ===== IMAGE SHOWCASE ===== */
-.showcase {
+/* ================= PARALLAX IMAGE BANNER ================= */
+.banner {
+  height: 60vh;
+  background: url("images/banner.jpg") center/cover fixed;
   display: flex;
-  flex-wrap: wrap;
-  gap: 40px;
   align-items: center;
   justify-content: center;
-}
-
-.showcase img {
-  width: 420px;
-  border-radius: 20px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
-  transition: 0.3s;
-}
-
-.showcase img:hover {
-  transform: scale(1.03);
-}
-
-/* ===== CTA SECTION ===== */
-.cta {
-  padding: 120px 8%;
   text-align: center;
-  background: linear-gradient(180deg, #0b0b0f, #111126);
+  position: relative;
 }
 
-.cta h3 {
-  font-size: 2.4rem;
+.banner::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(5,7,15,0.8), rgba(5,7,15,0.2));
 }
 
-.cta button {
-  margin-top: 30px;
-  padding: 14px 34px;
-  border-radius: 50px;
-  background: #0a84ff;
-  border: none;
-  color: white;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: 0.2s;
+.banner h2 {
+  font-size: 3rem;
+  z-index: 2;
 }
 
-.cta button:hover {
-  background: #0066cc;
-}
-
-/* ===== FOOTER ===== */
+/* ================= FOOTER ================= */
 footer {
-  padding: 40px 8%;
-  background: #050508;
-  border-top: 1px solid rgba(255,255,255,0.05);
+  padding: 60px 12%;
+  background: rgba(0,0,0,0.7);
+  border-top: 1px solid rgba(255,255,255,0.1);
   text-align: center;
-  color: #777;
-  font-size: 0.9rem;
+  color: rgba(255,255,255,0.6);
 }
 
-/* ===== SCROLL FADE ANIMATION ===== */
-.fade-in {
+/* ================= SCROLL REVEAL ANIMATIONS ================= */
+.reveal {
   opacity: 0;
-  transform: translateY(30px);
+  transform: translateY(60px);
   transition: 1s ease;
 }
 
-.fade-in.show {
+.reveal.active {
   opacity: 1;
   transform: translateY(0);
 }
 
-/* ===== RESPONSIVE ===== */
-@media (max-width: 768px) {
-  .hero h2 {
-    font-size: 2.3rem;
-  }
-  .navbar ul {
-    gap: 16px;
-  }
+/* ================= ULTRA CRAZY BACKGROUND GRID ================= */
+.bg-grid {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  z-index: -1;
+  opacity: 0.3;
 }
