@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" id="top">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -38,7 +38,7 @@
 
   <main>
     <!-- HERO -->
-    <section class="hero">
+    <section class="hero hero-small">
       <div class="container hero-grid">
         <div class="hero-copy">
           <p class="eyebrow">Pricing</p>
@@ -53,33 +53,23 @@
             <a class="btn ghost" href="services.html">View Services</a>
           </div>
 
-          <div class="trust-row" aria-label="Highlights">
-            <div class="trust-pill">No surprises</div>
-            <div class="trust-pill">Upfront estimates</div>
-            <div class="trust-pill">Security-first</div>
-            <div class="trust-pill">Documented work</div>
-          </div>
-
-          <!-- Jump links (mobile-friendly) -->
-          <div class="trust-row" aria-label="Jump to category">
-            <a class="trust-pill" href="#hardware">Hardware</a>
-            <a class="trust-pill" href="#software">Software</a>
-            <a class="trust-pill" href="#networking">Networking</a>
-            <a class="trust-pill" href="#security">Security</a>
-            <a class="trust-pill" href="#programming">Programming</a>
-            <a class="trust-pill" href="#hourly">Hourly policy</a>
-          </div>
+          <!-- Removed: text under Request a Quote (trust-row highlights) -->
         </div>
 
-        <aside class="hero-card" aria-label="Pricing notes">
-          <h2>Quick notes</h2>
-          <ul class="checklist">
-            <li>Parts & shipping are additional when applicable</li>
-            <li>Hourly work is billed in 1-hour increments</li>
-            <li>We confirm scope before starting</li>
-            <li>Receipts available upon request</li>
+        <!-- Jump-to box that matches Services page -->
+        <aside class="hero-card" aria-label="Pricing quick links">
+          <h2>Jump to a category</h2>
+          <ul class="checklist quick-links">
+            <li><a class="mini-link" href="#hardware">Hardware</a></li>
+            <li><a class="mini-link" href="#software">Software</a></li>
+            <li><a class="mini-link" href="#networking">Networking</a></li>
+            <li><a class="mini-link" href="#security">Security</a></li>
+            <li><a class="mini-link" href="#programming">Programming</a></li>
           </ul>
-          <a class="mini-link" href="#hourly">Hourly policy →</a>
+
+          <div class="quick-links-bottom">
+            <a class="mini-link" href="contact.html">Not sure? Ask us →</a>
+          </div>
         </aside>
       </div>
     </section>
@@ -198,100 +188,4 @@
           </article>
           <article class="card reveal">
             <h3>Vulnerability assessments</h3>
-            <p><strong>$30</strong></p>
-          </article>
-          <article class="card reveal">
-            <h3>Service hardening</h3>
-            <p><strong>$30</strong></p>
-          </article>
-          <article class="card reveal">
-            <h3>Device hardening</h3>
-            <p><strong>$25</strong></p>
-          </article>
-          <article class="card reveal">
-            <h3>Security consultations</h3>
-            <p><strong>$15/hr</strong></p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- PROGRAMMING -->
-    <section class="section alt" id="programming">
-      <div class="container">
-        <div class="section-head">
-          <h2>Programming</h2>
-          <p>Automation, debugging help, and custom builds.</p>
-        </div>
-
-        <div class="cards">
-          <article class="card reveal">
-            <h3>Code review / correction</h3>
-            <p><strong>Contact for quote</strong> (scope-based)</p>
-          </article>
-          <article class="card reveal">
-            <h3>Custom simple automation</h3>
-            <p><strong>Contact for quote</strong></p>
-          </article>
-          <article class="card reveal">
-            <h3>Custom advanced automation</h3>
-            <p><strong>Contact for quote</strong></p>
-          </article>
-          <article class="card reveal">
-            <h3>Custom website / app</h3>
-            <p><strong>Contact for quote</strong></p>
-          </article>
-          <article class="card reveal">
-            <h3>Coding troubleshooting</h3>
-            <p><strong>$15/hr</strong></p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- HOURLY POLICY -->
-    <section class="section" id="hourly">
-      <div class="container">
-        <div class="cta-band">
-          <div>
-            <h2>Hourly policy</h2>
-            <p>
-              Hourly work is billed in 1-hour increments. Example:
-              <strong>1+ hours</strong> → 1 hour • <strong>2+ hours</strong> → 2 hours • and so on.
-            </p>
-            <p class="muted" style="margin-top:8px;">
-              We’ll always confirm scope and pricing before starting.
-            </p>
-            <a class="mini-link" href="#top">Back to top ↑</a>
-          </div>
-          <div class="cta-actions">
-            <a class="btn primary" href="contact.html">Get an estimate</a>
-            <a class="btn ghost" href="services.html">Back to services</a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <footer class="footer">
-    <div class="container footer-grid">
-      <div>
-        <div class="footer-brand">Baker Tech Solutions</div>
-        <p class="muted">Custom hardware • Secure systems • Automation</p>
-      </div>
-      <div class="footer-links">
-        <a href="services.html">Services</a>
-        <a href="pricing.html">Pricing</a>
-        <a href="community.html">Community</a>
-        <a href="contact.html">Contact</a>
-      </div>
-    </div>
-    <div class="container footer-bottom">
-      <p>© 2026 Baker Tech Solutions</p>
-    </div>
-  </footer>
-
-  <script src="scripts.js"></script>
-</body>
-</html>
+            <p><strong>$
