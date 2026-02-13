@@ -1,7 +1,16 @@
+/* =========================================================
+   Baker Tech Solutions — styles.css (UNIFIED + FIXED)
+   - Smooth global background (no mid-page seam)
+   - Sticky footer (footer stays at bottom)
+   - Uniform nav + sections across pages
+   - Thanks page: NO checkmark + gradient title + centered text
+   - Mobile-safe + no horizontal scroll
+========================================================= */
+
 /* ================= THEME / VARIABLES ================= */
 :root{
   --bg: #05070f;
-  --bg2: #0a0f2e;
+  --bg2:#0a0f2e;
 
   --text: rgba(255,255,255,0.92);
   --muted: rgba(255,255,255,0.70);
@@ -41,19 +50,17 @@ body{
   color: var(--text);
   overflow-x: clip;
   width: 100%;
-  min-height: 100svh;          /* better than 100vh on mobile */
-  display: flex;               /* sticky footer */
-  flex-direction: column;      /* sticky footer */
+  min-height: 100svh;     /* mobile-safe */
+  display: flex;          /* sticky footer */
+  flex-direction: column; /* sticky footer */
 }
 
 main{
-  flex: 1;                     /* sticky footer */
+  flex: 1;                /* sticky footer */
   display: block;
 }
 
-body.nav-open {
-  overflow: hidden;
-}
+body.nav-open{ overflow: hidden; }
 
 a{ color: inherit; text-decoration: none; }
 img{ max-width:100%; display:block; }
@@ -68,35 +75,72 @@ h2{ font-size: clamp(22px, 2.4vw, 30px); }
   overflow-wrap: anywhere;
 }
 
-/* ================= LAYOUT ================= */
-.container{
-  width: min(var(--max), 100%);
-  margin: 0 auto;
-  padding: 0 16px;
-}
-
-.section{
-  padding: 64px 0;
-}
-
-.section.alt{
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-  background: rgba(255,255,255,0.02);
-}
-
-/* ================= BACKGROUND GRID ================= */
+/* ================= GLOBAL BACKGROUND GRID ================= */
 .bg-grid{
   position: fixed;
   inset: 0;
   pointer-events:none;
-  z-index:-1;
+  z-index:-3;
   background:
     linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
   background-size: 70px 70px;
   opacity: 0.28;
   mask-image: radial-gradient(circle at 50% 10%, rgba(0,0,0,0.9), rgba(0,0,0,0.18), transparent 70%);
+}
+
+/* ================= SMOOTH GLOBAL GLOW (NO SEAM) =================
+   This fixes the "color change halfway down" by making glow global,
+   not tied to the hero section height.
+*/
+body::before,
+body::after{
+  content:"";
+  position: fixed;
+  width: 900px;
+  height: 900px;
+  pointer-events:none;
+  z-index: -2; /* behind everything */
+  filter: blur(160px);
+  opacity: 1;
+}
+
+body::before{
+  left: -260px;
+  top: -260px;
+  background: radial-gradient(circle, rgba(74,241,255,0.18), transparent 70%);
+  animation: floatGlow 12s infinite alternate ease-in-out;
+}
+
+body::after{
+  right: -300px;
+  top: -340px;
+  background: radial-gradient(circle, rgba(255,79,216,0.12), transparent 70%);
+  animation: floatGlow2 14s infinite alternate ease-in-out;
+}
+
+@keyframes floatGlow{
+  0%{ transform: translate(-20px, -10px); }
+  100%{ transform: translate(40px, 30px); }
+}
+@keyframes floatGlow2{
+  0%{ transform: translate(30px, -10px); }
+  100%{ transform: translate(-30px, 40px); }
+}
+
+/* ================= LAYOUT ================= */
+.container{
+  width: min(var(--max), 100%);
+  margin: 0 auto;
+  padding: 0 16px; /* mobile-safe padding always */
+}
+
+.section{ padding: 64px 0; }
+
+.section.alt{
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: rgba(255,255,255,0.02);
 }
 
 /* ================= NAV ================= */
@@ -115,7 +159,7 @@ h2{ font-size: clamp(22px, 2.4vw, 30px); }
   justify-content:space-between;
   gap: 14px;
   padding: 14px 0;
-  position: relative;
+  position: relative; /* mobile dropdown anchor */
 }
 
 .brand{
@@ -196,7 +240,6 @@ h2{ font-size: clamp(22px, 2.4vw, 30px); }
   cursor:pointer;
   flex: 0 0 auto;
 }
-
 .nav-toggle span{
   display:block;
   height: 2px;
@@ -210,44 +253,13 @@ h2{ font-size: clamp(22px, 2.4vw, 30px); }
 .hero{
   padding: 76px 0 30px;
   position: relative;
-  overflow: clip;
+  overflow: clip; /* prevents glow from creating horizontal scroll */
 }
 
-/* Controlled glow */
-.hero::before{
-  content:"";
-  position:absolute;
-  width: 900px;
-  height: 900px;
-  left: -240px;
-  top: -240px;
-  background: radial-gradient(circle, rgba(74,241,255,0.18), transparent 70%);
-  filter: blur(140px);
-  pointer-events:none;
-  animation: floatGlow 12s infinite alternate ease-in-out;
-}
-
+/* IMPORTANT: we moved glow to body, so disable hero glow to avoid “seam” */
+.hero::before,
 .hero::after{
-  content:"";
-  position:absolute;
-  width: 900px;
-  height: 900px;
-  right: -280px;
-  top: -320px;
-  background: radial-gradient(circle, rgba(255,79,216,0.12), transparent 70%);
-  filter: blur(160px);
-  pointer-events:none;
-  animation: floatGlow2 14s infinite alternate ease-in-out;
-}
-
-@keyframes floatGlow{
-  0%{ transform: translate(-20px, -10px); }
-  100%{ transform: translate(40px, 30px); }
-}
-
-@keyframes floatGlow2{
-  0%{ transform: translate(30px, -10px); }
-  100%{ transform: translate(-30px, 40px); }
+  content: none !important;
 }
 
 .hero-grid{
@@ -270,13 +282,6 @@ h2{ font-size: clamp(22px, 2.4vw, 30px); }
   margin-bottom: 12px;
 }
 
-/* Standard gradient heading (used on hero, reused on thanks) */
-.gradient-title{
-  background: linear-gradient(90deg, var(--a1), var(--a2), var(--a3));
-  -webkit-background-clip: text;
-  color: transparent;
-}
-
 .hero h1{
   margin: 0 0 12px;
   font-size: clamp(30px, 5vw, 54px);
@@ -284,7 +289,9 @@ h2{ font-size: clamp(22px, 2.4vw, 30px); }
   line-height: 1.04;
   background: linear-gradient(90deg, var(--a1), var(--a2), var(--a3));
   -webkit-background-clip: text;
+  background-clip: text;
   color: transparent;
+  -webkit-text-fill-color: transparent; /* Safari */
 }
 
 .subhead{
@@ -318,9 +325,7 @@ h2{ font-size: clamp(22px, 2.4vw, 30px); }
   box-shadow: 0 0 32px rgba(74,241,255,0.28);
 }
 
-.btn.primary:hover{
-  box-shadow: 0 0 60px rgba(74,241,255,0.45);
-}
+.btn.primary:hover{ box-shadow: 0 0 60px rgba(74,241,255,0.45); }
 
 .btn.ghost{
   background: rgba(255,255,255,0.06);
@@ -376,15 +381,9 @@ h2{ font-size: clamp(22px, 2.4vw, 30px); }
   pointer-events:none;
 }
 
-.hero-card h2{
-  font-size: 16px;
-  margin-bottom: 10px;
-}
+.hero-card h2{ font-size: 16px; margin-bottom: 10px; }
 
-.checklist{
-  color: rgba(255,255,255,0.75);
-  line-height: 1.6;
-}
+.checklist{ color: rgba(255,255,255,0.75); line-height: 1.6; }
 
 .mini-link{
   display:inline-block;
@@ -392,7 +391,6 @@ h2{ font-size: clamp(22px, 2.4vw, 30px); }
   color: rgba(255,255,255,0.90);
   opacity: 0.9;
 }
-
 .mini-link:hover{ opacity: 1; text-decoration: underline; }
 
 /* ================= ABOUT SPLIT ================= */
@@ -454,14 +452,8 @@ h2{ font-size: clamp(22px, 2.4vw, 30px); }
 }
 
 /* ================= SERVICES CARDS GRID ================= */
-.section-head{
-  margin-bottom: 18px;
-}
-
-.section-head p{
-  margin-top: 6px;
-  color: rgba(255,255,255,0.70);
-}
+.section-head{ margin-bottom: 18px; }
+.section-head p{ margin-top: 6px; color: rgba(255,255,255,0.70); }
 
 .cards{
   display:grid;
@@ -531,10 +523,7 @@ h2{ font-size: clamp(22px, 2.4vw, 30px); }
 }
 
 /* ================= FINAL CTA ================= */
-.final-cta{
-  text-align:center;
-}
-
+.final-cta{ text-align:center; }
 .final-cta p{
   margin: 10px auto 16px;
   max-width: 62ch;
@@ -543,7 +532,7 @@ h2{ font-size: clamp(22px, 2.4vw, 30px); }
 
 /* ================= FOOTER ================= */
 .footer{
-  margin-top: auto; /* sticky footer assist (in case main is not present somewhere) */
+  margin-top: auto;
   padding: 26px 0 10px;
   background: rgba(0,0,0,0.30);
   border-top: 1px solid rgba(255,255,255,0.10);
@@ -590,7 +579,6 @@ h2{ font-size: clamp(22px, 2.4vw, 30px); }
   transform: translateY(16px);
   transition: 0.6s ease;
 }
-
 .reveal.is-visible{
   opacity: 1;
   transform: translateY(0);
@@ -630,16 +618,13 @@ h2{ font-size: clamp(22px, 2.4vw, 30px); }
     justify-content: flex-start;
   }
 
-  .brand-text{
-    max-width: 54vw;
-  }
+  .brand-text{ max-width: 54vw; }
 }
 
 /* =========================
    CONTACT FORM UPGRADE
 ========================= */
-.form { margin-top: 20px; }
-
+.form{ margin-top: 20px; }
 .form-help{ margin-top: 6px; }
 
 .form-grid{
@@ -754,6 +739,7 @@ textarea.field{
   border: 0 !important;
 }
 
+/* Honeypot: hide off-screen (don’t use display:none) */
 .honeypot{
   position: absolute !important;
   left: -9999px !important;
@@ -762,7 +748,7 @@ textarea.field{
   overflow: hidden !important;
 }
 
-/* Improve select arrow on webkit without breaking */
+/* Improve select arrow */
 select.field{
   appearance: none;
   -webkit-appearance: none;
@@ -777,7 +763,6 @@ select.field{
   padding-right: 38px;
 }
 
-/* Mobile responsiveness */
 @media (max-width: 640px){
   .form-grid{ grid-template-columns: 1fr; }
 }
@@ -786,7 +771,7 @@ select.field{
    THANK YOU PAGE (UNIFORM)
 ========================= */
 .thanks-hero{
-  padding: 120px 0;
+  padding: 120px 0 120px;
   display: flex;
   align-items: center;
 }
@@ -817,11 +802,8 @@ select.field{
 }
 
 /* REMOVE the checkmark (even if the HTML still has it) */
-.thanks-icon{
-  display: none;
-}
+.thanks-icon{ display: none; }
 
-/* Fix “color is right” on Thanks title */
 .thanks-card h1{
   margin: 0 0 10px;
   font-size: clamp(28px, 4.2vw, 46px);
@@ -829,7 +811,9 @@ select.field{
   line-height: 1.06;
   background: linear-gradient(90deg, var(--a1), var(--a2), var(--a3));
   -webkit-background-clip: text;
+  background-clip: text;
   color: transparent;
+  -webkit-text-fill-color: transparent; /* Safari */
 }
 
 .thanks-subhead{
@@ -845,13 +829,23 @@ select.field{
   margin-top: 4px;
 }
 
-/* Thanks page: centered layout */
+/* Centered layout */
 .thanks-center{
   max-width: 720px;
   margin: 0 auto;
   text-align: center;
 }
 
-.thanks-center .thanks-actions{
-  justify-content: center;
+/* Center the “banner” white text + pill */
+.thanks-center .thanks-subhead{
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
 }
+.thanks-center .eyebrow{
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.thanks-center .thanks-actions{ justify-content: center; }
