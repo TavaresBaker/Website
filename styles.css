@@ -30,103 +30,25 @@
 
 html{
   scroll-behavior:smooth;
-  overflow-x: clip;          /* cleaner than hidden */
+  overflow-x: clip;
   width: 100%;
 }
 
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Thanks | Baker Tech Solutions</title>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
-
-  <link rel="stylesheet" href="styles.css" />
-</head>
-
-<body id="top">
-  <div class="bg-grid" aria-hidden="true"></div>
-
-  <!-- Uniform NAV -->
-  <header class="glass-nav">
-    <div class="container nav-wrap">
-      <a class="brand" href="index.html" aria-label="Baker Tech Solutions home">
-        <span class="brand-mark" aria-hidden="true">◆</span>
-        <span class="brand-text">Baker Tech Solutions</span>
-      </a>
-
-      <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav">
-        <span></span><span></span><span></span>
-      </button>
-
-      <nav id="site-nav" class="nav-links" data-nav>
-        <a href="index.html">Home</a>
-        <a href="services.html">Services</a>
-        <a href="pricing.html">Pricing</a>
-        <a href="community.html">Community</a>
-        <a href="contact.html" class="nav-btn">Contact</a>
-      </nav>
-    </div>
-  </header>
-
-  <main>
-    <!-- Minimal Thanks Section -->
-    <section class="hero thanks-hero">
-      <div class="container">
-        <article class="thanks-card thanks-center">
-          <div class="thanks-icon" aria-hidden="true">✓</div>
-
-          <p class="eyebrow">Thank you</p>
-          <h1>Your submission was received.</h1>
-
-          <p class="thanks-subhead">
-            We’ll review your message and get back to you soon.
-          </p>
-
-          <div class="thanks-actions">
-            <a class="btn primary" href="index.html">Return Home</a>
-            <a class="btn ghost" href="contact.html">Submit Another Response</a>
-          </div>
-        </article>
-      </div>
-    </section>
-  </main>
-
-  <!-- Uniform FOOTER -->
-  <footer class="footer">
-    <div class="container footer-grid">
-      <div>
-        <div class="footer-brand">Baker Tech Solutions</div>
-        <p class="muted">Custom hardware • Secure systems • Automation</p>
-      </div>
-      <div class="footer-links">
-        <a href="services.html">Services</a>
-        <a href="pricing.html">Pricing</a>
-        <a href="community.html">Community</a>
-        <a href="contact.html">Contact</a>
-      </div>
-    </div>
-    <div class="container footer-bottom">
-      <p>© 2026 Baker Tech Solutions</p>
-    </div>
-  </footer>
-
-  <script src="scripts.js"></script>
-</body>
-</html>
-
+/* Sticky footer + consistent page structure */
 body{
   font-family: "Inter", system-ui, -apple-system, sans-serif;
   background: radial-gradient(circle at 20% 10%, var(--bg2), var(--bg) 60%);
   color: var(--text);
-  overflow-x: clip;          /* hard stop sideways scroll */
+  overflow-x: clip;
   width: 100%;
-  min-height: 100vh;
+  min-height: 100svh;          /* better than 100vh on mobile */
+  display: flex;               /* sticky footer */
+  flex-direction: column;      /* sticky footer */
+}
+
+main{
+  flex: 1;                     /* sticky footer */
+  display: block;
 }
 
 body.nav-open {
@@ -150,12 +72,13 @@ h2{ font-size: clamp(22px, 2.4vw, 30px); }
 .container{
   width: min(var(--max), 100%);
   margin: 0 auto;
-  padding: 0 16px; /* mobile-safe padding always */
+  padding: 0 16px;
 }
 
 .section{
   padding: 64px 0;
 }
+
 .section.alt{
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
@@ -192,7 +115,7 @@ h2{ font-size: clamp(22px, 2.4vw, 30px); }
   justify-content:space-between;
   gap: 14px;
   padding: 14px 0;
-  position: relative; /* needed for mobile dropdown to anchor */
+  position: relative;
 }
 
 .brand{
@@ -200,7 +123,7 @@ h2{ font-size: clamp(22px, 2.4vw, 30px); }
   align-items:center;
   gap: 10px;
   font-weight: 900;
-  min-width: 0; /* critical: prevents overflow */
+  min-width: 0;
 }
 
 .brand-mark{
@@ -220,7 +143,7 @@ h2{ font-size: clamp(22px, 2.4vw, 30px); }
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 62vw; /* prevents pushing hamburger off-screen */
+  max-width: 62vw;
 }
 
 /* Desktop links */
@@ -237,7 +160,7 @@ h2{ font-size: clamp(22px, 2.4vw, 30px); }
   font-weight: 650;
   font-size: 14px;
   transition: 0.25s;
-  min-height: 44px; /* tap target */
+  min-height: 44px;
   display: inline-flex;
   align-items: center;
 }
@@ -273,6 +196,7 @@ h2{ font-size: clamp(22px, 2.4vw, 30px); }
   cursor:pointer;
   flex: 0 0 auto;
 }
+
 .nav-toggle span{
   display:block;
   height: 2px;
@@ -286,7 +210,7 @@ h2{ font-size: clamp(22px, 2.4vw, 30px); }
 .hero{
   padding: 76px 0 30px;
   position: relative;
-  overflow: clip; /* prevents glow from creating horizontal scroll */
+  overflow: clip;
 }
 
 /* Controlled glow */
@@ -302,6 +226,7 @@ h2{ font-size: clamp(22px, 2.4vw, 30px); }
   pointer-events:none;
   animation: floatGlow 12s infinite alternate ease-in-out;
 }
+
 .hero::after{
   content:"";
   position:absolute;
@@ -319,6 +244,7 @@ h2{ font-size: clamp(22px, 2.4vw, 30px); }
   0%{ transform: translate(-20px, -10px); }
   100%{ transform: translate(40px, 30px); }
 }
+
 @keyframes floatGlow2{
   0%{ transform: translate(30px, -10px); }
   100%{ transform: translate(-30px, 40px); }
@@ -344,9 +270,16 @@ h2{ font-size: clamp(22px, 2.4vw, 30px); }
   margin-bottom: 12px;
 }
 
+/* Standard gradient heading (used on hero, reused on thanks) */
+.gradient-title{
+  background: linear-gradient(90deg, var(--a1), var(--a2), var(--a3));
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
 .hero h1{
   margin: 0 0 12px;
-  font-size: clamp(30px, 5vw, 54px); /* slightly safer min */
+  font-size: clamp(30px, 5vw, 54px);
   font-weight: 900;
   line-height: 1.04;
   background: linear-gradient(90deg, var(--a1), var(--a2), var(--a3));
@@ -374,7 +307,7 @@ h2{ font-size: clamp(22px, 2.4vw, 30px); }
   cursor:pointer;
   transition: transform 0.2s, box-shadow 0.25s, background 0.25s, border-color 0.25s;
   user-select: none;
-  min-height: 44px; /* tap target */
+  min-height: 44px;
 }
 
 .btn:hover{ transform: translateY(-1px); }
@@ -427,7 +360,7 @@ h2{ font-size: clamp(22px, 2.4vw, 30px); }
   box-shadow: var(--shadow);
   position: relative;
   overflow: hidden;
-  min-width: 0; /* prevents overflow in grid */
+  min-width: 0;
 }
 
 .hero-card::after{
@@ -459,6 +392,7 @@ h2{ font-size: clamp(22px, 2.4vw, 30px); }
   color: rgba(255,255,255,0.90);
   opacity: 0.9;
 }
+
 .mini-link:hover{ opacity: 1; text-decoration: underline; }
 
 /* ================= ABOUT SPLIT ================= */
@@ -512,6 +446,7 @@ h2{ font-size: clamp(22px, 2.4vw, 30px); }
   background: rgba(255,255,255,0.03);
   overflow: hidden;
 }
+
 .caption{
   margin-top: 10px;
   font-size: 13px;
@@ -522,12 +457,12 @@ h2{ font-size: clamp(22px, 2.4vw, 30px); }
 .section-head{
   margin-bottom: 18px;
 }
+
 .section-head p{
   margin-top: 6px;
   color: rgba(255,255,255,0.70);
 }
 
-/* Auto-fit replaces fixed 5 columns (mobile-safe on all pages) */
 .cards{
   display:grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -599,6 +534,7 @@ h2{ font-size: clamp(22px, 2.4vw, 30px); }
 .final-cta{
   text-align:center;
 }
+
 .final-cta p{
   margin: 10px auto 16px;
   max-width: 62ch;
@@ -607,6 +543,7 @@ h2{ font-size: clamp(22px, 2.4vw, 30px); }
 
 /* ================= FOOTER ================= */
 .footer{
+  margin-top: auto; /* sticky footer assist (in case main is not present somewhere) */
   padding: 26px 0 10px;
   background: rgba(0,0,0,0.30);
   border-top: 1px solid rgba(255,255,255,0.10);
@@ -620,21 +557,25 @@ h2{ font-size: clamp(22px, 2.4vw, 30px); }
 }
 
 .footer-brand{ font-weight: 900; }
+
 .footer-links{
   display:flex;
   gap: 14px;
   flex-wrap: wrap;
 }
+
 .footer-links a{
   color: rgba(255,255,255,0.70);
   min-height: 44px;
   display: inline-flex;
   align-items: center;
 }
+
 .footer-links a:hover{
   color: rgba(255,255,255,0.95);
   text-decoration: underline;
 }
+
 .footer-bottom{
   margin-top: 14px;
   padding-top: 12px;
@@ -649,6 +590,7 @@ h2{ font-size: clamp(22px, 2.4vw, 30px); }
   transform: translateY(16px);
   transition: 0.6s ease;
 }
+
 .reveal.is-visible{
   opacity: 1;
   transform: translateY(0);
@@ -665,7 +607,6 @@ h2{ font-size: clamp(22px, 2.4vw, 30px); }
 @media (max-width: 640px){
   .nav-toggle{ display:block; }
 
-  /* hide desktop links by default on mobile */
   .nav-links{
     position: absolute;
     top: calc(100% + 10px);
@@ -679,7 +620,7 @@ h2{ font-size: clamp(22px, 2.4vw, 30px); }
     border: 1px solid rgba(255,255,255,0.12);
     background: rgba(10, 15, 40, 0.70);
     backdrop-filter: blur(14px);
-    overflow: hidden;     /* prevents tiny overflow */
+    overflow: hidden;
   }
 
   .nav-links.open{ display:flex; }
@@ -690,48 +631,38 @@ h2{ font-size: clamp(22px, 2.4vw, 30px); }
   }
 
   .brand-text{
-    max-width: 54vw; /* a bit tighter on very small screens */
+    max-width: 54vw;
   }
 }
 
 /* =========================
    CONTACT FORM UPGRADE
 ========================= */
+.form { margin-top: 20px; }
 
-.form {
-  margin-top: 20px;
-}
+.form-help{ margin-top: 6px; }
 
-/* the <article class="card"> already has padding,
-   but forms can look cramped on small screens */
-.form-help{
-  margin-top: 6px;
-}
-
-.form-grid {
+.form-grid{
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 16px;
 }
 
-.form-field {
+.form-field{
   display: flex;
   flex-direction: column;
   gap: 6px;
 }
 
-.form-span {
-  grid-column: 1 / -1;
-}
+.form-span{ grid-column: 1 / -1; }
 
-.form-field label {
+.form-field label{
   font-size: 13px;
   font-weight: 700;
   color: rgba(255,255,255,0.78);
 }
 
-/* Inputs/selects/textarea */
-.field {
+.field{
   width: 100%;
   padding: 14px 14px;
   border-radius: 14px;
@@ -742,22 +673,19 @@ h2{ font-size: clamp(22px, 2.4vw, 30px); }
   transition: border 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
-.field::placeholder{
-  color: rgba(255,255,255,0.45);
-}
+.field::placeholder{ color: rgba(255,255,255,0.45); }
 
 .field:hover{
   border-color: rgba(255,255,255,0.18);
   background: rgba(255,255,255,0.07);
 }
 
-.field:focus {
+.field:focus{
   outline: none;
   border-color: rgba(74,241,255,0.6);
   box-shadow: 0 0 0 4px rgba(74,241,255,0.15);
 }
 
-/* invalid state (works with JS setting aria-invalid=true OR native :invalid) */
 .field[aria-invalid="true"]{
   border-color: rgba(239, 68, 68, 0.65);
   box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.14);
@@ -767,33 +695,28 @@ h2{ font-size: clamp(22px, 2.4vw, 30px); }
   border-color: rgba(239, 68, 68, 0.45);
 }
 
-/* textarea sizing */
-textarea.field {
+textarea.field{
   resize: vertical;
   min-height: 160px;
 }
 
-/* checkbox row */
 .form-field input[type="checkbox"]{
   accent-color: var(--a1);
   transform: translateY(1px);
 }
 
-/* submit */
-.form-submit {
+.form-submit{
   margin-top: 8px;
   width: 100%;
 }
 
-/* Note text under submit */
-.form-note {
+.form-note{
   font-size: 13px;
   color: rgba(255,255,255,0.70);
   margin-top: 10px;
   line-height: 1.5;
 }
 
-/* Status banners used by the contact page */
 .alert{
   border-radius: 14px;
   padding: 12px 14px;
@@ -819,7 +742,6 @@ textarea.field {
   box-shadow: 0 0 30px rgba(59, 130, 246, 0.10);
 }
 
-/* Accessibility helper */
 .sr-only{
   position: absolute !important;
   width: 1px !important;
@@ -832,9 +754,6 @@ textarea.field {
   border: 0 !important;
 }
 
-/* Honeypot spam field:
-   IMPORTANT: don't use display:none here because some spam bots skip hidden fields.
-   We visually hide it off-screen instead. */
 .honeypot{
   position: absolute !important;
   left: -9999px !important;
@@ -859,38 +778,17 @@ select.field{
 }
 
 /* Mobile responsiveness */
-@media (max-width: 640px) {
-  .form-grid {
-    grid-template-columns: 1fr;
-  }
+@media (max-width: 640px){
+  .form-grid{ grid-template-columns: 1fr; }
 }
-
-
-
-
-
-
 
 /* =========================
    THANK YOU PAGE (UNIFORM)
 ========================= */
-
-/* =========================
-   THANK YOU PAGE SPACING
-========================= */
-
 .thanks-hero{
-  padding: 120px 0 120px; /* BIG vertical breathing room */
+  padding: 120px 0;
   display: flex;
   align-items: center;
-}
-
-
-.thanks-wrap{
-  display: grid;
-  grid-template-columns: 1.25fr 0.75fr;
-  gap: 22px;
-  align-items: start;
 }
 
 .thanks-card{
@@ -918,18 +816,20 @@ select.field{
   pointer-events:none;
 }
 
+/* REMOVE the checkmark (even if the HTML still has it) */
 .thanks-icon{
-  width: 60px;
-  height: 60px;
-  border-radius: 18px;
-  display: grid;
-  place-items: center;
+  display: none;
+}
+
+/* Fix “color is right” on Thanks title */
+.thanks-card h1{
+  margin: 0 0 10px;
+  font-size: clamp(28px, 4.2vw, 46px);
   font-weight: 900;
-  font-size: 20px;
-  margin-bottom: 14px;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.12);
-  box-shadow: 0 0 36px rgba(74,241,255,0.12);
+  line-height: 1.06;
+  background: linear-gradient(90deg, var(--a1), var(--a2), var(--a3));
+  -webkit-background-clip: text;
+  color: transparent;
 }
 
 .thanks-subhead{
@@ -944,35 +844,6 @@ select.field{
   flex-wrap: wrap;
   margin-top: 4px;
 }
-
-.thanks-micro{
-  margin-top: 14px;
-  font-size: 13px;
-  color: rgba(255,255,255,0.68);
-}
-
-/* Side panel keeps same look as image-card, just tuned */
-.thanks-side{
-  background: rgba(255,255,255,0.05);
-  backdrop-filter: blur(18px);
-  border: 1px solid rgba(255,255,255,0.10);
-  border-radius: 22px;
-  padding: 16px;
-  min-width: 0;
-}
-
-.thanks-side h2{
-  font-size: 16px;
-  margin-bottom: 10px;
-}
-
-/* Responsive: stack on smaller screens */
-@media (max-width: 980px){
-  .thanks-wrap{
-    grid-template-columns: 1fr;
-  }
-}
-
 
 /* Thanks page: centered layout */
 .thanks-center{
