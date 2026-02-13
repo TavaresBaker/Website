@@ -13,38 +13,38 @@
 </head>
 
 <body>
-  <!-- Background decoration belongs in BODY, not HEAD -->
   <div class="bg-grid" aria-hidden="true"></div>
 
   <header class="glass-nav">
-  <div class="container nav-wrap">
-    <a class="brand" href="index.html">
-      <span class="brand-mark">◆</span>
-      <span class="brand-text">Baker Tech Solutions</span>
-    </a>
+    <div class="container nav-wrap">
+      <a class="brand" href="index.html" aria-label="Baker Tech Solutions home">
+        <span class="brand-mark" aria-hidden="true">◆</span>
+        <span class="brand-text">Baker Tech Solutions</span>
+      </a>
 
-    <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
+      <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav">
+        <span></span><span></span><span></span>
+      </button>
 
-    <nav class="nav-links" data-nav>
-      <a href="index.html">Home</a>
-      <a href="services.html">Services</a>
-      <a href="pricing.html">Pricing</a>
-      <a href="community.html">Community</a>
-      <a href="contact.html" class="nav-btn">Contact</a>
-    </nav>
-  </div>
-</header>
-
+      <nav id="site-nav" class="nav-links" data-nav>
+        <a href="index.html" aria-current="page">Home</a>
+        <a href="services.html">Services</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="community.html">Community</a>
+        <a href="contact.html" class="nav-btn">Contact</a>
+      </nav>
+    </div>
+  </header>
 
   <main>
-    <!-- HERO (about the business) -->
+    <!-- HERO -->
     <section class="hero">
       <div class="container hero-grid">
         <div class="hero-copy">
           <p class="eyebrow">Local • Reliable • Security-first</p>
+
           <h1>Tech help that feels professional — without corporate pricing.</h1>
+
           <p class="subhead">
             Baker Tech Solutions helps people and small organizations with hardware, software,
             networking, security, and automation — done right, documented, and built to last.
@@ -55,7 +55,7 @@
             <a class="btn ghost" href="contact.html">Get a Quote</a>
           </div>
 
-          <div class="trust-row">
+          <div class="trust-row" aria-label="Highlights">
             <div class="trust-pill">Clear pricing</div>
             <div class="trust-pill">No jargon</div>
             <div class="trust-pill">Secure setups</div>
@@ -63,7 +63,7 @@
           </div>
         </div>
 
-        <div class="hero-card" role="note" aria-label="Quick summary card">
+        <aside class="hero-card" aria-label="Quick summary">
           <h2>What we do</h2>
           <ul class="checklist">
             <li>Custom PC builds & upgrades</li>
@@ -73,20 +73,21 @@
             <li>Custom automation & scripting</li>
           </ul>
           <a class="mini-link" href="pricing.html">See pricing →</a>
-        </div>
+        </aside>
       </div>
     </section>
 
     <!-- ABOUT -->
     <section class="section">
       <div class="container split">
-        <div>
+        <div class="stack">
           <h2>About Baker Tech</h2>
           <p>
             We’re a small team focused on high-quality work: clean builds, reliable setups, and security you can trust.
             Every job is handled with care, and we keep things transparent — what we’re doing, why we’re doing it,
             and how to maintain it after we’re done.
           </p>
+
           <div class="bullets">
             <div class="bullet">
               <h3>Professional process</h3>
@@ -104,7 +105,6 @@
         </div>
 
         <div class="image-card">
-          <!-- Replace with your real image when ready -->
           <div class="image-placeholder" aria-hidden="true">
             <span>Replace with: team / work photo</span>
           </div>
@@ -113,7 +113,7 @@
       </div>
     </section>
 
-    <!-- SERVICES PREVIEW -->
+    <!-- SERVICES -->
     <section class="section alt">
       <div class="container">
         <div class="section-head">
@@ -155,10 +155,10 @@
       </div>
     </section>
 
-    <!-- COMMUNITY PREVIEW -->
+    <!-- COMMUNITY -->
     <section class="section">
       <div class="container cta-band">
-        <div>
+        <div class="stack">
           <h2>Community involvement</h2>
           <p>
             We support local events, student programs, and community initiatives.
@@ -184,7 +184,7 @@
 
   <footer class="footer">
     <div class="container footer-grid">
-      <div>
+      <div class="stack">
         <div class="footer-brand">Baker Tech Solutions</div>
         <p class="muted">Custom hardware • Secure systems • Automation</p>
       </div>
@@ -195,11 +195,28 @@
         <a href="contact.html">Contact</a>
       </div>
     </div>
+
     <div class="container footer-bottom">
       <p>© 2026 Baker Tech Solutions</p>
     </div>
   </footer>
 
   <script src="scripts.js"></script>
+
+  <!-- If scripts.js already handles nav, you can delete this tiny fallback -->
+  <script>
+    (function () {
+      const btn = document.querySelector(".nav-toggle");
+      const nav = document.querySelector("[data-nav]");
+      if (!btn || !nav) return;
+
+      btn.addEventListener("click", () => {
+        const expanded = btn.getAttribute("aria-expanded") === "true";
+        btn.setAttribute("aria-expanded", String(!expanded));
+        nav.classList.toggle("open");
+        document.body.classList.toggle("nav-open", !expanded);
+      });
+    })();
+  </script>
 </body>
 </html>
