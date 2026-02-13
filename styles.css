@@ -5,7 +5,7 @@
    - Uniform nav + sections across pages
    - Services page: lists ALWAYS show (no “missing services”)
    - Reveal: SAFE fallback (content never hidden if JS fails)
-   - Mobile nav: FULLSCREEN overlay + strong blur + works even if markup varies
+   - Mobile nav: TRUE FULLSCREEN overlay (covers viewport at ANY scroll position)
    - Mobile-safe + no horizontal scroll
 ========================================================= */
 
@@ -62,9 +62,13 @@ main{
   display: block;
 }
 
-/* When nav is open, prevent page scroll */
+/* When nav is open, prevent page scroll
+   NOTE: JS should ALSO freeze body position for perfect mobile behavior.
+   (Your scripts.js update will handle that.)
+*/
 body.nav-open{
   overflow: hidden;
+  height: 100%;
   touch-action: none;
 }
 
@@ -73,7 +77,6 @@ img{ max-width:100%; display:block; }
 
 /* IMPORTANT:
    Don't force padding on every <ul> globally — it can break custom list components.
-   We'll style "normal" lists as needed, and explicitly style checklist/service lists below.
 */
 ul{ padding-left: 0; }
 
@@ -156,7 +159,7 @@ body::after{
 .glass-nav{
   position: sticky;
   top:0;
-  z-index:1300; /* keep header above overlay so toggle stays clickable */
+  z-index:1300; /* header above page content */
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   background: rgba(10, 15, 40, 0.35);
@@ -169,7 +172,7 @@ body::after{
   justify-content:space-between;
   gap: 14px;
   padding: 14px 0;
-  position: relative; /* mobile dropdown anchor */
+  position: relative;
 }
 
 .brand{
@@ -268,7 +271,7 @@ body::after{
 .hero{
   padding: 76px 0 30px;
   position: relative;
-  overflow: clip; /* prevents glow from creating horizontal scroll */
+  overflow: clip;
 }
 
 /* IMPORTANT: we moved glow to body, so disable hero glow to avoid “seam” */
@@ -306,7 +309,7 @@ body::after{
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  -webkit-text-fill-color: transparent; /* Safari */
+  -webkit-text-fill-color: transparent;
 }
 
 .subhead{
@@ -408,7 +411,7 @@ body::after{
 .mini-link:hover{ opacity: 1; text-decoration: underline; }
 
 /* =========================================================
-   CHECKLIST / SERVICE LISTS (THIS IS THE “LOCK IN” FIX)
+   CHECKLIST / SERVICE LISTS
 ========================================================= */
 .checklist{
   list-style: none;
@@ -425,7 +428,6 @@ body::after{
   padding: 6px 0;
 }
 
-/* Glow-dot bullet (NOT a big checkmark) */
 .checklist li::before{
   content: "";
   width: 8px;
@@ -438,10 +440,7 @@ body::after{
   opacity: 0.95;
 }
 
-/* Quick-links in hero: slightly tighter */
-.quick-links li{
-  padding: 4px 0;
-}
+.quick-links li{ padding: 4px 0; }
 .quick-links li::before{
   width: 7px;
   height: 7px;
@@ -449,15 +448,9 @@ body::after{
   opacity: 0.80;
 }
 
-/* Lists inside service cards: guaranteed visible + spaced */
-.cards .checklist{
-  margin-top: 12px;
-}
-.cards .checklist li{
-  padding: 7px 0;
-}
+.cards .checklist{ margin-top: 12px; }
+.cards .checklist li{ padding: 7px 0; }
 
-/* If any legacy HTML still uses mini-bullets, make it render too */
 .mini-bullets{
   list-style: none;
   margin-top: 12px;
@@ -677,7 +670,6 @@ body::after{
   transition: 0.6s ease;
 }
 
-/* Only hide/animate when JS is active */
 html.js .reveal{
   opacity: 0;
   transform: translateY(16px);
@@ -687,7 +679,6 @@ html.js .reveal.is-visible{
   transform: translateY(0);
 }
 
-/* Respect reduced motion */
 @media (prefers-reduced-motion: reduce){
   .reveal,
   html.js .reveal{
@@ -703,32 +694,36 @@ html.js .reveal.is-visible{
   .cta-band{ flex-direction: column; align-items:flex-start; }
 }
 
-/* =========================
-   MOBILE NAV OVERLAY (FULLSCREEN + STRONG BLUR)
-   - Works whether your markup uses .nav-links OR [data-nav]
-   - Uses .open + body.nav-open from scripts.js
-   - Full screen coverage (100vw x 100svh)
-   - Transparent but VERY blurry background
-========================= */
+/* =========================================================
+   MOBILE NAV OVERLAY (TRUE FULLSCREEN @ ANY SCROLL POSITION)
+   KEY FIXES:
+   - position: fixed + inset: 0 => covers viewport ALWAYS
+   - height: 100dvh (dynamic viewport) to avoid iOS address-bar weirdness
+   - overflow-y: auto so the menu can scroll if needed
+   - z-index ABOVE header while open
+========================================================= */
 @media (max-width: 900px){
   .nav-toggle{ display:block; }
 
-  /* Make sure desktop layout doesn't fight mobile overlay */
+  /* Turn the nav into a real fixed overlay */
   .nav-links,
   [data-nav]{
     position: fixed;
     inset: 0;
     width: 100vw;
-    height: 100svh;
-    z-index: 1200;
+    height: 100dvh;            /* IMPORTANT: dynamic viewport height */
+    z-index: 2000;             /* above header so it covers screen */
 
     display: grid;
-    place-items: center;
+    align-content: start;
+    justify-items: center;
     gap: 14px;
 
-    padding: 96px 18px 28px; /* room for header */
+    padding: 96px 18px 28px;   /* room for header */
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
 
-    /* Background blur/dim for the whole overlay */
     background: rgba(5, 7, 15, 0.60);
     backdrop-filter: blur(42px) saturate(150%) brightness(0.85);
     -webkit-backdrop-filter: blur(42px) saturate(150%) brightness(0.85);
@@ -740,7 +735,6 @@ html.js .reveal.is-visible{
     transition: opacity 180ms ease, transform 180ms ease;
   }
 
-  /* Extra soft darkening + glow layer behind items */
   .nav-links::before,
   [data-nav]::before{
     content:"";
@@ -760,14 +754,12 @@ html.js .reveal.is-visible{
     pointer-events: auto;
   }
 
-  /* Ensure links render above the ::before layer */
   .nav-links > *,
   [data-nav] > *{
     position: relative;
     z-index: 1;
   }
 
-  /* === UPDATED: MUCH BLURRIER “GLASS” BUTTON BACKGROUNDS === */
   .nav-links a,
   [data-nav] a{
     width: min(520px, 92vw);
@@ -781,7 +773,6 @@ html.js .reveal.is-visible{
     background: rgba(255,255,255,0.08);
     border: 1px solid rgba(255,255,255,0.18);
 
-    /* The blur that makes the BUTTONS themselves frosted */
     backdrop-filter: blur(28px) saturate(180%) brightness(1.05);
     -webkit-backdrop-filter: blur(28px) saturate(180%) brightness(1.05);
 
@@ -792,7 +783,6 @@ html.js .reveal.is-visible{
     transition: all 0.25s ease;
   }
 
-  /* === UPDATED hover glow + depth === */
   .nav-links a:hover,
   [data-nav] a:hover{
     background: rgba(255,255,255,0.14);
@@ -809,14 +799,14 @@ html.js .reveal.is-visible{
     justify-content: center;
   }
 
-  /* Keep header/toggle clickable above overlay */
+  /* Header can remain sticky; overlay sits above it because z-index is higher.
+     Keep header styling intact (no need to force it above overlay anymore). */
   .glass-nav{
     position: sticky;
     top: 0;
     z-index: 1300;
   }
 
-  /* Prevent brand text from pushing toggle off-screen */
   .brand-text{ max-width: 54vw; }
 }
 
@@ -938,7 +928,6 @@ textarea.field{
   border: 0 !important;
 }
 
-/* Honeypot: hide off-screen (don’t use display:none) */
 .honeypot{
   position: absolute !important;
   left: -9999px !important;
@@ -947,7 +936,6 @@ textarea.field{
   overflow: hidden !important;
 }
 
-/* Improve select arrow */
 select.field{
   appearance: none;
   -webkit-appearance: none;
@@ -1001,7 +989,6 @@ select.field{
   pointer-events:none;
 }
 
-/* REMOVE the checkmark (even if the HTML still has it) */
 .thanks-icon{ display: none; }
 
 .thanks-card h1{
@@ -1013,7 +1000,7 @@ select.field{
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  -webkit-text-fill-color: transparent; /* Safari */
+  -webkit-text-fill-color: transparent;
 }
 
 .thanks-subhead{
@@ -1029,14 +1016,12 @@ select.field{
   margin-top: 4px;
 }
 
-/* Centered layout */
 .thanks-center{
   max-width: 720px;
   margin: 0 auto;
   text-align: center;
 }
 
-/* Center the “banner” white text + pill */
 .thanks-center .thanks-subhead{
   text-align: center;
   margin-left: auto;
@@ -1051,7 +1036,6 @@ select.field{
 .thanks-center .thanks-actions{ justify-content: center; }
 
 /* ================= COMMUNITY: COMING SOON ================= */
-
 .page{
   min-height: calc(100vh - var(--nav-h, 84px) - var(--footer-h, 140px));
 }
@@ -1085,7 +1069,6 @@ select.field{
   margin-top: 10px;
 }
 
-
 .soon-title{
   margin-top: 10px;
 }
@@ -1093,4 +1076,3 @@ select.field{
 .soon-note{
   margin-top: 18px;
 }
-
