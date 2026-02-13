@@ -10,6 +10,46 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="styles.css" />
+
+  <!-- Small page-only helpers (doesn't require editing your global CSS) -->
+  <style>
+    /* Honeypot should be invisible to humans but visible to bots */
+    .honeypot {
+      position: absolute !important;
+      left: -9999px !important;
+      width: 1px !important;
+      height: 1px !important;
+      overflow: hidden !important;
+    }
+    .sr-only {
+      position: absolute !important;
+      width: 1px !important;
+      height: 1px !important;
+      padding: 0 !important;
+      margin: -1px !important;
+      overflow: hidden !important;
+      clip: rect(0,0,0,0) !important;
+      white-space: nowrap !important;
+      border: 0 !important;
+    }
+    .alert {
+      border-radius: 14px;
+      padding: 12px 14px;
+      margin-top: 12px;
+      line-height: 1.35;
+      font-size: 0.95rem;
+    }
+    .alert.success { border: 1px solid rgba(16, 185, 129, 0.35); }
+    .alert.error   { border: 1px solid rgba(239, 68, 68, 0.35); }
+    .alert.info    { border: 1px solid rgba(59, 130, 246, 0.35); }
+    .tiny {
+      font-size: 0.85rem;
+    }
+    .field[aria-invalid="true"] {
+      outline: 2px solid rgba(239, 68, 68, 0.55);
+      outline-offset: 1px;
+    }
+  </style>
 </head>
 
 <body id="top">
@@ -80,8 +120,14 @@
         <div class="section-head">
           <h2>Contact form</h2>
           <p class="muted">
-            This is a front-end form layout. To make it send email, we’ll connect it to a service (Formspree, Netlify, etc.).
+            This form is ready for a real back end. Add your endpoint URL (and your domain) where marked,
+            and submissions will send as JSON. If JavaScript is disabled, it will fall back to a normal POST.
           </p>
+
+          <div class="alert info tiny" role="note" aria-label="Privacy note">
+            <strong>Privacy tip:</strong> Don’t include passwords, recovery codes, or full card numbers.
+            If we need sensitive info, we’ll request it securely.
+          </div>
         </div>
 
         <div class="split">
@@ -90,92 +136,183 @@
             <h3>Send a request</h3>
             <p class="muted form-help">Fill this out and we’ll get back to you.</p>
 
-           <form class="form" action="https://formspree.io/f/mzdaeybj" method="POST">
+            <!--
+              BACKEND OPTIONS (choose one later by swapping action):
+              1) Your own API endpoint (recommended):
+                 action="https://YOUR_DOMAIN_HERE/api/contact"
+              2) Form providers like Formspree/Netlify:
+                 action="https://formspree.io/f/YOUR_FORM_ID"
+                 (then remove the JS fetch if you want pure provider submit)
+            -->
+            <form
+              id="contactForm"
+              class="form"
+              action="https://YOUR_DOMAIN_HERE/api/contact"
+              method="POST"
+              novalidate
+            >
+              <!-- spam protection -->
+              <input type="text" name="website" class="honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
 
-  <!-- Formspree hidden fields -->
-  <input type="hidden" name="_subject" value="New Baker Tech contact request">
-  <input type="hidden" name="_redirect" value="https://bakertech.solutions/thanks.html">
-  <input type="text" name="_gotcha" class="honeypot">
-
-  <div class="form-grid">
-
-    <div class="form-field">
-      <label for="name">Full Name</label>
-      <input id="name" class="field" type="text" name="name" required placeholder="John Doe">
-    </div>
-
-    <div class="form-field">
-      <label for="email">Email Address</label>
-      <input id="email" class="field" type="email" name="email" required placeholder="you@example.com">
-    </div>
-
-    <div class="form-field form-span">
-      <label for="category">Service Category</label>
-      <select id="category" class="field" name="category">
-        <option value="Hardware">Hardware</option>
-        <option value="Software">Software</option>
-        <option value="Networking">Networking</option>
-        <option value="Security">Security</option>
-        <option value="Programming">Programming</option>
-        <option value="Not sure">Not sure</option>
-      </select>
-    </div>
-
-    <div class="form-field form-span">
-      <label for="message">Project Details</label>
-      <textarea id="message" class="field" name="message" rows="7"
-        placeholder="Describe your goal, issue, timeline, and any relevant details." required></textarea>
-    </div>
-
-    <div class="form-field form-span">
-      <button type="submit" class="btn primary form-submit">
-        Send Request
-      </button>
-      <p class="form-note">
-        We typically respond within 24 hours. Do not include passwords or sensitive credentials.
-      </p>
-    </div>
-
-  </div>
-</form>
-
+              <!-- helpful metadata -->
+              <input type="hidden" name="source" value="contact-page">
+              <input type="hidden" name="page" value="/contact.html">
+              <input type="hidden" name="submittedAt" id="submittedAt" value="">
 
               <div class="form-grid">
-                <label class="form-field">
-                  <span class="label">Name</span>
-                  <input class="field" required type="text" name="name" placeholder="Your name" autocomplete="name" />
-                </label>
+                <div class="form-field">
+                  <label for="name">Full Name</label>
+                  <input
+                    id="name"
+                    class="field"
+                    type="text"
+                    name="name"
+                    required
+                    autocomplete="name"
+                    placeholder="John Doe"
+                    minlength="2"
+                  />
+                  <span class="sr-only" id="nameHelp">Enter your first and last name.</span>
+                </div>
 
-                <label class="form-field">
-                  <span class="label">Email</span>
-                  <input class="field" required type="email" name="email" placeholder="you@example.com" autocomplete="email" />
-                </label>
+                <div class="form-field">
+                  <label for="email">Email Address</label>
+                  <input
+                    id="email"
+                    class="field"
+                    type="email"
+                    name="email"
+                    required
+                    autocomplete="email"
+                    placeholder="you@example.com"
+                  />
+                </div>
 
-                <label class="form-field form-span">
-                  <span class="label">Service category</span>
-                  <select class="field" name="category">
-                    <option>Hardware</option>
-                    <option>Software</option>
-                    <option>Networking</option>
-                    <option>Security</option>
-                    <option>Programming</option>
-                    <option>Not sure</option>
+                <div class="form-field">
+                  <label for="phone">Phone Number</label>
+                  <input
+                    id="phone"
+                    class="field"
+                    type="tel"
+                    name="phone"
+                    required
+                    autocomplete="tel"
+                    placeholder="(555) 555-5555"
+                    inputmode="tel"
+                    pattern="^[0-9+().\\s-]{7,}$"
+                  />
+                  <p class="muted tiny" style="margin-top:8px;">We only use this to contact you about your request.</p>
+                </div>
+
+                <div class="form-field">
+                  <label for="preferred">Preferred Contact</label>
+                  <select id="preferred" class="field" name="preferredContact" required>
+                    <option value="" selected disabled>Choose one</option>
+                    <option value="Email">Email</option>
+                    <option value="Phone">Phone</option>
+                    <option value="Text">Text</option>
                   </select>
-                </label>
+                </div>
 
-                <label class="form-field form-span">
-                  <span class="label">Message</span>
-                  <textarea class="field" required name="message" rows="7" placeholder="What’s going on? What’s your goal?"></textarea>
-                </label>
+                <div class="form-field form-span">
+                  <label for="category">Service Category</label>
+                  <select id="category" class="field" name="category" required>
+                    <option value="Hardware">Hardware</option>
+                    <option value="Software">Software</option>
+                    <option value="Networking">Networking</option>
+                    <option value="Security">Security</option>
+                    <option value="Programming">Programming</option>
+                    <option value="Not sure" selected>Not sure</option>
+                  </select>
+                </div>
 
-                <div class="form-actions form-span">
-                  <button class="btn primary" type="submit">Send</button>
-                  <p class="muted form-note">
-                    Tip: If it’s security-related, don’t send passwords — we’ll guide you safely.
+                <div class="form-field">
+                  <label for="urgency">Urgency</label>
+                  <select id="urgency" class="field" name="urgency" required>
+                    <option value="" selected disabled>Select urgency</option>
+                    <option value="Low">Low (this week is fine)</option>
+                    <option value="Medium">Medium (next 48–72 hours)</option>
+                    <option value="High">High (today / ASAP)</option>
+                  </select>
+                </div>
+
+                <div class="form-field">
+                  <label for="bestTime">Best Time to Reach You</label>
+                  <select id="bestTime" class="field" name="bestTime" required>
+                    <option value="" selected disabled>Select a window</option>
+                    <option value="Morning">Morning</option>
+                    <option value="Afternoon">Afternoon</option>
+                    <option value="Evening">Evening</option>
+                    <option value="Anytime">Anytime</option>
+                  </select>
+                </div>
+
+                <div class="form-field form-span">
+                  <label for="device">Device / Environment</label>
+                  <input
+                    id="device"
+                    class="field"
+                    type="text"
+                    name="device"
+                    placeholder="Example: Windows 11 PC, MacBook Pro, home Wi-Fi, pfSense, etc."
+                    autocomplete="off"
+                  />
+                  <p class="muted tiny" style="margin-top:8px;">
+                    Optional, but it helps us diagnose faster.
                   </p>
+                </div>
+
+                <div class="form-field form-span">
+                  <label for="message">Brief Description</label>
+                  <textarea
+                    id="message"
+                    class="field"
+                    name="message"
+                    rows="7"
+                    placeholder="What’s going on? What’s your goal? Any error messages? What changed recently?"
+                    required
+                    minlength="10"
+                  ></textarea>
+                </div>
+
+                <div class="form-field form-span">
+                  <label class="muted tiny" style="display:block; margin-bottom:10px;">
+                    <input type="checkbox" id="noSecrets" name="noSecrets" required>
+                    I understand I should not include passwords or sensitive credentials.
+                  </label>
+                </div>
+
+                <div class="form-field form-span">
+                  <button id="submitBtn" type="submit" class="btn primary form-submit">
+                    Send Request
+                  </button>
+
+                  <p class="form-note">
+                    We typically respond within 24 hours. If this is urgent, include “High” urgency and a phone number.
+                  </p>
+
+                  <!-- Status messages -->
+                  <div id="formStatus" class="alert info" role="status" aria-live="polite" style="display:none;"></div>
+
+                  <!-- No-JS fallback note -->
+                  <noscript>
+                    <div class="alert info" role="note" style="margin-top:12px;">
+                      JavaScript is disabled, so this will submit as a standard form POST.
+                      If your back end expects JSON, enable JavaScript or adjust your server to accept form-encoded requests too.
+                    </div>
+                  </noscript>
                 </div>
               </div>
             </form>
+
+            <hr style="margin: 18px 0; opacity: 0.15;">
+
+            <div class="muted tiny">
+              <strong>Back-end template:</strong> Your API should accept either JSON (<code>application/json</code>)
+              or form-encoded data, and return JSON like:
+              <code>{"ok":true,"message":"Received"}</code>.
+              If you want, I can generate the server code too (Node/Express, PHP, Python/Flask).
+            </div>
           </article>
 
           <!-- RIGHT: OTHER CONTACT -->
@@ -225,5 +362,177 @@
   </footer>
 
   <script src="scripts.js"></script>
+
+  <!-- Page-only form handler (front-end + back-end support template) -->
+  <script>
+    (function () {
+      const form = document.getElementById("contactForm");
+      if (!form) return;
+
+      const statusEl = document.getElementById("formStatus");
+      const submitBtn = document.getElementById("submitBtn");
+      const submittedAt = document.getElementById("submittedAt");
+
+      function showStatus(type, msg) {
+        statusEl.className = "alert " + type;
+        statusEl.textContent = msg;
+        statusEl.style.display = "block";
+      }
+
+      function clearInvalid() {
+        const fields = form.querySelectorAll(".field");
+        fields.forEach(f => f.setAttribute("aria-invalid", "false"));
+      }
+
+      function markInvalid(el) {
+        if (!el) return;
+        el.setAttribute("aria-invalid", "true");
+      }
+
+      function getFormData() {
+        // Collect fields consistently (also works if you later add fields)
+        const fd = new FormData(form);
+        const obj = {};
+        for (const [k, v] of fd.entries()) {
+          // ignore empty optional checkbox off values
+          if (k === "website") continue; // honeypot handled separately
+          obj[k] = typeof v === "string" ? v.trim() : v;
+        }
+
+        // Add some useful metadata
+        obj.userAgent = navigator.userAgent;
+        obj.referrer = document.referrer || "";
+        obj.url = window.location.href;
+
+        return obj;
+      }
+
+      function validate() {
+        clearInvalid();
+        statusEl.style.display = "none";
+
+        // Honeypot check (bots fill it)
+        const honeypot = form.querySelector('input[name="website"]');
+        if (honeypot && honeypot.value.trim() !== "") {
+          return { ok: false, silent: true };
+        }
+
+        // Native validity
+        const requiredFields = [
+          "name", "email", "phone", "preferredContact", "category", "urgency", "bestTime", "message"
+        ];
+
+        for (const name of requiredFields) {
+          const el = form.elements[name];
+          if (!el) continue;
+
+          // For selects/textareas/inputs: use checkValidity
+          if (!el.checkValidity()) {
+            markInvalid(el);
+            return { ok: false, field: el, message: el.validationMessage || "Please fill out this field." };
+          }
+        }
+
+        // Extra phone sanity check (pattern already helps, but keep it strict-ish)
+        const phone = (form.elements.phone?.value || "").trim();
+        if (phone.length < 7) {
+          const el = form.elements.phone;
+          markInvalid(el);
+          return { ok: false, field: el, message: "Please enter a valid phone number." };
+        }
+
+        // Must acknowledge no-secrets
+        const noSecrets = form.elements.noSecrets;
+        if (noSecrets && !noSecrets.checked) {
+          markInvalid(noSecrets);
+          return { ok: false, field: noSecrets, message: "Please confirm you won’t include passwords or sensitive info." };
+        }
+
+        return { ok: true };
+      }
+
+      form.addEventListener("submit", async function (e) {
+        // If JS is enabled, we submit via fetch as JSON.
+        // This gives nicer success/error UX and works well with a custom backend.
+        e.preventDefault();
+
+        // Timestamp
+        if (submittedAt) submittedAt.value = new Date().toISOString();
+
+        const v = validate();
+        if (!v.ok) {
+          if (!v.silent) showStatus("error", v.message || "Please fix the highlighted fields.");
+          if (v.field && typeof v.field.focus === "function") v.field.focus();
+          return;
+        }
+
+        const endpoint = form.getAttribute("action");
+        if (!endpoint || endpoint.includes("YOUR_DOMAIN_HERE")) {
+          showStatus(
+            "error",
+            "Backend endpoint not set yet. Update the form action to your real API URL (example: https://yourdomain.com/api/contact)."
+          );
+          return;
+        }
+
+        const payload = getFormData();
+
+        // Button state
+        const oldBtnText = submitBtn ? submitBtn.textContent : "";
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.textContent = "Sending...";
+        }
+
+        showStatus("info", "Sending your request…");
+
+        try {
+          const res = await fetch(endpoint, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Accept": "application/json"
+            },
+            body: JSON.stringify(payload)
+          });
+
+          let data = null;
+          const isJson = (res.headers.get("content-type") || "").includes("application/json");
+          if (isJson) {
+            data = await res.json().catch(() => null);
+          } else {
+            // If your backend returns plain text
+            const text = await res.text().catch(() => "");
+            data = text ? { message: text } : null;
+          }
+
+          if (!res.ok) {
+            const msg = (data && (data.error || data.message)) || "Something went wrong. Please try again.";
+            showStatus("error", msg);
+            return;
+          }
+
+          showStatus(
+            "success",
+            (data && data.message) ? data.message : "Request sent! We’ll reach out soon."
+          );
+
+          form.reset();
+          clearInvalid();
+
+        } catch (err) {
+          showStatus(
+            "error",
+            "Network error. Please try again, or contact us directly using the email/phone on this page."
+          );
+        } finally {
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = oldBtnText || "Send Request";
+          }
+        }
+      });
+    })();
+  </script>
 </body>
 </html>
