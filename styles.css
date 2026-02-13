@@ -1049,3 +1049,41 @@ select.field{
 }
 
 .thanks-center .thanks-actions{ justify-content: center; }
+
+/* ================= COMMUNITY: COMING SOON ================= */
+
+.page{
+  min-height: calc(100vh - var(--nav-h, 84px) - var(--footer-h, 140px));
+}
+
+.soon-wrap{
+  min-height: calc(100vh - var(--nav-h, 84px) - 140px);
+  display: grid;
+  align-items: center;
+  padding: clamp(36px, 6vw, 90px) 0;
+}
+
+.soon-card{
+  max-width: 760px;
+  margin: 0 auto;
+  text-align: center;
+  padding: clamp(28px, 4.5vw, 64px);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.soon-title{
+  margin-top: 10px;
+}
+
+.soon-actions{
+  justify-content: center;
+  margin-top: 22px;
+}
+
+.soon-note{
+  margin-top: 18px;
+}
+
