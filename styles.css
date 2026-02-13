@@ -1064,23 +1064,30 @@ select.field{
 }
 
 .soon-card{
-  max-width: 760px;
+  max-width: 720px;
   margin: 0 auto;
   text-align: center;
-  padding: clamp(28px, 4.5vw, 64px);
+  padding: clamp(40px, 6vw, 80px);
   background: var(--panel);
   border: 1px solid var(--line);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
-}
-
-.soon-title{
-  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 28px;
 }
 
 .soon-actions{
+  display: flex;
   justify-content: center;
-  margin-top: 22px;
+  gap: 16px;
+  margin-top: 10px;
+}
+
+
+.soon-title{
+  margin-top: 10px;
 }
 
 .soon-note{
