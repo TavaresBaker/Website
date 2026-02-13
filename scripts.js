@@ -24,22 +24,17 @@ document.documentElement.classList.add("js");
   const btn = $(".nav-toggle");
   const header = $(".glass-nav");
 
-  // Find the nav container in a robust way:
-  // Prefer [data-nav], otherwise fallback to .nav-links
   const menu =
     $("[data-nav]") ||
     $(".nav-links");
 
   if (!btn || !menu) return;
 
-  // Ensure button has aria-expanded
   if (!btn.hasAttribute("aria-expanded")) btn.setAttribute("aria-expanded", "false");
 
-  // Ensure the menu has an id for aria-controls
   if (!menu.id) menu.id = "site-nav";
   btn.setAttribute("aria-controls", menu.id);
 
-  // If your HTML uses <a> tags inside nav, this will catch them
   const focusableSelector = [
     'a[href]',
     'button:not([disabled])',
@@ -66,7 +61,6 @@ document.documentElement.classList.add("js");
     menu.classList.add("open");
     lockScroll();
 
-    // Focus first focusable item in the menu (nice mobile UX + accessibility)
     const first = $(focusableSelector, menu);
     if (first) first.focus({ preventScroll: true });
   };
@@ -76,7 +70,6 @@ document.documentElement.classList.add("js");
     menu.classList.remove("open");
     unlockScroll();
 
-    // Restore focus
     if (lastFocusedEl && typeof lastFocusedEl.focus === "function") {
       lastFocusedEl.focus({ preventScroll: true });
     } else {
@@ -86,30 +79,30 @@ document.documentElement.classList.add("js");
 
   const toggleMenu = () => (isOpen() ? closeMenu() : openMenu());
 
-  // Button click
   btn.addEventListener("click", (e) => {
     e.preventDefault();
     e.stopPropagation();
     toggleMenu();
   });
 
-  // Close when clicking a link inside menu
   menu.addEventListener("click", (e) => {
     const link = e.target.closest("a");
     if (link) closeMenu();
   });
 
-  // Close on outside click (anywhere not in menu or toggle)
   document.addEventListener("click", (e) => {
     if (!isOpen()) return;
 
-    const clickedInsideMenu = e.target.closest("#" + CSS.escape(menu.id)) || e.target.closest("[data-nav]") || e.target.closest(".nav-links");
+    const clickedInsideMenu =
+      e.target.closest("#" + CSS.escape(menu.id)) ||
+      e.target.closest("[data-nav]") ||
+      e.target.closest(".nav-links");
+
     const clickedToggle = e.target.closest(".nav-toggle");
 
     if (!clickedInsideMenu && !clickedToggle) closeMenu();
   });
 
-  // Close on ESC + trap focus when open
   document.addEventListener("keydown", (e) => {
     if (!isOpen()) return;
 
@@ -119,7 +112,6 @@ document.documentElement.classList.add("js");
       return;
     }
 
-    // Focus trap for keyboard users
     if (e.key === "Tab") {
       const focusables = $$(focusableSelector, menu).filter((el) => el.offsetParent !== null);
       if (!focusables.length) return;
@@ -137,14 +129,12 @@ document.documentElement.classList.add("js");
     }
   });
 
-  // Close on resize / orientation change back to desktop
   const handleViewportChange = () => {
     if (isDesktop() && isOpen()) closeMenu();
   };
   window.addEventListener("resize", handleViewportChange, { passive: true });
   window.addEventListener("orientationchange", handleViewportChange, { passive: true });
 
-  // Optional: add a scroll class to the header for styling
   if (header) {
     window.addEventListener(
       "scroll",
@@ -172,7 +162,6 @@ $$('a[href^="#"]').forEach((anchor) => {
 
 /* =========================
    Scroll Reveal Animations
-   Uses your CSS: .reveal + .is-visible
 ========================= */
 (() => {
   const items = $$(".reveal");
@@ -281,7 +270,6 @@ $$('a[href^="#"]').forEach((anchor) => {
 
 /* =========================
    Image Lightbox (safe)
-   Only triggers for images you mark with: data-lightbox
 ========================= */
 (() => {
   const imgs = $$('img[data-lightbox]');
@@ -336,7 +324,9 @@ window.addEventListener("load", () => {
 });
 
 /* =========================
-   Contact Form Handler (only runs on contact page)
+   Contact Form Handler (Formspree + file uploads)
+   - Sends multipart FormData so attachments work
+   - Keeps your validation + UI behavior
 ========================= */
 (() => {
   const form = $("#contactForm");
@@ -345,6 +335,7 @@ window.addEventListener("load", () => {
   const statusEl = $("#formStatus");
   const submitBtn = $("#submitBtn");
   const submittedAt = $("#submittedAt");
+  const fileInput = $("#attachments", form);
 
   const showStatus = (type, msg) => {
     if (!statusEl) return;
@@ -362,20 +353,50 @@ window.addEventListener("load", () => {
     el.setAttribute("aria-invalid", "true");
   };
 
-  const getPayload = () => {
-    const fd = new FormData(form);
-    const obj = {};
-
-    for (const [k, v] of fd.entries()) {
-      if (k === "website") continue;
-      obj[k] = typeof v === "string" ? v.trim() : v;
+  const validateFiles = () => {
+    if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
+      return { ok: true };
     }
 
-    obj.userAgent = navigator.userAgent;
-    obj.referrer = document.referrer || "";
-    obj.url = window.location.href;
+    const files = Array.from(fileInput.files);
+    const allowed = new Set([
+      "image/jpeg",
+      "image/png",
+      "image/heic",
+      "image/heif"
+    ]);
 
-    return obj;
+    // Soft limits (match Formspree typical constraints)
+    const maxFiles = 10;
+    const maxPerFile = 25 * 1024 * 1024;  // 25MB
+    const maxTotal = 100 * 1024 * 1024;   // 100MB
+
+    if (files.length > maxFiles) {
+      markInvalid(fileInput);
+      return { ok: false, field: fileInput, message: `Please upload ${maxFiles} photos or fewer.` };
+    }
+
+    let total = 0;
+    for (const f of files) {
+      total += f.size;
+
+      if (!allowed.has((f.type || "").toLowerCase())) {
+        markInvalid(fileInput);
+        return { ok: false, field: fileInput, message: "Only image files are allowed (JPG, PNG, HEIC)." };
+      }
+
+      if (f.size > maxPerFile) {
+        markInvalid(fileInput);
+        return { ok: false, field: fileInput, message: "One of your images is too large. Max 25MB per file." };
+      }
+    }
+
+    if (total > maxTotal) {
+      markInvalid(fileInput);
+      return { ok: false, field: fileInput, message: "Total upload is too large. Max 100MB total." };
+    }
+
+    return { ok: true };
   };
 
   const validate = () => {
@@ -431,6 +452,9 @@ window.addEventListener("load", () => {
       return { ok: false, field: el, message: "Please enter a valid phone number." };
     }
 
+    const vf = validateFiles();
+    if (!vf.ok) return vf;
+
     return { ok: true };
   };
 
@@ -448,11 +472,9 @@ window.addEventListener("load", () => {
 
     const endpoint = form.getAttribute("action") || "";
     if (!endpoint || endpoint.includes("YOUR_DOMAIN_HERE")) {
-      showStatus("error", "Set your backend URL in the form action (https://yourdomain.com/api/contact).");
+      showStatus("error", "Set your Formspree endpoint in the form action (example: https://formspree.io/f/xxxxxx).");
       return;
     }
-
-    const payload = getPayload();
 
     const oldText = submitBtn ? submitBtn.textContent : "";
     if (submitBtn) {
@@ -463,32 +485,34 @@ window.addEventListener("load", () => {
     showStatus("info", "Sending your request…");
 
     try {
+      // IMPORTANT: FormData is required for file uploads
+      const formData = new FormData(form);
+
+      // add extra metadata (without breaking files)
+      formData.append("userAgent", navigator.userAgent);
+      formData.append("referrer", document.referrer || "");
+      formData.append("url", window.location.href);
+
       const res = await fetch(endpoint, {
         method: "POST",
+        body: formData,
         headers: {
-          "Content-Type": "application/json",
           "Accept": "application/json"
-        },
-        body: JSON.stringify(payload)
+        }
       });
 
-      const ct = (res.headers.get("content-type") || "").toLowerCase();
-      const isJson = ct.includes("application/json");
-
-      let data = null;
-      if (isJson) data = await res.json().catch(() => null);
-      else {
-        const text = await res.text().catch(() => "");
-        data = text ? { message: text } : null;
-      }
+      const data = await res.json().catch(() => null);
 
       if (!res.ok) {
-        const msg = (data && (data.error || data.message)) || "Something went wrong. Please try again.";
+        const msg =
+          (data && data.errors && data.errors[0] && data.errors[0].message) ||
+          (data && (data.error || data.message)) ||
+          "Something went wrong. Please try again.";
         showStatus("error", msg);
         return;
       }
 
-      showStatus("success", (data && data.message) ? data.message : "Request sent! We’ll reach out soon.");
+      showStatus("success", "Request sent! We’ll reach out soon.");
       form.reset();
       clearInvalid();
     } catch (err) {
