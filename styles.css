@@ -879,3 +879,15 @@ select.field{
     grid-template-columns: 1fr;
   }
 }
+
+
+/* Thanks page: centered layout */
+.thanks-center{
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.thanks-center .thanks-actions{
+  justify-content: center;
+}
