@@ -90,7 +90,56 @@
             <h3>Send a request</h3>
             <p class="muted form-help">Fill this out and we’ll get back to you.</p>
 
-            <form class="form" action="#" method="post">
+           <form class="form" action="https://formspree.io/f/mzdaeybj" method="POST">
+
+  <!-- Formspree hidden fields -->
+  <input type="hidden" name="_subject" value="New Baker Tech contact request">
+  <input type="hidden" name="_redirect" value="https://bakertech.solutions/thanks.html">
+  <input type="text" name="_gotcha" class="honeypot">
+
+  <div class="form-grid">
+
+    <div class="form-field">
+      <label for="name">Full Name</label>
+      <input id="name" class="field" type="text" name="name" required placeholder="John Doe">
+    </div>
+
+    <div class="form-field">
+      <label for="email">Email Address</label>
+      <input id="email" class="field" type="email" name="email" required placeholder="you@example.com">
+    </div>
+
+    <div class="form-field form-span">
+      <label for="category">Service Category</label>
+      <select id="category" class="field" name="category">
+        <option value="Hardware">Hardware</option>
+        <option value="Software">Software</option>
+        <option value="Networking">Networking</option>
+        <option value="Security">Security</option>
+        <option value="Programming">Programming</option>
+        <option value="Not sure">Not sure</option>
+      </select>
+    </div>
+
+    <div class="form-field form-span">
+      <label for="message">Project Details</label>
+      <textarea id="message" class="field" name="message" rows="7"
+        placeholder="Describe your goal, issue, timeline, and any relevant details." required></textarea>
+    </div>
+
+    <div class="form-field form-span">
+      <button type="submit" class="btn primary form-submit">
+        Send Request
+      </button>
+      <p class="form-note">
+        We typically respond within 24 hours. Do not include passwords or sensitive credentials.
+      </p>
+    </div>
+
+  </div>
+</form>
+
+
               <div class="form-grid">
                 <label class="form-field">
                   <span class="label">Name</span>
