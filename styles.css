@@ -397,8 +397,6 @@ body::after{
 
 /* =========================================================
    CHECKLIST / SERVICE LISTS (THIS IS THE “LOCK IN” FIX)
-   - Ensures lists show inside cards (services page)
-   - Looks clean in hero quick-links + cards
 ========================================================= */
 .checklist{
   list-style: none;
@@ -579,8 +577,6 @@ body::after{
   margin-top: clamp(48px, 6vw, 80px);
 }
 
-
-
 /* ================= CTA BAND ================= */
 .cta-band{
   background: rgba(255,255,255,0.05);
@@ -658,12 +654,7 @@ body::after{
   font-size: 13px;
 }
 
-/* ================= REVEAL ANIMATION =================
-   IMPORTANT FIX:
-   - Content should NEVER be hidden if JS fails.
-   - If you want the animation, add `js` class to <html> in scripts.js:
-     document.documentElement.classList.add('js');
-========================================================= */
+/* ================= REVEAL ANIMATION ================= */
 .reveal{
   opacity: 1;
   transform: none;
@@ -696,32 +687,59 @@ html.js .reveal.is-visible{
   .cta-band{ flex-direction: column; align-items:flex-start; }
 }
 
-/* Mobile nav dropdown */
-@media (max-width: 640px){
+/* =========================
+   MOBILE NAV OVERLAY (REPLACES DROPDOWN)
+   - Full-screen overlay menu
+   - Smooth fade in
+   - Uses .open + body.nav-open from scripts.js
+========================= */
+@media (max-width: 900px){
   .nav-toggle{ display:block; }
 
+  /* Fullscreen overlay */
   .nav-links{
-    position: absolute;
-    top: calc(100% + 10px);
-    left: 16px;
-    right: 16px;
-    display:none;
-    flex-direction: column;
-    gap: 6px;
-    padding: 10px;
-    border-radius: 22px;
-    border: 1px solid rgba(255,255,255,0.12);
-    background: rgba(10, 15, 40, 0.70);
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    display: grid;
+    align-content: center;
+    justify-items: center;
+    gap: 14px;
+
+    padding: 92px 18px 28px; /* room for header */
+    background: rgba(5, 7, 15, 0.92);
     backdrop-filter: blur(14px);
-    overflow: hidden;
-    z-index: 1200; /* ensures it sits above hero/content */
+
+    opacity: 0;
+    transform: translateY(-10px);
+    pointer-events: none;
+    transition: opacity 180ms ease, transform 180ms ease;
   }
 
-  .nav-links.open{ display:flex; }
+  .nav-links.open{
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
 
   .nav-links a{
-    width: 100%;
-    justify-content: flex-start;
+    width: min(520px, 92vw);
+    justify-content: center;
+    text-align: center;
+    font-size: 1.15rem;
+    padding: 12px 16px;
+    border-radius: 16px;
+  }
+
+  .nav-links .nav-btn{
+    width: min(520px, 92vw);
+    justify-content: center;
+  }
+
+  /* Keep header above overlay so toggle stays clickable */
+  .glass-nav{
+    position: relative;
+    z-index: 1000;
   }
 
   .brand-text{ max-width: 54vw; }
