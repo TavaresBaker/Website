@@ -12,21 +12,21 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 
-<body>
+<body id="top">
   <div class="bg-grid" aria-hidden="true"></div>
 
   <header class="glass-nav">
     <div class="container nav-wrap">
-      <a class="brand" href="index.html">
+      <a class="brand" href="index.html" aria-label="Baker Tech Solutions home">
         <span class="brand-mark" aria-hidden="true">◆</span>
         <span class="brand-text">Baker Tech Solutions</span>
       </a>
 
-      <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">
+      <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav">
         <span></span><span></span><span></span>
       </button>
 
-      <nav class="nav-links" data-nav>
+      <nav id="site-nav" class="nav-links" data-nav>
         <a href="index.html">Home</a>
         <a href="services.html">Services</a>
         <a href="pricing.html">Pricing</a>
@@ -37,6 +37,7 @@
   </header>
 
   <main>
+    <!-- HERO -->
     <section class="hero">
       <div class="container hero-grid">
         <div class="hero-copy">
@@ -52,7 +53,7 @@
             <a class="btn ghost" href="pricing.html">View Pricing</a>
           </div>
 
-          <div class="trust-row">
+          <div class="trust-row" aria-label="Highlights">
             <div class="trust-pill">Quick response</div>
             <div class="trust-pill">Clear scope</div>
             <div class="trust-pill">No jargon</div>
@@ -60,7 +61,7 @@
           </div>
         </div>
 
-        <div class="hero-card" role="note" aria-label="What to include">
+        <aside class="hero-card" aria-label="What to include">
           <h2>What to include</h2>
           <ul class="checklist">
             <li>Device type (PC / Mac / phone / network)</li>
@@ -69,40 +70,41 @@
             <li>Urgency + best time to reach you</li>
           </ul>
           <a class="mini-link" href="services.html">See services →</a>
-        </div>
+        </aside>
       </div>
     </section>
 
+    <!-- FORM -->
     <section class="section alt" id="form">
       <div class="container">
         <div class="section-head">
           <h2>Contact form</h2>
-          <p>This is a front-end form layout. To make it send email, we’ll connect it to a service (Formspree, Netlify, etc.).</p>
+          <p class="muted">
+            This is a front-end form layout. To make it send email, we’ll connect it to a service (Formspree, Netlify, etc.).
+          </p>
         </div>
 
         <div class="split">
-          <div class="card reveal">
+          <!-- LEFT: FORM -->
+          <article class="card reveal">
             <h3>Send a request</h3>
-            <p class="muted" style="margin-bottom:12px;">Fill this out and we’ll get back to you.</p>
+            <p class="muted form-help">Fill this out and we’ll get back to you.</p>
 
-            <form>
-              <div style="display:grid; gap:10px;">
-                <label>
-                  <span class="muted" style="display:block; margin-bottom:6px;">Name</span>
-                  <input required type="text" name="name" placeholder="Your name"
-                    style="width:100%; padding:12px 12px; border-radius:14px; border:1px solid rgba(255,255,255,0.12); background:rgba(255,255,255,0.06); color:var(--text);" />
+            <form class="form" action="#" method="post">
+              <div class="form-grid">
+                <label class="form-field">
+                  <span class="label">Name</span>
+                  <input class="field" required type="text" name="name" placeholder="Your name" autocomplete="name" />
                 </label>
 
-                <label>
-                  <span class="muted" style="display:block; margin-bottom:6px;">Email</span>
-                  <input required type="email" name="email" placeholder="you@example.com"
-                    style="width:100%; padding:12px 12px; border-radius:14px; border:1px solid rgba(255,255,255,0.12); background:rgba(255,255,255,0.06); color:var(--text);" />
+                <label class="form-field">
+                  <span class="label">Email</span>
+                  <input class="field" required type="email" name="email" placeholder="you@example.com" autocomplete="email" />
                 </label>
 
-                <label>
-                  <span class="muted" style="display:block; margin-bottom:6px;">Service category</span>
-                  <select name="category"
-                    style="width:100%; padding:12px 12px; border-radius:14px; border:1px solid rgba(255,255,255,0.12); background:rgba(255,255,255,0.06); color:var(--text);">
+                <label class="form-field form-span">
+                  <span class="label">Service category</span>
+                  <select class="field" name="category">
                     <option>Hardware</option>
                     <option>Software</option>
                     <option>Networking</option>
@@ -112,43 +114,47 @@
                   </select>
                 </label>
 
-                <label>
-                  <span class="muted" style="display:block; margin-bottom:6px;">Message</span>
-                  <textarea required name="message" rows="6" placeholder="What’s going on? What’s your goal?"
-                    style="width:100%; padding:12px 12px; border-radius:14px; border:1px solid rgba(255,255,255,0.12); background:rgba(255,255,255,0.06); color:var(--text); resize:vertical;"></textarea>
+                <label class="form-field form-span">
+                  <span class="label">Message</span>
+                  <textarea class="field" required name="message" rows="7" placeholder="What’s going on? What’s your goal?"></textarea>
                 </label>
 
-                <button class="btn primary" type="submit">Send</button>
+                <div class="form-actions form-span">
+                  <button class="btn primary" type="submit">Send</button>
+                  <p class="muted form-note">
+                    Tip: If it’s security-related, don’t send passwords — we’ll guide you safely.
+                  </p>
+                </div>
               </div>
             </form>
-          </div>
+          </article>
 
-          <div class="image-card reveal">
+          <!-- RIGHT: OTHER CONTACT -->
+          <aside class="image-card reveal">
             <h3>Other ways to reach us</h3>
-            <p class="muted" style="margin-top:8px;">
+            <p class="muted contact-subhead">
               Add your real contact details here:
             </p>
 
-            <ul class="checklist" style="margin-top:12px;">
+            <ul class="checklist contact-list">
               <li>Email: <span class="muted">your-email@domain.com</span></li>
               <li>Phone: <span class="muted">(555) 555-5555</span></li>
               <li>Service area: <span class="muted">Your city / region</span></li>
               <li>Hours: <span class="muted">By appointment</span></li>
             </ul>
 
-            <div class="cta-band" style="margin-top:16px;">
+            <div class="cta-band cta-slim">
               <div>
-                <h2 style="margin:0;">Want a fast quote?</h2>
-                <p style="margin-top:8px;">Include photos/screenshots and a short description of the issue.</p>
+                <h2 class="cta-title">Want a fast quote?</h2>
+                <p class="cta-text">Include photos/screenshots and a short description of the issue.</p>
               </div>
             </div>
 
-            <p class="caption">Tip: If it’s security-related, don’t send passwords — we’ll guide you safely.</p>
-          </div>
+            <a class="mini-link" href="#top">Back to top ↑</a>
+          </aside>
         </div>
       </div>
     </section>
-
   </main>
 
   <footer class="footer">
