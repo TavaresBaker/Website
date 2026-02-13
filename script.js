@@ -27,7 +27,8 @@ const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
     document.body.classList.remove("nav-open");
   };
 
-  btn.addEventListener("click", () => {
+  btn.addEventListener("click", (e) => {
+    e.stopPropagation();
     const expanded = btn.getAttribute("aria-expanded") === "true";
     expanded ? closeMenu() : openMenu();
   });
@@ -40,9 +41,13 @@ const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
   // Close when clicking outside
   document.addEventListener("click", (e) => {
-    const clickedInside =
-      e.target.closest(".glass-nav") || e.target.closest("[data-nav]");
+    const clickedInside = e.target.closest(".glass-nav");
     if (!clickedInside) closeMenu();
+  });
+
+  // Close on ESC
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeMenu();
   });
 
   // Close on resize back to desktop
@@ -96,6 +101,7 @@ $$('a[href^="#"]').forEach(anchor => {
 
 /* =========================
    Parallax Hero Effect (safe)
+   (Only applies if the hero actually has a background image/position)
 ========================= */
 (() => {
   const hero = $(".hero");
@@ -104,7 +110,7 @@ $$('a[href^="#"]').forEach(anchor => {
   window.addEventListener("scroll", () => {
     const scroll = window.scrollY || 0;
     hero.style.backgroundPositionY = (scroll * 0.25) + "px";
-  });
+  }, { passive: true });
 })();
 
 /* =========================
@@ -113,6 +119,10 @@ $$('a[href^="#"]').forEach(anchor => {
 (() => {
   const typingTarget = $("#typing-text");
   if (!typingTarget) return;
+
+  // Prevent double-typing if script loads twice
+  if (typingTarget.dataset.typed === "true") return;
+  typingTarget.dataset.typed = "true";
 
   const text = "Secure. Reliable. Professional Technology Solutions.";
   let i = 0;
@@ -178,11 +188,12 @@ $$('a[href^="#"]').forEach(anchor => {
 })();
 
 /* =========================
-   Image Lightbox (optional, safe)
-   NOTE: If you don't want EVERY image clickable, change selector
+   Image Lightbox (safe)
+   Only triggers for images you mark with: data-lightbox
+   Example: <img src="..." data-lightbox alt="...">
 ========================= */
 (() => {
-  const imgs = $$("img");
+  const imgs = $$('img[data-lightbox]');
   if (!imgs.length) return;
 
   imgs.forEach(img => {
@@ -197,21 +208,26 @@ $$('a[href^="#"]').forEach(anchor => {
       overlay.style.alignItems = "center";
       overlay.style.justifyContent = "center";
       overlay.style.zIndex = "9999";
+      overlay.style.padding = "24px";
 
       const bigImg = document.createElement("img");
       bigImg.src = img.src;
       bigImg.alt = img.alt || "";
-      bigImg.style.maxWidth = "90%";
-      bigImg.style.maxHeight = "90%";
-      bigImg.style.borderRadius = "10px";
+      bigImg.style.maxWidth = "92%";
+      bigImg.style.maxHeight = "92%";
+      bigImg.style.borderRadius = "12px";
+      bigImg.style.boxShadow = "0 20px 60px rgba(0,0,0,0.55)";
 
       overlay.appendChild(bigImg);
       document.body.appendChild(overlay);
 
-      overlay.addEventListener("click", () => overlay.remove());
+      const close = () => overlay.remove();
+
+      overlay.addEventListener("click", close);
+
       document.addEventListener("keydown", function esc(e){
         if (e.key === "Escape") {
-          overlay.remove();
+          close();
           document.removeEventListener("keydown", esc);
         }
       });
@@ -227,3 +243,169 @@ window.addEventListener("load", () => {
   if (!loader) return;
   loader.classList.add("hide");
 });
+
+/* =========================
+   Contact Form Handler (only runs on contact page)
+   - Sends JSON to your backend (form.action)
+   - Shows success/error messages
+   - Uses honeypot field named "website"
+========================= */
+(() => {
+  const form = $("#contactForm");
+  if (!form) return;
+
+  const statusEl = $("#formStatus");
+  const submitBtn = $("#submitBtn");
+  const submittedAt = $("#submittedAt");
+
+  const showStatus = (type, msg) => {
+    if (!statusEl) return;
+    statusEl.className = "alert " + type;
+    statusEl.textContent = msg;
+    statusEl.style.display = "block";
+  };
+
+  const clearInvalid = () => {
+    $$(".field", form).forEach(f => f.setAttribute("aria-invalid", "false"));
+  };
+
+  const markInvalid = (el) => {
+    if (!el) return;
+    el.setAttribute("aria-invalid", "true");
+  };
+
+  const getPayload = () => {
+    const fd = new FormData(form);
+    const obj = {};
+
+    for (const [k, v] of fd.entries()) {
+      if (k === "website") continue; // honeypot
+      obj[k] = typeof v === "string" ? v.trim() : v;
+    }
+
+    obj.userAgent = navigator.userAgent;
+    obj.referrer = document.referrer || "";
+    obj.url = window.location.href;
+
+    return obj;
+  };
+
+  const validate = () => {
+    clearInvalid();
+
+    // honeypot (bots fill it)
+    const honeypot = form.querySelector('input[name="website"]');
+    if (honeypot && honeypot.value.trim() !== "") {
+      return { ok: false, silent: true };
+    }
+
+    const required = [
+      "name",
+      "email",
+      "phone",
+      "preferredContact",
+      "category",
+      "urgency",
+      "bestTime",
+      "message",
+      "noSecrets"
+    ];
+
+    for (const name of required) {
+      const el = form.elements[name];
+      if (!el) continue;
+
+      // checkbox validity needs manual check
+      if (el.type === "checkbox") {
+        if (!el.checked) {
+          markInvalid(el);
+          return { ok: false, field: el, message: "Please confirm you won’t include passwords or sensitive info." };
+        }
+        continue;
+      }
+
+      if (!el.checkValidity()) {
+        markInvalid(el);
+        return { ok: false, field: el, message: el.validationMessage || "Please fill out this field." };
+      }
+    }
+
+    // extra phone sanity check
+    const phone = (form.elements.phone?.value || "").trim();
+    if (phone.length < 7) {
+      const el = form.elements.phone;
+      markInvalid(el);
+      return { ok: false, field: el, message: "Please enter a valid phone number." };
+    }
+
+    return { ok: true };
+  };
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    if (submittedAt) submittedAt.value = new Date().toISOString();
+
+    const v = validate();
+    if (!v.ok) {
+      if (!v.silent) showStatus("error", v.message || "Please fix the highlighted fields.");
+      if (v.field && typeof v.field.focus === "function") v.field.focus();
+      return;
+    }
+
+    const endpoint = form.getAttribute("action") || "";
+    if (!endpoint || endpoint.includes("YOUR_DOMAIN_HERE")) {
+      showStatus("error", "Set your backend URL in the form action (https://yourdomain.com/api/contact).");
+      return;
+    }
+
+    const payload = getPayload();
+
+    const oldText = submitBtn ? submitBtn.textContent : "";
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Sending...";
+    }
+
+    showStatus("info", "Sending your request…");
+
+    try {
+      const res = await fetch(endpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+
+      const ct = (res.headers.get("content-type") || "").toLowerCase();
+      const isJson = ct.includes("application/json");
+
+      let data = null;
+      if (isJson) data = await res.json().catch(() => null);
+      else {
+        const text = await res.text().catch(() => "");
+        data = text ? { message: text } : null;
+      }
+
+      if (!res.ok) {
+        const msg = (data && (data.error || data.message)) || "Something went wrong. Please try again.";
+        showStatus("error", msg);
+        return;
+      }
+
+      showStatus("success", (data && data.message) ? data.message : "Request sent! We’ll reach out soon.");
+      form.reset();
+      clearInvalid();
+
+    } catch (err) {
+      showStatus("error", "Network error. Please try again, or contact us directly using the info on this page.");
+    } finally {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = oldText || "Send Request";
+      }
+    }
+  });
+})();
