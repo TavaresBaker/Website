@@ -76,6 +76,7 @@
               class="form"
               action="https://formspree.io/f/mzdaeybj"
               method="POST"
+              enctype="multipart/form-data"
               novalidate
             >
               <!-- spam protection -->
@@ -197,6 +198,22 @@
                     required
                     minlength="10"
                   ></textarea>
+                </div>
+
+                <!-- NEW: PHOTO UPLOAD -->
+                <div class="form-field form-span">
+                  <label for="attachments">Add photos (optional)</label>
+                  <input
+                    id="attachments"
+                    class="field"
+                    type="file"
+                    name="attachments"
+                    accept="image/png,image/jpeg,image/heic,image/heif,.png,.jpg,.jpeg,.heic,.heif"
+                    multiple
+                  />
+                  <p class="muted tiny" style="margin-top:8px;">
+                    Upload up to 10 images. Max 25MB each (100MB total).
+                  </p>
                 </div>
 
                 <div class="form-field form-span">
