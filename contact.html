@@ -10,46 +10,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="styles.css" />
-
-  <!-- Small page-only helpers (doesn't require editing your global CSS) -->
-  <style>
-    /* Honeypot should be invisible to humans but visible to bots */
-    .honeypot {
-      position: absolute !important;
-      left: -9999px !important;
-      width: 1px !important;
-      height: 1px !important;
-      overflow: hidden !important;
-    }
-    .sr-only {
-      position: absolute !important;
-      width: 1px !important;
-      height: 1px !important;
-      padding: 0 !important;
-      margin: -1px !important;
-      overflow: hidden !important;
-      clip: rect(0,0,0,0) !important;
-      white-space: nowrap !important;
-      border: 0 !important;
-    }
-    .alert {
-      border-radius: 14px;
-      padding: 12px 14px;
-      margin-top: 12px;
-      line-height: 1.35;
-      font-size: 0.95rem;
-    }
-    .alert.success { border: 1px solid rgba(16, 185, 129, 0.35); }
-    .alert.error   { border: 1px solid rgba(239, 68, 68, 0.35); }
-    .alert.info    { border: 1px solid rgba(59, 130, 246, 0.35); }
-    .tiny {
-      font-size: 0.85rem;
-    }
-    .field[aria-invalid="true"] {
-      outline: 2px solid rgba(239, 68, 68, 0.55);
-      outline-offset: 1px;
-    }
-  </style>
 </head>
 
 <body id="top">
@@ -84,15 +44,14 @@
           <p class="eyebrow">Contact</p>
           <h1>Let’s talk.</h1>
           <p class="subhead">
-            Tell us what you’re trying to accomplish and we’ll respond with a clear plan and estimate.
-            The more details you provide, the faster we can help.
+            Tell us what you need and we’ll follow up with next steps.
           </p>
 
           <div class="hero-actions">
             <a class="btn primary" href="#form">Start a request</a>
-            <a class="btn ghost" href="pricing.html">View Pricing</a>
+            <a class="btn ghost" href="pricing.html">View pricing</a>
           </div>
-          
+        </div>
       </div>
     </section>
 
@@ -104,7 +63,6 @@
 
           <div class="alert info tiny" role="note" aria-label="Privacy note">
             <strong>Privacy tip:</strong> Don’t include passwords, recovery codes, or full card numbers.
-            If we need sensitive info, we’ll request it securely.
           </div>
         </div>
 
@@ -142,7 +100,6 @@
                     placeholder="John Doe"
                     minlength="2"
                   />
-                  <span class="sr-only" id="nameHelp">Enter your first and last name.</span>
                 </div>
 
                 <div class="form-field">
@@ -227,9 +184,7 @@
                     placeholder="Example: Windows 11 PC, MacBook Pro, home Wi-Fi, pfSense, etc."
                     autocomplete="off"
                   />
-                  <p class="muted tiny" style="margin-top:8px;">
-                    Optional, but it helps us diagnose faster.
-                  </p>
+                  <p class="muted tiny" style="margin-top:8px;">Optional, but it helps.</p>
                 </div>
 
                 <div class="form-field form-span">
@@ -239,7 +194,7 @@
                     class="field"
                     name="message"
                     rows="7"
-                    placeholder="What’s going on? What’s your goal? Any error messages? What changed recently?"
+                    placeholder="What’s going on? What’s your goal? Any error messages?"
                     required
                     minlength="10"
                   ></textarea>
@@ -258,10 +213,9 @@
                   </button>
 
                   <p class="form-note">
-                    We typically respond within 24 hours. If this is urgent, include “High” urgency and a phone number.
+                    We typically respond within 24 hours.
                   </p>
 
-                  <!-- Status messages -->
                   <div id="formStatus" class="alert info" role="status" aria-live="polite" style="display:none;"></div>
 
                   <noscript>
@@ -272,8 +226,6 @@
                 </div>
               </div>
             </form>
-
-            <hr style="margin: 18px 0; opacity: 0.15;">
           </article>
 
           <!-- RIGHT: OTHER CONTACT -->
@@ -317,170 +269,6 @@
     </div>
   </footer>
 
-  <script src="scripts.js"></script>
-
-  <!-- ✅ Updated page-only form handler with redirect -->
-  <script>
-    (function () {
-      const form = document.getElementById("contactForm");
-      if (!form) return;
-
-      // Change this if you want a different thank-you page
-      const REDIRECT_URL = "thanks.html";
-
-      const statusEl = document.getElementById("formStatus");
-      const submitBtn = document.getElementById("submitBtn");
-      const submittedAt = document.getElementById("submittedAt");
-
-      function showStatus(type, msg) {
-        if (!statusEl) return;
-        statusEl.className = "alert " + type;
-        statusEl.textContent = msg;
-        statusEl.style.display = "block";
-      }
-
-      function hideStatus() {
-        if (!statusEl) return;
-        statusEl.style.display = "none";
-        statusEl.textContent = "";
-        statusEl.className = "alert info";
-      }
-
-      function clearInvalid() {
-        const fields = form.querySelectorAll(".field");
-        fields.forEach((f) => f.setAttribute("aria-invalid", "false"));
-      }
-
-      function markInvalid(el) {
-        if (!el) return;
-        try { el.setAttribute("aria-invalid", "true"); } catch (_) {}
-      }
-
-      function getFormData() {
-        const fd = new FormData(form);
-        const obj = {};
-        for (const [k, v] of fd.entries()) {
-          if (k === "website") continue;
-          obj[k] = typeof v === "string" ? v.trim() : v;
-        }
-        obj.userAgent = navigator.userAgent;
-        obj.referrer = document.referrer || "";
-        obj.url = window.location.href;
-        return obj;
-      }
-
-      function validate() {
-        clearInvalid();
-        hideStatus();
-
-        // Honeypot
-        const honeypot = form.querySelector('input[name="website"]');
-        if (honeypot && honeypot.value.trim() !== "") return { ok: false, silent: true };
-
-        const required = ["name","email","phone","preferredContact","category","urgency","bestTime","message"];
-        for (const name of required) {
-          const el = form.elements[name];
-          if (!el) continue;
-          if (!el.checkValidity()) {
-            markInvalid(el);
-            return { ok: false, field: el, message: el.validationMessage || "Please fill out this field." };
-          }
-        }
-
-        const phoneEl = form.elements.phone;
-        const phone = (phoneEl?.value || "").trim();
-        if (phone.length < 7) {
-          markInvalid(phoneEl);
-          return { ok: false, field: phoneEl, message: "Please enter a valid phone number." };
-        }
-
-        const noSecrets = form.elements.noSecrets;
-        if (noSecrets && !noSecrets.checked) {
-          return { ok: false, field: noSecrets, message: "Please confirm you won’t include passwords or sensitive info." };
-        }
-
-        return { ok: true };
-      }
-
-      async function postJson(endpoint, payload) {
-        const res = await fetch(endpoint, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json"
-          },
-          body: JSON.stringify(payload)
-        });
-
-        const ct = (res.headers.get("content-type") || "").toLowerCase();
-        let data = null;
-        if (ct.includes("application/json")) data = await res.json().catch(() => null);
-        else {
-          const text = await res.text().catch(() => "");
-          data = text ? { message: text } : null;
-        }
-
-        return { res, data };
-      }
-
-      function redirectSoon() {
-        setTimeout(() => {
-          window.location.href = REDIRECT_URL;
-        }, 700);
-      }
-
-      form.addEventListener("submit", async function (e) {
-        e.preventDefault();
-
-        if (submittedAt) submittedAt.value = new Date().toISOString();
-
-        const v = validate();
-        if (!v.ok) {
-          if (v.silent) { redirectSoon(); return; }
-          showStatus("error", v.message || "Please fix the highlighted fields.");
-          if (v.field && typeof v.field.focus === "function") v.field.focus();
-          return;
-        }
-
-        const endpoint = form.getAttribute("action") || "";
-        if (!endpoint) {
-          showStatus("error", "Form endpoint is missing. Set the form action URL.");
-          return;
-        }
-
-        const oldBtnText = submitBtn ? submitBtn.textContent : "";
-        if (submitBtn) {
-          submitBtn.disabled = true;
-          submitBtn.textContent = "Sending...";
-        }
-
-        showStatus("info", "Sending your request…");
-
-        try {
-          const payload = getFormData();
-          const { res, data } = await postJson(endpoint, payload);
-
-          if (!res.ok) {
-            const msg = (data && (data.error || data.message)) || "Something went wrong. Please try again.";
-            showStatus("error", msg);
-            return;
-          }
-
-          showStatus("success", "Request sent! Redirecting…");
-          form.reset();
-          clearInvalid();
-          redirectSoon();
-
-        } catch (err) {
-          showStatus("error", "Network error. Please try again, or contact us directly using the email/phone on this page.");
-        } finally {
-          if (submitBtn) {
-            submitBtn.disabled = false;
-            submitBtn.textContent = oldBtnText || "Send Request";
-          }
-        }
-      });
-    })();
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
