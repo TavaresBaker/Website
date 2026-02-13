@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Services | Baker Tech Solutions</title>
+  <title>Pricing | Baker Tech Solutions</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,14 +22,14 @@
         <span class="brand-text">Baker Tech Solutions</span>
       </a>
 
-      <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav">
+      <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav">
         <span></span><span></span><span></span>
       </button>
 
       <nav id="site-nav" class="nav-links" data-nav>
         <a href="index.html">Home</a>
-        <a href="services.html" aria-current="page">Services</a>
-        <a href="pricing.html">Pricing</a>
+        <a href="services.html">Services</a>
+        <a href="pricing.html" aria-current="page">Pricing</a>
         <a href="community.html">Community</a>
         <a href="contact.html" class="nav-btn">Contact</a>
       </nav>
@@ -37,22 +37,25 @@
   </header>
 
   <main>
-    <!-- PAGE HERO (SHORT + CLEAN) -->
+    <!-- HERO -->
     <section class="hero hero-small">
       <div class="container hero-grid">
         <div class="hero-copy">
-          <p class="eyebrow">Services</p>
-          <h1>What we can do for you.</h1>
-          <p class="subhead">Clean work. Secure setups. Reliable results.</p>
+          <p class="eyebrow">Pricing</p>
+          <h1>Clear, fair pricing.</h1>
+          <p class="subhead">
+            Transparent rates with no confusing upsells. Parts/shipping are billed separately when needed.
+            If you’re not sure what applies, reach out and we’ll give you a clear estimate.
+          </p>
 
           <div class="hero-actions">
-            <a class="btn primary" href="contact.html">Get a Quote</a>
-            <a class="btn ghost" href="#hardware">Browse Services</a>
+            <a class="btn primary" href="contact.html">Request a Quote</a>
+            <a class="btn ghost" href="services.html">View Services</a>
           </div>
-
         </div>
 
-        <aside class="hero-card" aria-label="Service quick links">
+        <!-- Jump-to box -->
+        <aside class="hero-card" aria-label="Pricing quick links">
           <h2>Jump to a category</h2>
           <ul class="checklist quick-links">
             <li><a class="mini-link" href="#hardware">Hardware</a></li>
@@ -61,307 +64,181 @@
             <li><a class="mini-link" href="#security">Security</a></li>
             <li><a class="mini-link" href="#programming">Programming</a></li>
           </ul>
-
         </aside>
       </div>
     </section>
 
-    <!-- SERVICES: HARDWARE -->
+    <!-- HARDWARE -->
     <section class="section alt" id="hardware">
       <div class="container">
         <div class="section-head">
           <h2>Hardware</h2>
-          <p>Builds, upgrades, cable work, and diagnosing hardware issues.</p>
+          <p>Builds, upgrades, troubleshooting, and cleanup work.</p>
         </div>
 
         <div class="cards">
           <article class="card reveal">
-            <h3>Custom PC Builds</h3>
-            <p>New builds from scratch tailored for gaming, school, work, or creator setups.</p>
-            <ul class="checklist">
-              <li>Part selection guidance (optional)</li>
-              <li>Assembly + BIOS setup</li>
-              <li>Drivers + stress testing</li>
-            </ul>
+            <h3>Custom PC builds</h3>
+            <p><strong>$50</strong> + parts &amp; shipping</p>
           </article>
-
           <article class="card reveal">
-            <h3>Hardware Upgrades / Replacements</h3>
-            <p>Upgrade or replace components cleanly and verify stability after.</p>
-            <ul class="checklist">
-              <li>RAM / SSD / GPU / PSU upgrades</li>
-              <li>Cooling upgrades (fans, AIO, thermal paste)</li>
-              <li>Post-upgrade stability checks</li>
-            </ul>
+            <h3>Hardware upgrades / replacements</h3>
+            <p><strong>$25</strong> + parts &amp; shipping</p>
           </article>
-
           <article class="card reveal">
-            <h3>Cable Management</h3>
-            <p>Clean routing, better airflow, and a build that looks professional.</p>
-            <ul class="checklist">
-              <li>Clean routing + tie-downs</li>
-              <li>Airflow-focused layout</li>
-              <li>Neat, finished interior</li>
-            </ul>
+            <h3>Cable management</h3>
+            <p><strong>$20</strong></p>
           </article>
-
           <article class="card reveal">
-            <h3>Hardware Troubleshooting</h3>
-            <p>We diagnose the real cause — no guesswork.</p>
-            <ul class="checklist">
-              <li>No boot / random shutdowns</li>
-              <li>Overheating / loud fans</li>
-              <li>Crashes / instability</li>
-            </ul>
+            <h3>Hardware troubleshooting</h3>
+            <p><strong>$15/hr</strong></p>
+          </article>
+          <article class="card reveal">
+            <h3>Build consultation</h3>
+            <p><strong>$15/hr</strong> (planning + recommendations)</p>
           </article>
         </div>
       </div>
     </section>
 
-    <!-- SERVICES: SOFTWARE -->
+    <!-- SOFTWARE -->
     <section class="section" id="software">
       <div class="container">
         <div class="section-head">
           <h2>Software</h2>
-          <p>Installs, clean setups, data moves, and fixing software problems.</p>
+          <p>Installs, migrations, backups, and troubleshooting.</p>
         </div>
 
         <div class="cards">
           <article class="card reveal">
-            <h3>Program Installations</h3>
-            <p>Install and configure the apps you need — properly.</p>
-            <ul class="checklist">
-              <li>Install + configure applications</li>
-              <li>Verify everything runs correctly</li>
-              <li>Cleanup leftover installers/junk</li>
-            </ul>
+            <h3>Program installations</h3>
+            <p><strong>$5 per program</strong> + shipping (if needed)</p>
           </article>
-
           <article class="card reveal">
-            <h3>OS Installs</h3>
-            <p>Fresh installs done clean with drivers, updates, and secure defaults.</p>
-            <ul class="checklist">
-              <li>Windows install</li>
-              <li>Linux install</li>
-              <li>Other OS (case-by-case)</li>
-            </ul>
+            <h3>OS installs</h3>
+            <p><strong>$10 Windows</strong> • <strong>$20 Linux</strong> (+ shipping if needed)</p>
           </article>
-
           <article class="card reveal">
-            <h3>Data Transfer / Backups</h3>
-            <p>Move your files safely and reduce the risk of losing everything.</p>
-            <ul class="checklist">
-              <li>Old device → new device migration</li>
-              <li>External drive / cloud backup setup</li>
-              <li>Basic file organization help</li>
-            </ul>
+            <h3>Data transfer / backups</h3>
+            <p><strong>$10–$50</strong> + parts &amp; shipping</p>
           </article>
-
           <article class="card reveal">
-            <h3>Software Troubleshooting</h3>
-            <p>Fix crashes, broken apps, errors, and slow systems.</p>
-            <ul class="checklist">
-              <li>App errors + update failures</li>
-              <li>Driver/software conflicts</li>
-              <li>General system weirdness</li>
-            </ul>
+            <h3>Software troubleshooting</h3>
+            <p><strong>$15/hr</strong></p>
+          </article>
+          <article class="card reveal">
+            <h3>Cleanup / optimization</h3>
+            <p><strong>$15/hr</strong></p>
           </article>
         </div>
       </div>
     </section>
 
-    <!-- SERVICES: NETWORKING -->
+    <!-- NETWORKING -->
     <section class="section alt" id="networking">
       <div class="container">
         <div class="section-head">
           <h2>Networking</h2>
-          <p>Secure Wi-Fi, remote access, and network setups that stay stable.</p>
+          <p>Safer network setups, VPNs, and troubleshooting.</p>
         </div>
 
         <div class="cards">
           <article class="card reveal">
-            <h3>Home Router Setup</h3>
-            <p>Secure Wi-Fi configuration with better coverage and fewer dropouts.</p>
-            <ul class="checklist">
-              <li>Secure settings + strong passwords</li>
-              <li>Guest network setup</li>
-              <li>Device organization</li>
-            </ul>
+            <h3>Home router setups</h3>
+            <p><strong>$30</strong></p>
           </article>
-
           <article class="card reveal">
-            <h3>VPN Configuration</h3>
-            <p>Safe remote access without exposing your network to the open internet.</p>
-            <ul class="checklist">
-              <li>Remote access setup</li>
-              <li>Basic security best practices</li>
-              <li>Connection testing</li>
-            </ul>
+            <h3>VPN configuration</h3>
+            <p><strong>$30</strong></p>
           </article>
-
           <article class="card reveal">
-            <h3>Service Configuration</h3>
-            <p>Help setting up services for home lab or small business environments.</p>
-            <ul class="checklist">
-              <li>DNS / web services</li>
-              <li>File sharing</li>
-              <li>Other services (case-by-case)</li>
-            </ul>
+            <h3>Service configuration</h3>
+            <p><strong>$30 per service</strong></p>
           </article>
-
           <article class="card reveal">
-            <h3>Firewall / Router / Switch Configuration</h3>
-            <p>Rules, ports, and safer defaults — without breaking your network.</p>
-            <ul class="checklist">
-              <li>Firewall rules</li>
-              <li>Basic VLAN guidance</li>
-              <li>Port + device segmentation</li>
-            </ul>
+            <h3>Firewall / router / switch configuration</h3>
+            <p><strong>$50</strong></p>
           </article>
-
           <article class="card reveal">
-            <h3>Network Troubleshooting</h3>
-            <p>We find the actual cause and fix it — not just “restart it.”</p>
-            <ul class="checklist">
-              <li>Slow speeds / dropouts</li>
-              <li>Dead zones / interference</li>
-              <li>Device connectivity issues</li>
-            </ul>
+            <h3>Network troubleshooting</h3>
+            <p><strong>$15/hr</strong></p>
           </article>
         </div>
       </div>
     </section>
 
-    <!-- SERVICES: SECURITY -->
+    <!-- SECURITY -->
     <section class="section" id="security">
       <div class="container">
         <div class="section-head">
           <h2>Security</h2>
-          <p>Practical security upgrades that protect you without breaking your workflow.</p>
+          <p>Practical security, cleanup, and consultations.</p>
         </div>
 
         <div class="cards">
           <article class="card reveal">
-            <h3>Malware Removal</h3>
-            <p>Investigation, cleanup, and prevention guidance.</p>
-            <ul class="checklist">
-              <li>Malware removal + system checks</li>
-              <li>Browser cleanup + account safety guidance</li>
-              <li>Prevention steps going forward</li>
-            </ul>
+            <h3>Malware removal</h3>
+            <p><strong>$15–$100</strong> (depends on severity)</p>
           </article>
-
           <article class="card reveal">
-            <h3>Vulnerability Assessments</h3>
-            <p>Basic assessment with clear recommendations to reduce real-world risk.</p>
-            <ul class="checklist">
-              <li>Identify high-risk exposures</li>
-              <li>Prioritized recommendations</li>
-              <li>Fix plan you can follow</li>
-            </ul>
+            <h3>Vulnerability assessments</h3>
+            <p><strong>$30</strong></p>
           </article>
-
           <article class="card reveal">
-            <h3>Service Hardening</h3>
-            <p>Secure configurations for services you run (auth, exposure, permissions, logging).</p>
-            <ul class="checklist">
-              <li>Authentication + access control basics</li>
-              <li>Reduce exposure</li>
-              <li>Logging / visibility improvements</li>
-            </ul>
+            <h3>Service hardening</h3>
+            <p><strong>$30</strong></p>
           </article>
-
           <article class="card reveal">
-            <h3>Device Hardening</h3>
-            <p>Secure settings and safer defaults on your devices.</p>
-            <ul class="checklist">
-              <li>Account + update hygiene</li>
-              <li>Security settings / protections</li>
-              <li>Safer daily-use setup</li>
-            </ul>
+            <h3>Device hardening</h3>
+            <p><strong>$25</strong></p>
           </article>
-
           <article class="card reveal">
-            <h3>Security Consultations</h3>
-            <p>Ask anything — we’ll map risks and build a realistic plan.</p>
-            <ul class="checklist">
-              <li>Threat model your setup</li>
-              <li>Answer questions</li>
-              <li>Recommend next steps</li>
-            </ul>
+            <h3>Security consultations</h3>
+            <p><strong>$15/hr</strong></p>
           </article>
         </div>
       </div>
     </section>
 
-    <!-- SERVICES: PROGRAMMING -->
+    <!-- PROGRAMMING -->
     <section class="section alt" id="programming">
       <div class="container">
         <div class="section-head">
           <h2>Programming</h2>
-          <p>Automation, debugging, and custom development support.</p>
+          <p>Automation, scripts, and custom builds. (Scope-based pricing)</p>
         </div>
 
         <div class="cards">
           <article class="card reveal">
-            <h3>Code Review / Correction</h3>
-            <p>Fix bugs, improve structure, and explain what changed.</p>
-            <ul class="checklist">
-              <li>Bug fixes + cleanup</li>
-              <li>Structure improvements</li>
-              <li>Security + best practices</li>
-            </ul>
+            <h3>Code review / correction</h3>
+            <p><strong>$15/hr</strong></p>
           </article>
-
           <article class="card reveal">
-            <h3>Custom Simple Automation</h3>
-            <p>Small scripts for repetitive tasks, backups, reporting, and quick wins.</p>
-            <ul class="checklist">
-              <li>Scripts for daily tasks</li>
-              <li>Backups / reports</li>
-              <li>Quality-of-life tools</li>
-            </ul>
+            <h3>Custom simple automation</h3>
+            <p><strong>Starting at $30</strong> (quote after details)</p>
           </article>
-
           <article class="card reveal">
-            <h3>Custom Advanced Automation</h3>
-            <p>Multi-step workflows with logging, scheduling, integrations, and reliability.</p>
-            <ul class="checklist">
-              <li>Scheduling + logging</li>
-              <li>Integrations / APIs</li>
-              <li>Reliability-focused workflows</li>
-            </ul>
+            <h3>Custom advanced automation</h3>
+            <p><strong>Starting at $75</strong> (quote after details)</p>
           </article>
-
           <article class="card reveal">
-            <h3>Custom Website / App</h3>
-            <p>Clean, modern sites and lightweight tools built for real needs.</p>
-            <ul class="checklist">
-              <li>Small business websites</li>
-              <li>Custom tools</li>
-              <li>Fast + responsive</li>
-            </ul>
+            <h3>Custom website / app</h3>
+            <p><strong>Quote-based</strong> (based on features + timeline)</p>
           </article>
-
           <article class="card reveal">
-            <h3>Coding Troubleshooting</h3>
-            <p>Help debugging errors, environments, and getting unstuck fast.</p>
-            <ul class="checklist">
-              <li>Debugging help</li>
-              <li>Environment setup</li>
-              <li>Error fixes</li>
-            </ul>
+            <h3>Coding troubleshooting</h3>
+            <p><strong>$15/hr</strong></p>
           </article>
         </div>
 
-        <div class="cta-band cta-tight">
+        <div class="cta-band" style="margin-top: 18px;">
           <div>
             <h2>Not sure what you need?</h2>
-            <p>Tell us the goal and we’ll point you to the right service with a clear scope.</p>
+            <p>Send a short description and we’ll recommend the best option with an estimate.</p>
           </div>
           <div class="cta-actions">
-            <a class="btn primary" href="contact.html">Contact Us</a>
-            <a class="btn ghost" href="pricing.html">See Pricing</a>
+            <a class="btn primary" href="contact.html">Request a Quote</a>
+            <a class="btn ghost" href="services.html">See Services</a>
           </div>
         </div>
       </div>
@@ -376,7 +253,7 @@
       </div>
       <div class="footer-links">
         <a href="services.html">Services</a>
-        <a href="pricing.html">Pricing</a>
+        <a href="pricing.html" aria-current="page">Pricing</a>
         <a href="community.html">Community</a>
         <a href="contact.html">Contact</a>
       </div>
@@ -386,12 +263,6 @@
     </div>
   </footer>
 
-  <script src="scripts.js"></script>
-
-  <!-- HARD OVERRIDE: ensure service lists render even if a global reset nukes <ul> -->
-  <style>
-    .cards .checklist { display: block !important; margin-top: 12px !important; padding-left: 0 !important; }
-    .cards .checklist li { display: flex !important; gap: 10px !important; align-items: flex-start !important; margin: 10px 0 !important; }
-  </style>
+  <script src="scripts.js" defer></script>
 </body>
 </html>
