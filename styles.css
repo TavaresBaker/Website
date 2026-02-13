@@ -716,7 +716,6 @@ html.js .reveal.is-visible{
   /* Make sure desktop layout doesn't fight mobile overlay */
   .nav-links,
   [data-nav]{
-    /* overlay base */
     position: fixed;
     inset: 0;
     width: 100vw;
@@ -728,9 +727,16 @@ html.js .reveal.is-visible{
     gap: 14px;
 
     padding: 96px 18px 28px; /* room for header */
-    background: rgba(5, 7, 15, 0.38);
-    backdrop-filter: blur(26px) saturate(140%);
-    -webkit-backdrop-filter: blur(26px) saturate(140%);
+
+    /* IMPORTANT:
+       To make the page behind unreadable:
+       - raise the dark overlay opacity a bit
+       - increase blur a lot
+       - add extra contrast via brightness()
+    */
+    background: rgba(5, 7, 15, 0.60);
+    backdrop-filter: blur(42px) saturate(150%) brightness(0.85);
+    -webkit-backdrop-filter: blur(42px) saturate(150%) brightness(0.85);
 
     opacity: 0;
     transform: translateY(-10px);
@@ -739,7 +745,7 @@ html.js .reveal.is-visible{
     transition: opacity 180ms ease, transform 180ms ease;
   }
 
-  /* Extra soft darkening + blur glow layer behind items */
+  /* Extra soft darkening + glow layer behind items */
   .nav-links::before,
   [data-nav]::before{
     content:"";
