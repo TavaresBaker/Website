@@ -5,8 +5,10 @@ const $ = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
 /* =========================
-   Mobile Nav (Burger Menu)
+   Mobile Nav (Full Screen Overlay)
    Works across ALL pages
+   - Requires CSS for .nav-links overlay + .open state
+   - Close on link click, outside click, ESC, resize to desktop
 ========================= */
 (() => {
   const btn = $(".nav-toggle");
@@ -27,10 +29,12 @@ const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
     document.body.classList.remove("nav-open");
   };
 
+  const isOpen = () => btn.getAttribute("aria-expanded") === "true";
+
   btn.addEventListener("click", (e) => {
+    e.preventDefault();
     e.stopPropagation();
-    const expanded = btn.getAttribute("aria-expanded") === "true";
-    expanded ? closeMenu() : openMenu();
+    isOpen() ? closeMenu() : openMenu();
   });
 
   // Close when clicking a link (mobile UX)
@@ -39,40 +43,45 @@ const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
     if (link) closeMenu();
   });
 
-  // Close when clicking outside
+  // Close when clicking outside the menu/header
   document.addEventListener("click", (e) => {
-    const clickedInside = e.target.closest(".glass-nav");
-    if (!clickedInside) closeMenu();
+    if (!isOpen()) return;
+    const clickedInsideMenu = e.target.closest("[data-nav]");
+    const clickedToggle = e.target.closest(".nav-toggle");
+    if (!clickedInsideMenu && !clickedToggle) closeMenu();
   });
 
   // Close on ESC
   document.addEventListener("keydown", (e) => {
+    if (!isOpen()) return;
     if (e.key === "Escape") closeMenu();
   });
 
   // Close on resize back to desktop
   window.addEventListener("resize", () => {
-    if (window.innerWidth > 640) closeMenu();
+    if (window.innerWidth > 900) closeMenu();
   });
 
   // Optional: add a scroll class to the header for styling
   if (header) {
-    window.addEventListener("scroll", () => {
-      header.classList.toggle("nav-scrolled", window.scrollY > 20);
-    });
+    window.addEventListener(
+      "scroll",
+      () => header.classList.toggle("nav-scrolled", window.scrollY > 20),
+      { passive: true }
+    );
   }
 })();
 
 /* =========================
    Smooth Scroll (only if target exists)
 ========================= */
-$$('a[href^="#"]').forEach(anchor => {
+$$('a[href^="#"]').forEach((anchor) => {
   anchor.addEventListener("click", (e) => {
     const href = anchor.getAttribute("href");
     if (!href || href === "#") return;
 
     const target = $(href);
-    if (!target) return; // don't break other pages
+    if (!target) return;
 
     e.preventDefault();
     target.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -89,14 +98,14 @@ $$('a[href^="#"]').forEach(anchor => {
 
   const observer = new IntersectionObserver(
     (entries) => {
-      entries.forEach(entry => {
+      entries.forEach((entry) => {
         if (entry.isIntersecting) entry.target.classList.add("is-visible");
       });
     },
     { threshold: 0.15 }
   );
 
-  items.forEach(el => observer.observe(el));
+  items.forEach((el) => observer.observe(el));
 })();
 
 /* =========================
@@ -107,10 +116,14 @@ $$('a[href^="#"]').forEach(anchor => {
   const hero = $(".hero");
   if (!hero) return;
 
-  window.addEventListener("scroll", () => {
-    const scroll = window.scrollY || 0;
-    hero.style.backgroundPositionY = (scroll * 0.25) + "px";
-  }, { passive: true });
+  window.addEventListener(
+    "scroll",
+    () => {
+      const scroll = window.scrollY || 0;
+      hero.style.backgroundPositionY = scroll * 0.25 + "px";
+    },
+    { passive: true }
+  );
 })();
 
 /* =========================
@@ -120,7 +133,6 @@ $$('a[href^="#"]').forEach(anchor => {
   const typingTarget = $("#typing-text");
   if (!typingTarget) return;
 
-  // Prevent double-typing if script loads twice
   if (typingTarget.dataset.typed === "true") return;
   typingTarget.dataset.typed = "true";
 
@@ -164,7 +176,7 @@ $$('a[href^="#"]').forEach(anchor => {
 
   const shouldTilt = () => window.matchMedia("(hover: hover)").matches;
 
-  cards.forEach(card => {
+  cards.forEach((card) => {
     card.addEventListener("mousemove", (e) => {
       if (!shouldTilt()) return;
 
@@ -175,8 +187,8 @@ $$('a[href^="#"]').forEach(anchor => {
       const centerX = rect.width / 2;
       const centerY = rect.height / 2;
 
-      const rotateX = ((y - centerY) / 25);
-      const rotateY = ((x - centerX) / 25);
+      const rotateX = (y - centerY) / 25;
+      const rotateY = (x - centerX) / 25;
 
       card.style.transform = `rotateX(${ -rotateX }deg) rotateY(${ rotateY }deg)`;
     });
@@ -196,7 +208,7 @@ $$('a[href^="#"]').forEach(anchor => {
   const imgs = $$('img[data-lightbox]');
   if (!imgs.length) return;
 
-  imgs.forEach(img => {
+  imgs.forEach((img) => {
     img.style.cursor = "zoom-in";
 
     img.addEventListener("click", () => {
@@ -225,7 +237,7 @@ $$('a[href^="#"]').forEach(anchor => {
 
       overlay.addEventListener("click", close);
 
-      document.addEventListener("keydown", function esc(e){
+      document.addEventListener("keydown", function esc(e) {
         if (e.key === "Escape") {
           close();
           document.removeEventListener("keydown", esc);
@@ -266,7 +278,7 @@ window.addEventListener("load", () => {
   };
 
   const clearInvalid = () => {
-    $$(".field", form).forEach(f => f.setAttribute("aria-invalid", "false"));
+    $$(".field", form).forEach((f) => f.setAttribute("aria-invalid", "false"));
   };
 
   const markInvalid = (el) => {
@@ -279,7 +291,7 @@ window.addEventListener("load", () => {
     const obj = {};
 
     for (const [k, v] of fd.entries()) {
-      if (k === "website") continue; // honeypot
+      if (k === "website") continue;
       obj[k] = typeof v === "string" ? v.trim() : v;
     }
 
@@ -293,7 +305,6 @@ window.addEventListener("load", () => {
   const validate = () => {
     clearInvalid();
 
-    // honeypot (bots fill it)
     const honeypot = form.querySelector('input[name="website"]');
     if (honeypot && honeypot.value.trim() !== "") {
       return { ok: false, silent: true };
@@ -315,22 +326,28 @@ window.addEventListener("load", () => {
       const el = form.elements[name];
       if (!el) continue;
 
-      // checkbox validity needs manual check
       if (el.type === "checkbox") {
         if (!el.checked) {
           markInvalid(el);
-          return { ok: false, field: el, message: "Please confirm you won’t include passwords or sensitive info." };
+          return {
+            ok: false,
+            field: el,
+            message: "Please confirm you won’t include passwords or sensitive info."
+          };
         }
         continue;
       }
 
       if (!el.checkValidity()) {
         markInvalid(el);
-        return { ok: false, field: el, message: el.validationMessage || "Please fill out this field." };
+        return {
+          ok: false,
+          field: el,
+          message: el.validationMessage || "Please fill out this field."
+        };
       }
     }
 
-    // extra phone sanity check
     const phone = (form.elements.phone?.value || "").trim();
     if (phone.length < 7) {
       const el = form.elements.phone;
@@ -398,7 +415,6 @@ window.addEventListener("load", () => {
       showStatus("success", (data && data.message) ? data.message : "Request sent! We’ll reach out soon.");
       form.reset();
       clearInvalid();
-
     } catch (err) {
       showStatus("error", "Network error. Please try again, or contact us directly using the info on this page.");
     } finally {
