@@ -3,7 +3,8 @@
    - Smooth global background (no mid-page seam)
    - Sticky footer (footer stays at bottom)
    - Uniform nav + sections across pages
-   - Thanks page: NO checkmark + gradient title + centered text
+   - Services page: lists ALWAYS show (no “missing services”)
+   - Reveal: SAFE fallback (content never hidden if JS fails)
    - Mobile-safe + no horizontal scroll
 ========================================================= */
 
@@ -64,7 +65,13 @@ body.nav-open{ overflow: hidden; }
 
 a{ color: inherit; text-decoration: none; }
 img{ max-width:100%; display:block; }
-ul{ padding-left: 18px; }
+
+/* IMPORTANT:
+   Don't force padding on every <ul> globally — it can break custom list components.
+   We'll style "normal" lists as needed, and explicitly style checklist/service lists below.
+*/
+ul{ padding-left: 0; }
+
 p{ line-height: 1.6; }
 h1,h2,h3{ letter-spacing:-0.3px; }
 h2{ font-size: clamp(22px, 2.4vw, 30px); }
@@ -89,10 +96,7 @@ h2{ font-size: clamp(22px, 2.4vw, 30px); }
   mask-image: radial-gradient(circle at 50% 10%, rgba(0,0,0,0.9), rgba(0,0,0,0.18), transparent 70%);
 }
 
-/* ================= SMOOTH GLOBAL GLOW (NO SEAM) =================
-   This fixes the "color change halfway down" by making glow global,
-   not tied to the hero section height.
-*/
+/* ================= SMOOTH GLOBAL GLOW (NO SEAM) ================= */
 body::before,
 body::after{
   content:"";
@@ -383,8 +387,6 @@ body::after{
 
 .hero-card h2{ font-size: 16px; margin-bottom: 10px; }
 
-.checklist{ color: rgba(255,255,255,0.75); line-height: 1.6; }
-
 .mini-link{
   display:inline-block;
   margin-top: 10px;
@@ -392,6 +394,83 @@ body::after{
   opacity: 0.9;
 }
 .mini-link:hover{ opacity: 1; text-decoration: underline; }
+
+/* =========================================================
+   CHECKLIST / SERVICE LISTS (THIS IS THE “LOCK IN” FIX)
+   - Ensures lists show inside cards (services page)
+   - Looks clean in hero quick-links + cards
+========================================================= */
+.checklist{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  color: rgba(255,255,255,0.78);
+  line-height: 1.6;
+}
+
+.checklist li{
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 6px 0;
+}
+
+/* Glow-dot bullet (NOT a big checkmark) */
+.checklist li::before{
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  margin-top: 9px;
+  flex: 0 0 auto;
+  background: linear-gradient(135deg, var(--a1), var(--a3));
+  box-shadow: 0 0 18px rgba(74,241,255,0.22);
+  opacity: 0.95;
+}
+
+/* Quick-links in hero: slightly tighter */
+.quick-links li{
+  padding: 4px 0;
+}
+.quick-links li::before{
+  width: 7px;
+  height: 7px;
+  margin-top: 9px;
+  opacity: 0.80;
+}
+
+/* Lists inside service cards: guaranteed visible + spaced */
+.cards .checklist{
+  margin-top: 12px;
+}
+.cards .checklist li{
+  padding: 7px 0;
+}
+
+/* If any legacy HTML still uses mini-bullets, make it render too */
+.mini-bullets{
+  list-style: none;
+  margin-top: 12px;
+  padding: 0;
+  color: rgba(255,255,255,0.78);
+  line-height: 1.6;
+}
+.mini-bullets li{
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 6px 0;
+}
+.mini-bullets li::before{
+  content:"";
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  margin-top: 9px;
+  flex: 0 0 auto;
+  background: linear-gradient(135deg, var(--a1), var(--a3));
+  box-shadow: 0 0 18px rgba(74,241,255,0.22);
+}
 
 /* ================= ABOUT SPLIT ================= */
 .split{
@@ -573,15 +652,35 @@ body::after{
   font-size: 13px;
 }
 
-/* ================= REVEAL ANIMATION ================= */
+/* ================= REVEAL ANIMATION =================
+   IMPORTANT FIX:
+   - Content should NEVER be hidden if JS fails.
+   - If you want the animation, add `js` class to <html> in scripts.js:
+     document.documentElement.classList.add('js');
+========================================================= */
 .reveal{
-  opacity: 0;
-  transform: translateY(16px);
+  opacity: 1;
+  transform: none;
   transition: 0.6s ease;
 }
-.reveal.is-visible{
+
+/* Only hide/animate when JS is active */
+html.js .reveal{
+  opacity: 0;
+  transform: translateY(16px);
+}
+html.js .reveal.is-visible{
   opacity: 1;
   transform: translateY(0);
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .reveal,
+  html.js .reveal{
+    transition: none !important;
+    transform: none !important;
+  }
 }
 
 /* ================= RESPONSIVE ================= */
@@ -609,6 +708,7 @@ body::after{
     background: rgba(10, 15, 40, 0.70);
     backdrop-filter: blur(14px);
     overflow: hidden;
+    z-index: 1200; /* ensures it sits above hero/content */
   }
 
   .nav-links.open{ display:flex; }
