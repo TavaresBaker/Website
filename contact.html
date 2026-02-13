@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" id="top">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 
-<body id="top">
+<body>
   <div class="bg-grid" aria-hidden="true"></div>
 
   <header class="glass-nav">
@@ -22,7 +22,7 @@
         <span class="brand-text">Baker Tech Solutions</span>
       </a>
 
-      <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav">
+      <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav">
         <span></span><span></span><span></span>
       </button>
 
@@ -235,7 +235,7 @@
             <ul class="checklist contact-list">
               <li>Email: <span class="muted">Tavares.A.Baker@gmail.com</span></li>
               <li>Phone: <span class="muted">773-580-3037</span></li>
-              <li>Service area: <span class="muted">Chicago & Fort Wayne / region</span></li>
+              <li>Service area: <span class="muted">Chicago &amp; Fort Wayne / region</span></li>
               <li>Hours: <span class="muted">9 AM - 5 PM EST</span></li>
             </ul>
 
@@ -261,7 +261,7 @@
         <a href="services.html">Services</a>
         <a href="pricing.html">Pricing</a>
         <a href="community.html">Community</a>
-        <a href="contact.html">Contact</a>
+        <a href="contact.html" aria-current="page">Contact</a>
       </div>
     </div>
     <div class="container footer-bottom">
@@ -269,6 +269,6 @@
     </div>
   </footer>
 
-  <script src="script.js"></script>
+  <script src="scripts.js" defer></script>
 </body>
 </html>
