@@ -14,7 +14,7 @@
   --radius: 18px;
   --max: 1100px;
 
-  /* Accents (your neon vibe) */
+  /* Accents */
   --a1: #4af1ff;
   --a2: #6f7cff;
   --a3: #ff4fd8;
@@ -22,23 +22,40 @@
 
 /* ================= RESET / BASE ================= */
 *{ margin:0; padding:0; box-sizing:border-box; }
-html{ scroll-behavior:smooth; }
+
+html{
+  scroll-behavior:smooth;
+  overflow-x: clip;          /* cleaner than hidden */
+  width: 100%;
+}
+
 body{
   font-family: "Inter", system-ui, -apple-system, sans-serif;
   background: radial-gradient(circle at 20% 10%, var(--bg2), var(--bg) 60%);
   color: var(--text);
-  overflow-x:hidden;
+  overflow-x: clip;          /* hard stop sideways scroll */
+  width: 100%;
+  min-height: 100vh;
 }
 
 a{ color: inherit; text-decoration: none; }
 img{ max-width:100%; display:block; }
 ul{ padding-left: 18px; }
 p{ line-height: 1.6; }
+h1,h2,h3{ letter-spacing:-0.3px; }
+h2{ font-size: clamp(22px, 2.4vw, 30px); }
+.muted{ color: var(--muted); }
+
+/* Prevent long content from causing overflow */
+:where(h1,h2,h3,p,a,li){
+  overflow-wrap: anywhere;
+}
 
 /* ================= LAYOUT ================= */
 .container{
-  width: min(var(--max), calc(100% - 2rem));
+  width: min(var(--max), 100%);
   margin: 0 auto;
+  padding: 0 16px; /* mobile-safe padding always */
 }
 
 .section{
@@ -50,11 +67,7 @@ p{ line-height: 1.6; }
   background: rgba(255,255,255,0.02);
 }
 
-h1,h2,h3{ letter-spacing:-0.3px; }
-h2{ font-size: clamp(22px, 2.4vw, 30px); }
-.muted{ color: var(--muted); }
-
-/* ================= BACKGROUND GRID (your vibe, cleaner) ================= */
+/* ================= BACKGROUND GRID ================= */
 .bg-grid{
   position: fixed;
   inset: 0;
@@ -68,7 +81,7 @@ h2{ font-size: clamp(22px, 2.4vw, 30px); }
   mask-image: radial-gradient(circle at 50% 10%, rgba(0,0,0,0.9), rgba(0,0,0,0.18), transparent 70%);
 }
 
-/* ================= NAV (matches new HTML) ================= */
+/* ================= NAV ================= */
 .glass-nav{
   position: sticky;
   top:0;
@@ -84,6 +97,7 @@ h2{ font-size: clamp(22px, 2.4vw, 30px); }
   justify-content:space-between;
   gap: 14px;
   padding: 14px 0;
+  position: relative; /* needed for mobile dropdown to anchor */
 }
 
 .brand{
@@ -91,6 +105,7 @@ h2{ font-size: clamp(22px, 2.4vw, 30px); }
   align-items:center;
   gap: 10px;
   font-weight: 900;
+  min-width: 0; /* critical: prevents overflow */
 }
 
 .brand-mark{
@@ -101,13 +116,19 @@ h2{ font-size: clamp(22px, 2.4vw, 30px); }
   place-items:center;
   background: linear-gradient(135deg, var(--a1), var(--a2));
   box-shadow: 0 0 30px rgba(74,241,255,0.25);
+  flex: 0 0 auto;
 }
 
 .brand-text{
   font-size: 15px;
   color: rgba(255,255,255,0.94);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 62vw; /* prevents pushing hamburger off-screen */
 }
 
+/* Desktop links */
 .nav-links{
   display:flex;
   align-items:center;
@@ -121,6 +142,9 @@ h2{ font-size: clamp(22px, 2.4vw, 30px); }
   font-weight: 650;
   font-size: 14px;
   transition: 0.25s;
+  min-height: 44px; /* tap target */
+  display: inline-flex;
+  align-items: center;
 }
 
 .nav-links a:hover{
@@ -143,7 +167,7 @@ h2{ font-size: clamp(22px, 2.4vw, 30px); }
   box-shadow: 0 0 25px rgba(74,241,255,0.15);
 }
 
-/* Mobile hamburger */
+/* Hamburger */
 .nav-toggle{
   display:none;
   width: 44px;
@@ -152,6 +176,7 @@ h2{ font-size: clamp(22px, 2.4vw, 30px); }
   border: 1px solid rgba(255,255,255,0.12);
   background: rgba(255,255,255,0.06);
   cursor:pointer;
+  flex: 0 0 auto;
 }
 .nav-toggle span{
   display:block;
@@ -166,9 +191,10 @@ h2{ font-size: clamp(22px, 2.4vw, 30px); }
 .hero{
   padding: 76px 0 30px;
   position: relative;
+  overflow: clip; /* prevents glow from creating horizontal scroll */
 }
 
-/* Your old glow, but controlled */
+/* Controlled glow */
 .hero::before{
   content:"";
   position:absolute;
@@ -225,7 +251,7 @@ h2{ font-size: clamp(22px, 2.4vw, 30px); }
 
 .hero h1{
   margin: 0 0 12px;
-  font-size: clamp(34px, 4.2vw, 54px);
+  font-size: clamp(30px, 5vw, 54px); /* slightly safer min */
   font-weight: 900;
   line-height: 1.04;
   background: linear-gradient(90deg, var(--a1), var(--a2), var(--a3));
@@ -239,7 +265,7 @@ h2{ font-size: clamp(22px, 2.4vw, 30px); }
   max-width: 60ch;
 }
 
-/* ================= BUTTONS (supports primary + ghost) ================= */
+/* ================= BUTTONS ================= */
 .btn{
   display:inline-flex;
   align-items:center;
@@ -253,6 +279,7 @@ h2{ font-size: clamp(22px, 2.4vw, 30px); }
   cursor:pointer;
   transition: transform 0.2s, box-shadow 0.25s, background 0.25s, border-color 0.25s;
   user-select: none;
+  min-height: 44px; /* tap target */
 }
 
 .btn:hover{ transform: translateY(-1px); }
@@ -305,9 +332,9 @@ h2{ font-size: clamp(22px, 2.4vw, 30px); }
   box-shadow: var(--shadow);
   position: relative;
   overflow: hidden;
+  min-width: 0; /* prevents overflow in grid */
 }
 
-/* Subtle neon outline */
 .hero-card::after{
   content:"";
   position:absolute;
@@ -377,6 +404,7 @@ h2{ font-size: clamp(22px, 2.4vw, 30px); }
   border: 1px solid rgba(255,255,255,0.10);
   border-radius: 22px;
   padding: 14px;
+  min-width: 0;
 }
 
 .image-placeholder{
@@ -387,6 +415,7 @@ h2{ font-size: clamp(22px, 2.4vw, 30px); }
   place-items:center;
   color: rgba(255,255,255,0.70);
   background: rgba(255,255,255,0.03);
+  overflow: hidden;
 }
 .caption{
   margin-top: 10px;
@@ -394,7 +423,7 @@ h2{ font-size: clamp(22px, 2.4vw, 30px); }
   color: rgba(255,255,255,0.70);
 }
 
-/* ================= CARDS GRID (services preview) ================= */
+/* ================= SERVICES CARDS GRID ================= */
 .section-head{
   margin-bottom: 18px;
 }
@@ -403,9 +432,10 @@ h2{ font-size: clamp(22px, 2.4vw, 30px); }
   color: rgba(255,255,255,0.70);
 }
 
+/* Auto-fit replaces fixed 5 columns (mobile-safe on all pages) */
 .cards{
   display:grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 12px;
 }
 
@@ -419,6 +449,7 @@ h2{ font-size: clamp(22px, 2.4vw, 30px); }
   position: relative;
   transition: 0.3s;
   overflow:hidden;
+  min-width: 0;
 }
 
 .card:hover{
@@ -454,6 +485,7 @@ h2{ font-size: clamp(22px, 2.4vw, 30px); }
   justify-content:space-between;
   align-items:center;
   gap: 14px;
+  min-width: 0;
 }
 
 .cta-band p{
@@ -500,6 +532,9 @@ h2{ font-size: clamp(22px, 2.4vw, 30px); }
 }
 .footer-links a{
   color: rgba(255,255,255,0.70);
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
 }
 .footer-links a:hover{
   color: rgba(255,255,255,0.95);
@@ -513,7 +548,7 @@ h2{ font-size: clamp(22px, 2.4vw, 30px); }
   font-size: 13px;
 }
 
-/* ================= REVEAL ANIMATION (matches scripts.js) ================= */
+/* ================= REVEAL ANIMATION ================= */
 .reveal{
   opacity: 0;
   transform: translateY(16px);
@@ -528,18 +563,19 @@ h2{ font-size: clamp(22px, 2.4vw, 30px); }
 @media (max-width: 980px){
   .hero-grid{ grid-template-columns: 1fr; }
   .split{ grid-template-columns: 1fr; }
-  .cards{ grid-template-columns: repeat(2, 1fr); }
   .cta-band{ flex-direction: column; align-items:flex-start; }
 }
 
+/* Mobile nav dropdown */
 @media (max-width: 640px){
   .nav-toggle{ display:block; }
 
+  /* hide desktop links by default on mobile */
   .nav-links{
     position: absolute;
-    top: 66px;
-    right: 1rem;
-    left: 1rem;
+    top: calc(100% + 10px);
+    left: 16px;
+    right: 16px;
     display:none;
     flex-direction: column;
     gap: 6px;
@@ -548,8 +584,17 @@ h2{ font-size: clamp(22px, 2.4vw, 30px); }
     border: 1px solid rgba(255,255,255,0.12);
     background: rgba(10, 15, 40, 0.70);
     backdrop-filter: blur(14px);
+    overflow: hidden;     /* prevents tiny overflow */
   }
+
   .nav-links.open{ display:flex; }
 
-  .cards{ grid-template-columns: 1fr; }
+  .nav-links a{
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .brand-text{
+    max-width: 54vw; /* a bit tighter on very small screens */
+  }
 }
