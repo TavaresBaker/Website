@@ -711,61 +711,33 @@ html.js .reveal.is-visible{
    - Transparent but VERY blurry background
 ========================= */
 @media (max-width: 900px){
+  .nav-toggle{ display:block; }
 
-  .nav-toggle{
-    display:block;
-  }
-
-  /* FULLSCREEN BLUR OVERLAY */
-  .nav-links{
+  /* Make sure desktop layout doesn't fight mobile overlay */
+  .nav-links,
+  [data-nav]{
+    /* overlay base */
     position: fixed;
     inset: 0;
-    z-index: 999;
+    width: 100vw;
+    height: 100svh;
+    z-index: 1200;
 
     display: grid;
-    align-content: center;
-    justify-items: center;
-    gap: 18px;
+    place-items: center;
+    gap: 14px;
 
-    padding: 100px 20px 40px;
-
-    /* LESS solid color */
-    background: rgba(10, 15, 40, 0.45);
-
-    /* MUCH STRONGER blur */
-    backdrop-filter: blur(28px);
-    -webkit-backdrop-filter: blur(28px);
-
-    /* Slight glass glow */
-    box-shadow: inset 0 0 120px rgba(0,0,0,0.6);
+    padding: 96px 18px 28px; /* room for header */
+    background: rgba(5, 7, 15, 0.38);
+    backdrop-filter: blur(26px) saturate(140%);
+    -webkit-backdrop-filter: blur(26px) saturate(140%);
 
     opacity: 0;
-    transform: translateY(-8px);
+    transform: translateY(-10px);
     pointer-events: none;
 
-    transition: opacity 220ms ease, transform 220ms ease;
+    transition: opacity 180ms ease, transform 180ms ease;
   }
-
-  .nav-links.open{
-    opacity: 1;
-    transform: translateY(0);
-    pointer-events: auto;
-  }
-
-  .nav-links a{
-    width: min(520px, 92vw);
-    justify-content: center;
-    text-align: center;
-    font-size: 1.2rem;
-    padding: 14px 18px;
-    border-radius: 18px;
-  }
-
-  .nav-links .nav-btn{
-    width: min(520px, 92vw);
-  }
-}
-
 
   /* Extra soft darkening + blur glow layer behind items */
   .nav-links::before,
