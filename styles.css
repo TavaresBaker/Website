@@ -5,7 +5,8 @@
    - Uniform nav + sections across pages
    - Services page: lists ALWAYS show (no “missing services”)
    - Reveal: SAFE fallback (content never hidden if JS fails)
-   - Mobile nav: TRUE FULLSCREEN overlay (covers viewport at ANY scroll position)
+   - NAV FIX: Header is FIXED so brand + menu always stay at top
+   - Mobile nav: TRUE FULLSCREEN overlay under header (works at ANY scroll position)
    - Mobile-safe + no horizontal scroll
 ========================================================= */
 
@@ -34,6 +35,9 @@
   --ok: rgba(16, 185, 129, 1);
   --err: rgba(239, 68, 68, 1);
   --info: rgba(59, 130, 246, 1);
+
+  /* NAV height (fixed header) */
+  --nav-h: 72px;
 }
 
 /* ================= RESET / BASE ================= */
@@ -55,6 +59,9 @@ body{
   min-height: 100svh;     /* mobile-safe */
   display: flex;          /* sticky footer */
   flex-direction: column; /* sticky footer */
+
+  /* IMPORTANT: fixed header spacing */
+  padding-top: var(--nav-h);
 }
 
 main{
@@ -62,10 +69,7 @@ main{
   display: block;
 }
 
-/* When nav is open, prevent page scroll
-   NOTE: JS should ALSO freeze body position for perfect mobile behavior.
-   (Your scripts.js update will handle that.)
-*/
+/* When nav is open, prevent page scroll (JS may also freeze position) */
 body.nav-open{
   overflow: hidden;
   height: 100%;
@@ -155,11 +159,17 @@ body::after{
   background: rgba(255,255,255,0.02);
 }
 
-/* ================= NAV ================= */
+/* ================= NAV (FIXED HEADER) ================= */
 .glass-nav{
-  position: sticky;
+  position: fixed;     /* FIXED: stays at top always */
   top:0;
-  z-index:1300; /* header above page content */
+  left:0;
+  right:0;
+  z-index:3000;
+  height: var(--nav-h);
+  display:flex;
+  align-items:center;
+
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   background: rgba(10, 15, 40, 0.35);
@@ -172,6 +182,7 @@ body::after{
   justify-content:space-between;
   gap: 14px;
   padding: 14px 0;
+  width: 100%;
   position: relative;
 }
 
@@ -203,7 +214,7 @@ body::after{
   max-width: 62vw;
 }
 
-/* Desktop links (supports either .nav-links OR [data-nav]) */
+/* Desktop links */
 .nav-links,
 [data-nav]{
   display:flex;
@@ -695,31 +706,31 @@ html.js .reveal.is-visible{
 }
 
 /* =========================================================
-   MOBILE NAV OVERLAY (TRUE FULLSCREEN @ ANY SCROLL POSITION)
-   KEY FIXES:
-   - position: fixed + inset: 0 => covers viewport ALWAYS
-   - height: 100dvh (dynamic viewport) to avoid iOS address-bar weirdness
-   - overflow-y: auto so the menu can scroll if needed
-   - z-index ABOVE header while open
+   MOBILE NAV OVERLAY (UNDER FIXED HEADER)
+   - Header stays visible at the very top
+   - Overlay fills the remaining screen space always
 ========================================================= */
 @media (max-width: 900px){
   .nav-toggle{ display:block; }
 
-  /* Turn the nav into a real fixed overlay */
   .nav-links,
   [data-nav]{
     position: fixed;
-    inset: 0;
+    top: var(--nav-h);
+    left: 0;
+    right: 0;
+    bottom: 0;
+
     width: 100vw;
-    height: 100dvh;            /* IMPORTANT: dynamic viewport height */
-    z-index: 2000;             /* above header so it covers screen */
+    height: calc(100dvh - var(--nav-h));
+    z-index: 2500;
 
     display: grid;
     align-content: start;
     justify-items: center;
     gap: 14px;
 
-    padding: 96px 18px 28px;   /* room for header */
+    padding: 22px 18px 28px;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
@@ -731,7 +742,6 @@ html.js .reveal.is-visible{
     opacity: 0;
     transform: translateY(-10px);
     pointer-events: none;
-
     transition: opacity 180ms ease, transform 180ms ease;
   }
 
@@ -797,14 +807,6 @@ html.js .reveal.is-visible{
   [data-nav] .nav-btn{
     width: min(520px, 92vw);
     justify-content: center;
-  }
-
-  /* Header can remain sticky; overlay sits above it because z-index is higher.
-     Keep header styling intact (no need to force it above overlay anymore). */
-  .glass-nav{
-    position: sticky;
-    top: 0;
-    z-index: 1300;
   }
 
   .brand-text{ max-width: 54vw; }
