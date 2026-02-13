@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 
-<body id="top">
+<body>
   <div class="bg-grid" aria-hidden="true"></div>
 
   <header class="glass-nav">
@@ -22,7 +22,7 @@
         <span class="brand-text">Baker Tech Solutions</span>
       </a>
 
-      <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav">
+      <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav">
         <span></span><span></span><span></span>
       </button>
 
@@ -52,11 +52,9 @@
             <a class="btn primary" href="contact.html">Request a Quote</a>
             <a class="btn ghost" href="services.html">View Services</a>
           </div>
-
-          <!-- Removed: text under Request a Quote (trust-row highlights) -->
         </div>
 
-        <!-- Jump-to box that matches Services page -->
+        <!-- Jump-to box -->
         <aside class="hero-card" aria-label="Pricing quick links">
           <h2>Jump to a category</h2>
           <ul class="checklist quick-links">
@@ -66,7 +64,6 @@
             <li><a class="mini-link" href="#security">Security</a></li>
             <li><a class="mini-link" href="#programming">Programming</a></li>
           </ul>
-
         </aside>
       </div>
     </section>
@@ -82,11 +79,11 @@
         <div class="cards">
           <article class="card reveal">
             <h3>Custom PC builds</h3>
-            <p><strong>$50</strong> + parts & shipping</p>
+            <p><strong>$50</strong> + parts &amp; shipping</p>
           </article>
           <article class="card reveal">
             <h3>Hardware upgrades / replacements</h3>
-            <p><strong>$25</strong> + parts & shipping</p>
+            <p><strong>$25</strong> + parts &amp; shipping</p>
           </article>
           <article class="card reveal">
             <h3>Cable management</h3>
@@ -123,7 +120,7 @@
           </article>
           <article class="card reveal">
             <h3>Data transfer / backups</h3>
-            <p><strong>$10–$50</strong> + parts & shipping</p>
+            <p><strong>$10–$50</strong> + parts &amp; shipping</p>
           </article>
           <article class="card reveal">
             <h3>Software troubleshooting</h3>
@@ -185,4 +182,87 @@
           </article>
           <article class="card reveal">
             <h3>Vulnerability assessments</h3>
-            <p><strong>$
+            <p><strong>$30</strong></p>
+          </article>
+          <article class="card reveal">
+            <h3>Service hardening</h3>
+            <p><strong>$30</strong></p>
+          </article>
+          <article class="card reveal">
+            <h3>Device hardening</h3>
+            <p><strong>$25</strong></p>
+          </article>
+          <article class="card reveal">
+            <h3>Security consultations</h3>
+            <p><strong>$15/hr</strong></p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROGRAMMING -->
+    <section class="section alt" id="programming">
+      <div class="container">
+        <div class="section-head">
+          <h2>Programming</h2>
+          <p>Automation, scripts, and custom builds. (Scope-based pricing)</p>
+        </div>
+
+        <div class="cards">
+          <article class="card reveal">
+            <h3>Code review / correction</h3>
+            <p><strong>$15/hr</strong></p>
+          </article>
+          <article class="card reveal">
+            <h3>Custom simple automation</h3>
+            <p><strong>Starting at $30</strong> (quote after details)</p>
+          </article>
+          <article class="card reveal">
+            <h3>Custom advanced automation</h3>
+            <p><strong>Starting at $75</strong> (quote after details)</p>
+          </article>
+          <article class="card reveal">
+            <h3>Custom website / app</h3>
+            <p><strong>Quote-based</strong> (based on features + timeline)</p>
+          </article>
+          <article class="card reveal">
+            <h3>Coding troubleshooting</h3>
+            <p><strong>$15/hr</strong></p>
+          </article>
+        </div>
+
+        <div class="cta-band" style="margin-top: 18px;">
+          <div>
+            <h2>Not sure what you need?</h2>
+            <p>Send a short description and we’ll recommend the best option with an estimate.</p>
+          </div>
+          <div class="cta-actions">
+            <a class="btn primary" href="contact.html">Request a Quote</a>
+            <a class="btn ghost" href="services.html">See Services</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div>
+        <div class="footer-brand">Baker Tech Solutions</div>
+        <p class="muted">Custom hardware • Secure systems • Automation</p>
+      </div>
+      <div class="footer-links">
+        <a href="services.html">Services</a>
+        <a href="pricing.html" aria-current="page">Pricing</a>
+        <a href="community.html">Community</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <p>© 2026 Baker Tech Solutions</p>
+    </div>
+  </footer>
+
+  <script src="scripts.js" defer></script>
+</body>
+</html>
