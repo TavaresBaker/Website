@@ -728,12 +728,7 @@ html.js .reveal.is-visible{
 
     padding: 96px 18px 28px; /* room for header */
 
-    /* IMPORTANT:
-       To make the page behind unreadable:
-       - raise the dark overlay opacity a bit
-       - increase blur a lot
-       - add extra contrast via brightness()
-    */
+    /* Background blur/dim for the whole overlay */
     background: rgba(5, 7, 15, 0.60);
     backdrop-filter: blur(42px) saturate(150%) brightness(0.85);
     -webkit-backdrop-filter: blur(42px) saturate(150%) brightness(0.85);
@@ -772,23 +767,40 @@ html.js .reveal.is-visible{
     z-index: 1;
   }
 
+  /* === UPDATED: MUCH BLURRIER “GLASS” BUTTON BACKGROUNDS === */
   .nav-links a,
   [data-nav] a{
     width: min(520px, 92vw);
     justify-content: center;
     text-align: center;
+
     font-size: 1.12rem;
-    padding: 12px 16px;
-    border-radius: 16px;
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.10);
+    padding: 14px 18px;
+    border-radius: 18px;
+
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.18);
+
+    /* The blur that makes the BUTTONS themselves frosted */
+    backdrop-filter: blur(28px) saturate(180%) brightness(1.05);
+    -webkit-backdrop-filter: blur(28px) saturate(180%) brightness(1.05);
+
+    box-shadow:
+      0 8px 40px rgba(0,0,0,0.45),
+      inset 0 1px 0 rgba(255,255,255,0.25);
+
+    transition: all 0.25s ease;
   }
 
+  /* === UPDATED hover glow + depth === */
   .nav-links a:hover,
   [data-nav] a:hover{
-    background: rgba(255,255,255,0.10);
-    border-color: rgba(74,241,255,0.25);
-    box-shadow: 0 0 26px rgba(74,241,255,0.10);
+    background: rgba(255,255,255,0.14);
+    border-color: rgba(74,241,255,0.35);
+    box-shadow:
+      0 12px 50px rgba(74,241,255,0.25),
+      0 0 30px rgba(74,241,255,0.15),
+      inset 0 1px 0 rgba(255,255,255,0.35);
   }
 
   .nav-links .nav-btn,
