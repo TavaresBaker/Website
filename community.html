@@ -12,21 +12,21 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 
-<body>
+<body id="top">
   <div class="bg-grid" aria-hidden="true"></div>
 
   <header class="glass-nav">
     <div class="container nav-wrap">
-      <a class="brand" href="index.html">
+      <a class="brand" href="index.html" aria-label="Baker Tech Solutions home">
         <span class="brand-mark" aria-hidden="true">◆</span>
         <span class="brand-text">Baker Tech Solutions</span>
       </a>
 
-      <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">
+      <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav">
         <span></span><span></span><span></span>
       </button>
 
-      <nav class="nav-links" data-nav>
+      <nav id="site-nav" class="nav-links" data-nav>
         <a href="index.html">Home</a>
         <a href="services.html">Services</a>
         <a href="pricing.html">Pricing</a>
@@ -37,6 +37,7 @@
   </header>
 
   <main>
+    <!-- HERO -->
     <section class="hero">
       <div class="container hero-grid">
         <div class="hero-copy">
@@ -52,7 +53,7 @@
             <a class="btn ghost" href="#highlights">See Highlights</a>
           </div>
 
-          <div class="trust-row">
+          <div class="trust-row" aria-label="Highlights">
             <div class="trust-pill">Local support</div>
             <div class="trust-pill">Student-friendly</div>
             <div class="trust-pill">Events & outreach</div>
@@ -60,7 +61,7 @@
           </div>
         </div>
 
-        <div class="hero-card" role="note" aria-label="Community note">
+        <aside class="hero-card" aria-label="Community note">
           <h2>Want us involved?</h2>
           <ul class="checklist">
             <li>School events & clubs</li>
@@ -69,10 +70,11 @@
             <li>Nonprofit partnerships</li>
           </ul>
           <a class="mini-link" href="contact.html">Reach out →</a>
-        </div>
+        </aside>
       </div>
     </section>
 
+    <!-- HIGHLIGHTS -->
     <section class="section alt" id="highlights">
       <div class="container">
         <div class="section-head">
@@ -107,10 +109,11 @@
           </article>
         </div>
 
-        <div class="cta-band" style="margin-top:18px;">
+        <div class="cta-band cta-tight">
           <div>
             <h2>Have an event coming up?</h2>
             <p>Tell us the date, the goal, and what kind of support you need. We’ll respond quickly.</p>
+            <a class="mini-link" href="#top">Back to top ↑</a>
           </div>
           <div class="cta-actions">
             <a class="btn primary" href="contact.html">Contact Us</a>
@@ -119,7 +122,6 @@
         </div>
       </div>
     </section>
-
   </main>
 
   <footer class="footer">
