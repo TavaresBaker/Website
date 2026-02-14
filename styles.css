@@ -1249,8 +1249,22 @@ select.field option:disabled{
 }
 
 /* Preserve your invalid styling (works whether class="field" exists or not) */
-#contactForm [aria-invalid="true"]{
-  border-color: rgba(239, 68, 68, 0.65) !important;
-  box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.14) !important;
+/* ===== MOBILE SAFE-AREA TRANSPARENCY FIX ===== */
+
+/* Make iOS bottom safe-area visually invisible */
+body{
+  background-attachment: fixed;
+}
+
+/* Force any mobile bottom overlay to inherit page background */
+html{
+  background: transparent !important;
+}
+
+
+@supports (padding: max(0px)) {
+  body{
+    padding-bottom: max(env(safe-area-inset-bottom), 0px);
+  }
 }
 
