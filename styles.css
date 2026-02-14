@@ -1,19 +1,3 @@
-/* =========================================================
-   Baker Tech Solutions — styles.css (UNIFIED + FIXED)
-   - Smooth global background (no mid-page seam)
-   - Sticky footer (footer stays at bottom)
-   - Uniform nav + sections across pages
-   - Services page: lists ALWAYS show (no “missing services”)
-   - Reveal: SAFE fallback (content never hidden if JS fails)
-   - NAV FIX: Header is FIXED so brand + menu always stay at top
-   - NAV SAFE PADDING: Brand + menu pulled inward (mobile + desktop)
-   - Mobile nav: TRUE FULLSCREEN overlay under header (works at ANY scroll position)
-   - Footer MOBILE FIX: clean stacked layout, aligned + evenly spaced
-   - Mobile-safe + no horizontal scroll
-   - ✅ FIX: Pricing/Services bullet points align + wrap correctly
-   - ✅ FIX: Custom dot bullets (checklist/mini-bullets) centered with text
-========================================================= */
-
 /* ================= THEME / VARIABLES ================= */
 :root{
   --bg: #05070f;
@@ -459,8 +443,30 @@ body::after{
 .mini-link:hover{ opacity: 1; text-decoration: underline; }
 
 /* =========================================================
+   ✅ NEW: Centered list helper (for Pricing "Jump to" box)
+   - Centers the LIST BLOCK inside the card
+   - Keeps the list content left-aligned (looks clean)
+========================================================= */
+.centered-list{
+  display: grid;
+  justify-items: center;
+  margin-top: 6px;
+}
+
+.centered-list > ul,
+.centered-list > ol{
+  display: inline-block;   /* makes it "shrink to fit" so it can be centered */
+  text-align: left;        /* keep text readable */
+  max-width: 100%;
+}
+
+/* small tweak so the quick-links list doesn’t look offset */
+.hero-card .quick-links{
+  margin-top: 2px;
+}
+
+/* =========================================================
    CHECKLIST / SERVICE LISTS (custom dot bullets)
-   ✅ FIX: dots are vertically centered with the first line of text
 ========================================================= */
 .checklist{
   list-style: none;
@@ -487,7 +493,6 @@ body::after{
   box-shadow: 0 0 18px rgba(74,241,255,0.22);
   opacity: 0.95;
 
-  /* ✅ Center dot with text (no hard-coded px guessing) */
   margin-top: 0;
   transform: translateY(0.55em);
 }
@@ -527,7 +532,6 @@ body::after{
   background: linear-gradient(135deg, var(--a1), var(--a3));
   box-shadow: 0 0 18px rgba(74,241,255,0.22);
 
-  /* ✅ Center dot with text */
   margin-top: 0;
   transform: translateY(0.55em);
 }
@@ -1171,29 +1175,26 @@ select.field option:disabled{
 .soon-note{ margin-top: 18px; }
 
 /* =========================================================
-   ✅ BULLET POINTS FIX — Pricing + Services (FINAL)
-   This fixes:
-   - bullets missing (because UL padding was zeroed earlier)
-   - bullets not aligned / weird wrap
-   - bullets broken by accidental flex/grid on li
-   It DOES NOT touch your custom .checklist/.mini-bullets styles.
+   ✅ BULLET POINTS FIX — Pricing + Services (NORMAL UL/OL ONLY)
+   Note:
+   - This does NOT touch .checklist/.mini-bullets/.quick-links
 ========================================================= */
 
-/* Only affect normal lists inside pricing/services sections */
-.pricing ul:not(.checklist):not(.mini-bullets):not(.quick-links),
-.services ul:not(.checklist):not(.mini-bullets):not(.quick-links),
-.pricing ol,
-.services ol{
+/* If you use body classes like .page-pricing / .page-services */
+.page-pricing ul:not(.checklist):not(.mini-bullets):not(.quick-links),
+.page-services ul:not(.checklist):not(.mini-bullets):not(.quick-links),
+.page-pricing ol,
+.page-services ol{
   list-style: disc outside !important;
   padding-left: 1.35rem !important;
   margin: 0.75rem 0 0 !important;
 }
 
 /* Force proper list behavior (bullets + wrap alignment) */
-.pricing ul:not(.checklist):not(.mini-bullets):not(.quick-links) > li,
-.services ul:not(.checklist):not(.mini-bullets):not(.quick-links) > li,
-.pricing ol > li,
-.services ol > li{
+.page-pricing ul:not(.checklist):not(.mini-bullets):not(.quick-links) > li,
+.page-services ul:not(.checklist):not(.mini-bullets):not(.quick-links) > li,
+.page-pricing ol > li,
+.page-services ol > li{
   display: list-item !important;
   line-height: 1.45 !important;
   margin: 0.4rem 0 !important;
@@ -1201,7 +1202,7 @@ select.field option:disabled{
 }
 
 /* Optional: keep markers consistent */
-.pricing li::marker,
-.services li::marker{
+.page-pricing li::marker,
+.page-services li::marker{
   font-size: 1em;
 }
