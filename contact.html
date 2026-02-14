@@ -33,20 +33,16 @@
         <a href="community.html">Community</a>
         <a href="crew.html">Meet the Crew</a>
         <a href="contact.html" class="nav-btn" aria-current="page">Contact</a>
-        
       </nav>
     </div>
   </header>
 
   <main>
-    <!-- HERO -->
     <section class="hero">
       <div class="container hero-grid">
         <div class="hero-copy">
           <h1>Let’s talk.</h1>
-          <p class="subhead">
-            Tell us what you need and we’ll follow up with next steps.
-          </p>
+          <p class="subhead">Tell us what you need and we’ll follow up with next steps.</p>
 
           <div class="hero-actions">
             <a class="btn primary" href="#form">Start a request</a>
@@ -56,7 +52,6 @@
       </div>
     </section>
 
-    <!-- FORM -->
     <section class="section alt" id="form">
       <div class="container">
         <div class="section-head">
@@ -68,7 +63,6 @@
         </div>
 
         <div class="split">
-          <!-- LEFT: FORM -->
           <article class="card">
             <h3>Send a request</h3>
             <p class="muted form-help">Fill this out and we’ll get back to you.</p>
@@ -81,10 +75,8 @@
               enctype="multipart/form-data"
               novalidate
             >
-              <!-- spam protection -->
               <input type="text" name="website" class="honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
 
-              <!-- helpful metadata -->
               <input type="hidden" name="source" value="contact-page">
               <input type="hidden" name="page" value="/contact.html">
               <input type="hidden" name="submittedAt" id="submittedAt" value="">
@@ -146,12 +138,13 @@
                 <div class="form-field form-span">
                   <label for="category">Service Category</label>
                   <select id="category" class="field" name="category" required>
+                    <option value="" selected disabled>Choose a category</option>
                     <option value="Hardware">Hardware</option>
                     <option value="Software">Software</option>
                     <option value="Networking">Networking</option>
                     <option value="Security">Security</option>
                     <option value="Programming">Programming</option>
-                    <option value="Not sure" selected>Not sure</option>
+                    <option value="Not sure">Not sure</option>
                   </select>
                 </div>
 
@@ -202,19 +195,19 @@
                   ></textarea>
                 </div>
 
-                <!-- NEW: PHOTO UPLOAD -->
                 <div class="form-field form-span">
-                  <label for="attachments">Add photos (optional)</label>
+                  <label for="attachments">Add files (optional)</label>
                   <input
                     id="attachments"
                     class="field"
                     type="file"
                     name="attachments"
-                    accept="image/png,image/jpeg,image/heic,image/heif,.png,.jpg,.jpeg,.heic,.heif"
+                    accept="image/*,.png,.jpg,.jpeg,.heic,.heif,.webp,.pdf,.zip"
                     multiple
                   />
                   <p class="muted tiny" style="margin-top:8px;">
-                    Max size of 500MB per file.
+                    If you see “file uploads not permitted”, that’s a Formspree setting/plan restriction for this form.
+                    In that case, we’ll switch to link-based uploads.
                   </p>
                 </div>
 
@@ -230,9 +223,7 @@
                     Send Request
                   </button>
 
-                  <p class="form-note">
-                    We typically respond within 24 hours.
-                  </p>
+                  <p class="form-note">We typically respond within 24 hours.</p>
 
                   <div id="formStatus" class="alert info" role="status" aria-live="polite" style="display:none;"></div>
 
@@ -246,7 +237,6 @@
             </form>
           </article>
 
-          <!-- RIGHT: OTHER CONTACT -->
           <aside class="image-card">
             <h3>Other ways to reach us</h3>
 
