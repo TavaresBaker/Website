@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 
-<body>
+<body class="page-pricing">
   <div class="bg-grid" aria-hidden="true"></div>
 
   <header class="glass-nav">
@@ -33,7 +33,6 @@
         <a href="community.html">Community</a>
         <a href="crew.html">Meet the Crew</a>
         <a href="contact.html" class="nav-btn">Contact</a>
-     
       </nav>
     </div>
   </header>
@@ -56,15 +55,19 @@
         </div>
 
         <!-- Jump-to box -->
-        <aside class="hero-card" aria-label="Pricing quick links">
+        <aside class="hero-card pricing-jump" aria-label="Pricing quick links">
           <h2>Jump to a category</h2>
-          <ul class="checklist quick-links">
-            <li><a class="mini-link" href="#hardware">Hardware</a></li>
-            <li><a class="mini-link" href="#software">Software</a></li>
-            <li><a class="mini-link" href="#networking">Networking</a></li>
-            <li><a class="mini-link" href="#security">Security</a></li>
-            <li><a class="mini-link" href="#programming">Programming</a></li>
-          </ul>
+
+          <!-- Wrapper that lets us "center the list block" while keeping bullets/text aligned -->
+          <div class="centered-list">
+            <ul class="checklist quick-links">
+              <li><a class="mini-link" href="#hardware">Hardware</a></li>
+              <li><a class="mini-link" href="#software">Software</a></li>
+              <li><a class="mini-link" href="#networking">Networking</a></li>
+              <li><a class="mini-link" href="#security">Security</a></li>
+              <li><a class="mini-link" href="#programming">Programming</a></li>
+            </ul>
+          </div>
         </aside>
       </div>
     </section>
@@ -232,7 +235,7 @@
           </article>
         </div>
 
-        <div class="cta-band" style="margin-top: 18px;">
+        <div class="cta-band pricing-cta">
           <div>
             <h2>Not sure what you need?</h2>
             <p>Send a short description and we’ll recommend the best option with an estimate.</p>
