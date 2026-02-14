@@ -1178,3 +1178,60 @@ select.field option:disabled{
 .page-pricing .hero-actions{
   justify-content: flex-start;
 }
+
+
+/* =========================================================
+   ✅ CONTACT INPUT STYLE RESTORE (Full Name mismatch fix)
+   Put this at the VERY BOTTOM of styles.css
+   - If any input is missing class="field", it will still match.
+   - Does NOT affect checkboxes/radios/buttons.
+========================================================= */
+
+/* Target the contact form only */
+#contactForm input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]):not([type="hidden"]),
+#contactForm select,
+#contactForm textarea{
+  width: 100%;
+  padding: 14px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.06);
+  color: var(--text);
+  font-size: 14px;
+  transition: border 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+/* Placeholder color matches .field */
+#contactForm input::placeholder,
+#contactForm textarea::placeholder{
+  color: rgba(255,255,255,0.45);
+}
+
+/* Hover + focus matches .field */
+#contactForm input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]):not([type="hidden"]):hover,
+#contactForm select:hover,
+#contactForm textarea:hover{
+  border-color: rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.07);
+}
+
+#contactForm input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]):not([type="hidden"]):focus,
+#contactForm select:focus,
+#contactForm textarea:focus{
+  outline: none;
+  border-color: rgba(74,241,255,0.6);
+  box-shadow: 0 0 0 4px rgba(74,241,255,0.15);
+}
+
+/* Keep textarea behavior consistent */
+#contactForm textarea{
+  resize: vertical;
+  min-height: 160px;
+}
+
+/* Preserve your invalid styling (works whether class="field" exists or not) */
+#contactForm [aria-invalid="true"]{
+  border-color: rgba(239, 68, 68, 0.65) !important;
+  box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.14) !important;
+}
+
