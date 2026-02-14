@@ -991,18 +991,62 @@ textarea.field{
   overflow: hidden !important;
 }
 
+/* =========================================================
+   SELECT / DROPDOWN (EDGE FIX)
+   - Dark dropdown menu + readable text
+   - Keeps your custom chevron
+========================================================= */
 select.field{
   appearance: none;
   -webkit-appearance: none;
+
+  /* Force the control itself to be dark + readable */
+  background-color: rgba(255,255,255,0.06);
+  color: var(--text);
+
+  /* Helps browsers (Edge/Windows especially) choose dark native UI colors */
+  color-scheme: dark;
+
+  /* Custom chevron + divider */
   background-image:
-    linear-gradient(45deg, transparent 50%, rgba(255,255,255,0.65) 50%),
-    linear-gradient(135deg, rgba(255,255,255,0.65) 50%, transparent 50%);
+    linear-gradient(45deg, transparent 50%, rgba(255,255,255,0.70) 50%),
+    linear-gradient(135deg, rgba(255,255,255,0.70) 50%, transparent 50%),
+    linear-gradient(to right, rgba(255,255,255,0.10), rgba(255,255,255,0.10));
   background-position:
     calc(100% - 18px) calc(50% - 3px),
-    calc(100% - 12px) calc(50% - 3px);
-  background-size: 6px 6px, 6px 6px;
+    calc(100% - 12px) calc(50% - 3px),
+    calc(100% - 42px) 50%;
+  background-size:
+    6px 6px,
+    6px 6px,
+    1px 60%;
   background-repeat: no-repeat;
-  padding-right: 38px;
+
+  padding-right: 44px;
+}
+
+/* Remove legacy IE/Edge arrow (harmless elsewhere) */
+select.field::-ms-expand{
+  display: none;
+}
+
+/* The actual opened dropdown list items */
+select.field option,
+select.field optgroup{
+  background-color: rgba(10, 15, 46, 1); /* matches your --bg2 vibe */
+  color: rgba(255,255,255,0.92);
+  text-shadow: none;
+}
+
+/* Optional: highlight selected option where supported */
+select.field option:checked{
+  background-color: rgba(74,241,255,0.18);
+  color: rgba(255,255,255,0.96);
+}
+
+/* Disabled options stay readable */
+select.field option:disabled{
+  color: rgba(255,255,255,0.45);
 }
 
 @media (max-width: 640px){
