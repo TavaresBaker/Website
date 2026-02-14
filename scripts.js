@@ -10,6 +10,50 @@ const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 document.documentElement.classList.add("js");
 
 /* =========================
+   ✅ Android-safe nav height sync
+   - Fixes mobile overlay issues where Android Chrome renders header
+     slightly different than iOS (or the URL bar changes viewport).
+   - Keeps CSS variable --nav-h accurate everywhere.
+========================= */
+(() => {
+  const header = $(".glass-nav");
+  if (!header) return;
+
+  const setNavHeight = () => {
+    const h = Math.round(header.getBoundingClientRect().height || 72);
+    document.documentElement.style.setProperty("--nav-h", `${h}px`);
+  };
+
+  setNavHeight();
+
+  // Resize/orientation change
+  window.addEventListener("resize", setNavHeight, { passive: true });
+  window.addEventListener("orientationchange", setNavHeight, { passive: true });
+
+  // Fonts can load after initial paint and change header height
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(setNavHeight).catch(() => {});
+  }
+})();
+
+/* =========================
+   ✅ Android viewport unit fix (100vh/dvh quirks)
+   - Sets a --vh var (1% of viewport height) for CSS fallbacks if needed.
+   - Not required for iOS, but helps Android "overlay not covering page".
+   - Safe to keep even if you don’t use var(--vh) in CSS yet.
+========================= */
+(() => {
+  const setVh = () => {
+    const vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty("--vh", `${vh}px`);
+  };
+
+  setVh();
+  window.addEventListener("resize", setVh, { passive: true });
+  window.addEventListener("orientationchange", setVh, { passive: true });
+})();
+
+/* =========================
    Mobile Nav (FULL SCREEN Overlay)
    Works across ALL pages
    - Supports menu markup as either:
@@ -19,6 +63,7 @@ document.documentElement.classList.add("js");
    - Uses CSS: .open + body.nav-open
    - Close on link click, outside click, ESC, orientation/resize to desktop
    - Prevents "half-screen" issues by always toggling the correct menu element
+   - ✅ Extra: forces menu to be on top on Android via inline z-index
 ========================= */
 (() => {
   const btn = $(".nav-toggle");
@@ -34,6 +79,10 @@ document.documentElement.classList.add("js");
 
   if (!menu.id) menu.id = "site-nav";
   btn.setAttribute("aria-controls", menu.id);
+
+  // ✅ Force nav overlay above everything (Android sometimes loses stacking context)
+  // (CSS should also set this, but inline makes it bulletproof.)
+  menu.style.zIndex = menu.style.zIndex || "5000";
 
   const focusableSelector = [
     'a[href]',
