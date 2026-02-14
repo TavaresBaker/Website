@@ -238,31 +238,65 @@ $$('a[href^="#"]').forEach((anchor) => {
 
 /* =========================
    Card Hover Tilt (desktop only-ish)
+   - DISABLED for the contact form card so the form is usable
+   - Also won't tilt while you're interacting with inputs/buttons
 ========================= */
 (() => {
   const cards = $$(".card");
   if (!cards.length) return;
 
-  const shouldTilt = () => window.matchMedia("(hover: hover)").matches;
+  const shouldTilt = () =>
+    window.matchMedia("(hover: hover)").matches &&
+    !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // Anything interactive inside a card should not trigger tilt while being used
+  const interactiveSel = "input, textarea, select, button, label, a";
 
   cards.forEach((card) => {
+    // ✅ If this card contains the contact form, never tilt it.
+    if (card.querySelector("#contactForm")) return;
+
+    let raf = null;
+    let latest = null;
+
+    const apply = () => {
+      raf = null;
+      if (!latest) return;
+
+      const { x, y, rect } = latest;
+
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+
+      // Softer tilt than before (less dramatic)
+      const rotateX = (y - centerY) / 60;
+      const rotateY = (x - centerX) / 60;
+
+      card.style.transform = `rotateX(${-rotateX}deg) rotateY(${rotateY}deg)`;
+    };
+
     card.addEventListener("mousemove", (e) => {
       if (!shouldTilt()) return;
+
+      // ✅ If you're hovering over an input/button/link, don't tilt (prevents "fighting" the cursor)
+      if (e.target && e.target.closest(interactiveSel)) {
+        card.style.transform = "";
+        return;
+      }
 
       const rect = card.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
 
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
+      latest = { x, y, rect };
 
-      const rotateX = (y - centerY) / 25;
-      const rotateY = (x - centerX) / 25;
-
-      card.style.transform = `rotateX(${-rotateX}deg) rotateY(${rotateY}deg)`;
+      if (!raf) raf = requestAnimationFrame(apply);
     });
 
     card.addEventListener("mouseleave", () => {
+      latest = null;
+      if (raf) cancelAnimationFrame(raf);
+      raf = null;
       card.style.transform = "";
     });
   });
@@ -366,7 +400,6 @@ window.addEventListener("load", () => {
       "image/heif"
     ]);
 
-    // Soft limits (match Formspree typical constraints)
     const maxFiles = 10;
     const maxPerFile = 25 * 1024 * 1024;  // 25MB
     const maxTotal = 100 * 1024 * 1024;   // 100MB
@@ -485,10 +518,8 @@ window.addEventListener("load", () => {
     showStatus("info", "Sending your request…");
 
     try {
-      // IMPORTANT: FormData is required for file uploads
       const formData = new FormData(form);
 
-      // add extra metadata (without breaking files)
       formData.append("userAgent", navigator.userAgent);
       formData.append("referrer", document.referrer || "");
       formData.append("url", window.location.href);
