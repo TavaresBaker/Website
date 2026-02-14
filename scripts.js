@@ -1,20 +1,8 @@
-/* =========================
-   Helpers
-========================= */
 const $ = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
-/* =========================
-   Mark JS as enabled (for reveal CSS)
-========================= */
 document.documentElement.classList.add("js");
 
-/* =========================
-   ✅ Android-safe nav height sync
-   - Fixes mobile overlay issues where Android Chrome renders header
-     slightly different than iOS (or the URL bar changes viewport).
-   - Keeps CSS variable --nav-h accurate everywhere.
-========================= */
 (() => {
   const header = $(".glass-nav");
   if (!header) return;
@@ -26,22 +14,14 @@ document.documentElement.classList.add("js");
 
   setNavHeight();
 
-  // Resize/orientation change
   window.addEventListener("resize", setNavHeight, { passive: true });
   window.addEventListener("orientationchange", setNavHeight, { passive: true });
 
-  // Fonts can load after initial paint and change header height
   if (document.fonts && document.fonts.ready) {
     document.fonts.ready.then(setNavHeight).catch(() => {});
   }
 })();
 
-/* =========================
-   ✅ Android viewport unit fix (100vh/dvh quirks)
-   - Sets a --vh var (1% of viewport height) for CSS fallbacks if needed.
-   - Not required for iOS, but helps Android "overlay not covering page".
-   - Safe to keep even if you don’t use var(--vh) in CSS yet.
-========================= */
 (() => {
   const setVh = () => {
     const vh = window.innerHeight * 0.01;
@@ -53,18 +33,6 @@ document.documentElement.classList.add("js");
   window.addEventListener("orientationchange", setVh, { passive: true });
 })();
 
-/* =========================
-   Mobile Nav (FULL SCREEN Overlay)
-   Works across ALL pages
-   - Supports menu markup as either:
-     1) <nav class="nav-links" data-nav>...</nav>
-     2) <nav class="nav-links">...</nav>
-     3) any element with [data-nav]
-   - Uses CSS: .open + body.nav-open
-   - Close on link click, outside click, ESC, orientation/resize to desktop
-   - Prevents "half-screen" issues by always toggling the correct menu element
-   - ✅ Extra: forces menu to be on top on Android via inline z-index
-========================= */
 (() => {
   const btn = $(".nav-toggle");
   const header = $(".glass-nav");
@@ -80,8 +48,6 @@ document.documentElement.classList.add("js");
   if (!menu.id) menu.id = "site-nav";
   btn.setAttribute("aria-controls", menu.id);
 
-  // ✅ Force nav overlay above everything (Android sometimes loses stacking context)
-  // (CSS should also set this, but inline makes it bulletproof.)
   menu.style.zIndex = menu.style.zIndex || "5000";
 
   const focusableSelector = [
@@ -193,9 +159,6 @@ document.documentElement.classList.add("js");
   }
 })();
 
-/* =========================
-   Smooth Scroll (only if target exists)
-========================= */
 $$('a[href^="#"]').forEach((anchor) => {
   anchor.addEventListener("click", (e) => {
     const href = anchor.getAttribute("href");
@@ -209,9 +172,6 @@ $$('a[href^="#"]').forEach((anchor) => {
   });
 });
 
-/* =========================
-   Scroll Reveal Animations
-========================= */
 (() => {
   const items = $$(".reveal");
   if (!items.length) return;
@@ -228,9 +188,6 @@ $$('a[href^="#"]').forEach((anchor) => {
   items.forEach((el) => observer.observe(el));
 })();
 
-/* =========================
-   Parallax Hero Effect (safe)
-========================= */
 (() => {
   const hero = $(".hero");
   if (!hero) return;
@@ -245,9 +202,6 @@ $$('a[href^="#"]').forEach((anchor) => {
   );
 })();
 
-/* =========================
-   Typing Text Effect (safe)
-========================= */
 (() => {
   const typingTarget = $("#typing-text");
   if (!typingTarget) return;
@@ -268,9 +222,6 @@ $$('a[href^="#"]').forEach((anchor) => {
   tick();
 })();
 
-/* =========================
-   Dark Mode Toggle (safe)
-========================= */
 (() => {
   const toggle = $("#darkToggle");
   const saved = localStorage.getItem("darkMode");
@@ -285,11 +236,6 @@ $$('a[href^="#"]').forEach((anchor) => {
   });
 })();
 
-/* =========================
-   Card Hover Tilt (desktop only-ish)
-   - DISABLED for the contact form card so the form is usable
-   - Also won't tilt while you're interacting with inputs/buttons
-========================= */
 (() => {
   const cards = $$(".card");
   if (!cards.length) return;
@@ -347,9 +293,6 @@ $$('a[href^="#"]').forEach((anchor) => {
   });
 })();
 
-/* =========================
-   Image Lightbox (safe)
-========================= */
 (() => {
   const imgs = $$('img[data-lightbox]');
   if (!imgs.length) return;
@@ -393,22 +336,12 @@ $$('a[href^="#"]').forEach((anchor) => {
   });
 })();
 
-/* =========================
-   Loading Screen (safe)
-========================= */
 window.addEventListener("load", () => {
   const loader = $("#loader");
   if (!loader) return;
   loader.classList.add("hide");
 });
 
-/* =========================
-   Contact Form Handler
-   - Small files: send to Formspree as multipart FormData
-   - Large files: upload via presigned URLs, then submit links to Formspree
-   - No file-count cap + removable file list UI
-   - Accepts image/* and falls back to extension if MIME is missing/weird
-========================= */
 (() => {
   const form = $("#contactForm");
   if (!form) return;
@@ -439,15 +372,12 @@ window.addEventListener("load", () => {
     el.setAttribute("aria-invalid", "true");
   };
 
-  const FORMSPREE_MAX_PER_FILE = 25 * 1024 * 1024; // 25MB
-  const FORMSPREE_MAX_TOTAL   = 100 * 1024 * 1024; // ~100MB
+  const FORMSPREE_MAX_PER_FILE = 25 * 1024 * 1024;
+  const FORMSPREE_MAX_TOTAL   = 100 * 1024 * 1024;
 
-  const BIG_MAX_PER_FILE = 500 * 1024 * 1024;      // 500MB per file
-  const BIG_MAX_TOTAL    = 2 * 1024 * 1024 * 1024; // 2GB total
+  const BIG_MAX_PER_FILE = 500 * 1024 * 1024;
+  const BIG_MAX_TOTAL    = 2 * 1024 * 1024 * 1024;
 
-  /* -------------------------
-     File list UI + removal
-  ------------------------- */
   let selectedFiles = [];
 
   const ensureFileUI = () => {
@@ -589,9 +519,6 @@ window.addEventListener("load", () => {
     renderFileList();
   }
 
-  /* -------------------------
-     File type acceptance
-  ------------------------- */
   const ext = (name) => {
     const m = String(name || "").toLowerCase().match(/\.([a-z0-9]+)$/);
     return m ? m[1] : "";
@@ -736,9 +663,6 @@ window.addEventListener("load", () => {
     return { ok: true, filesMode: vf.mode, files: vf.files || [] };
   };
 
-  /* -------------------------
-     Large upload helpers
-  ------------------------- */
   const xhrUpload = (uploadUrl, file, extraHeaders = {}, onProgress) => {
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
@@ -834,9 +758,6 @@ window.addEventListener("load", () => {
     return results;
   };
 
-  /* -------------------------
-     Submit
-  ------------------------- */
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
