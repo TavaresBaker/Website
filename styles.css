@@ -6,7 +6,9 @@
    - Services page: lists ALWAYS show (no “missing services”)
    - Reveal: SAFE fallback (content never hidden if JS fails)
    - NAV FIX: Header is FIXED so brand + menu always stay at top
+   - NAV SAFE PADDING: Brand + menu pulled inward (mobile + desktop)
    - Mobile nav: TRUE FULLSCREEN overlay under header (works at ANY scroll position)
+   - Footer MOBILE FIX: clean stacked layout, aligned + evenly spaced
    - Mobile-safe + no horizontal scroll
 ========================================================= */
 
@@ -38,6 +40,10 @@
 
   /* NAV height (fixed header) */
   --nav-h: 72px;
+
+  /* NEW: global safe padding so header/footer never clip */
+  --gutter: 18px;        /* default horizontal padding */
+  --gutter-lg: 24px;     /* desktop horizontal padding */
 }
 
 /* ================= RESET / BASE ================= */
@@ -148,7 +154,17 @@ body::after{
 .container{
   width: min(var(--max), 100%);
   margin: 0 auto;
-  padding: 0 16px; /* mobile-safe padding always */
+
+  /* ✅ FIX: Always-inward padding so nothing clips on any screen */
+  padding-left: max(var(--gutter), env(safe-area-inset-left));
+  padding-right: max(var(--gutter), env(safe-area-inset-right));
+}
+
+@media (min-width: 901px){
+  .container{
+    padding-left: max(var(--gutter-lg), env(safe-area-inset-left));
+    padding-right: max(var(--gutter-lg), env(safe-area-inset-right));
+  }
 }
 
 .section{ padding: 64px 0; }
@@ -174,6 +190,10 @@ body::after{
   -webkit-backdrop-filter: blur(18px);
   background: rgba(10, 15, 40, 0.35);
   border-bottom: 1px solid rgba(255,255,255,0.08);
+
+  /* ✅ FIX: header respects notches/safe areas */
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
 }
 
 .nav-wrap{
@@ -181,7 +201,10 @@ body::after{
   align-items:center;
   justify-content:space-between;
   gap: 14px;
-  padding: 14px 0;
+
+  /* ✅ FIX: move brand + menu inward a bit */
+  padding: 14px 6px;
+
   width: 100%;
   position: relative;
 }
@@ -192,6 +215,9 @@ body::after{
   gap: 10px;
   font-weight: 900;
   min-width: 0;
+
+  /* ✅ FIX: prevents touching left edge even if container styles change */
+  padding-left: 2px;
 }
 
 .brand-mark{
@@ -220,6 +246,9 @@ body::after{
   display:flex;
   align-items:center;
   gap: 10px;
+
+  /* ✅ FIX: tiny right breathing room for desktop */
+  padding-right: 2px;
 }
 
 .nav-links a,
@@ -267,6 +296,9 @@ body::after{
   background: rgba(255,255,255,0.06);
   cursor:pointer;
   flex: 0 0 auto;
+
+  /* ✅ FIX: keep button away from edge */
+  margin-right: 2px;
 }
 
 .nav-toggle span{
@@ -639,10 +671,11 @@ body::after{
   border-top: 1px solid rgba(255,255,255,0.10);
 }
 
+/* ✅ FIX: use grid instead of flex so mobile stacks cleanly */
 .footer-grid{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: start;
   gap: 16px;
 }
 
@@ -652,6 +685,7 @@ body::after{
   display:flex;
   gap: 14px;
   flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 .footer-links a{
@@ -672,6 +706,25 @@ body::after{
   border-top: 1px solid rgba(255,255,255,0.10);
   color: rgba(255,255,255,0.60);
   font-size: 13px;
+}
+
+/* ✅ FIX: footer mobile is EVEN + organized */
+@media (max-width: 720px){
+  .footer-grid{
+    grid-template-columns: 1fr;
+    gap: 14px;
+    text-align: center;
+    justify-items: center;
+  }
+
+  .footer-links{
+    justify-content: center;
+    gap: 10px 14px;
+  }
+
+  .footer-bottom{
+    text-align: center;
+  }
 }
 
 /* ================= REVEAL ANIMATION ================= */
