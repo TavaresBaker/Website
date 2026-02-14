@@ -433,23 +433,38 @@ body::after{
 }
 
 /* =========================================================
-   ✅ FIX: Hero-side "Categories" bullets alignment (Services)
-   - Keeps your checklist style everywhere else
-   - Only adjusts checklist inside the hero side card
+   ✅ PERFECT ALIGNMENT: Hero-side Categories (Services + Pricing)
 ========================================================= */
 .hero-card .checklist li{
-  align-items: center;          /* vertically center dot + text */
+  display: flex;
+  align-items: center;      /* true vertical center */
+  gap: 10px;
+  padding: 8px 0;
 }
 
 .hero-card .checklist li::before{
-  transform: none;              /* remove the 0.55em drop */
-  margin-top: 0;                /* ensure it doesn't drift */
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  flex: 0 0 auto;
+  background: linear-gradient(135deg, var(--a1), var(--a3));
+  box-shadow: 0 0 18px rgba(74,241,255,0.22);
+
+  /* remove ALL previous positioning hacks */
+  transform: none !important;
+  margin: 0 !important;
 }
 
-/* Optional: slightly tighter spacing in the hero card list */
-.hero-card .checklist li{
-  padding: 8px 0;
+/* Fix anchor alignment inside list */
+.hero-card .checklist li a{
+  display: inline-flex;
+  align-items: center;
+  line-height: 1.2;      /* tighter */
+  margin: 0;
+  padding: 0;
 }
+
 
 
 .hero-card h2{ font-size: 16px; margin-bottom: 10px; }
