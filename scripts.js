@@ -12,6 +12,13 @@ document.documentElement.classList.add("js");
 /* =========================
    Mobile Nav (FULL SCREEN Overlay)
    Works across ALL pages
+   - Supports menu markup as either:
+     1) <nav class="nav-links" data-nav>...</nav>
+     2) <nav class="nav-links">...</nav>
+     3) any element with [data-nav]
+   - Uses CSS: .open + body.nav-open
+   - Close on link click, outside click, ESC, orientation/resize to desktop
+   - Prevents "half-screen" issues by always toggling the correct menu element
 ========================= */
 (() => {
   const btn = $(".nav-toggle");
@@ -231,6 +238,8 @@ $$('a[href^="#"]').forEach((anchor) => {
 
 /* =========================
    Card Hover Tilt (desktop only-ish)
+   - DISABLED for the contact form card so the form is usable
+   - Also won't tilt while you're interacting with inputs/buttons
 ========================= */
 (() => {
   const cards = $$(".card");
@@ -346,9 +355,10 @@ window.addEventListener("load", () => {
 
 /* =========================
    Contact Form Handler
-   - Small files: send to Formspree as multipart FormData (original behavior)
-   - Large files (up to 500MB): upload to your storage via presigned URLs,
-     then send Formspree a submission with file links (NOT the files)
+   - Small files: send to Formspree as multipart FormData
+   - Large files: upload via presigned URLs, then submit links to Formspree
+   - No file-count cap + removable file list UI
+   - Accepts image/* and falls back to extension if MIME is missing/weird
 ========================= */
 (() => {
   const form = $("#contactForm");
@@ -359,20 +369,6 @@ window.addEventListener("load", () => {
   const submittedAt = $("#submittedAt");
   const fileInput = $("#attachments", form);
 
-  /* ---- Configure this ----
-     You must create an endpoint on YOUR domain that returns presigned upload URLs.
-     Example: https://bakertsolutions.com/api/upload-url
-
-     Expected response JSON (per file):
-     {
-       "uploadUrl": "https://... presigned PUT url ...",
-       "publicUrl": "https://... file url users can access ...",
-       "method": "PUT",
-       "headers": { "Content-Type": "..." }
-     }
-
-     For multiple files, this script calls it once per file.
-  */
   const LARGE_UPLOAD_PRESIGN_ENDPOINT =
     form.getAttribute("data-presign-endpoint") ||
     window.__BTS_PRESIGN_ENDPOINT__ ||
@@ -394,30 +390,190 @@ window.addEventListener("load", () => {
     el.setAttribute("aria-invalid", "true");
   };
 
-  // Formspree hard limits (cannot be bypassed in JS)
-  const FORMSPREE_MAX_PER_FILE = 25 * 1024 * 1024;   // 25MB
-  const FORMSPREE_MAX_TOTAL = 100 * 1024 * 1024;     // ~100MB
+  const FORMSPREE_MAX_PER_FILE = 25 * 1024 * 1024; // 25MB
+  const FORMSPREE_MAX_TOTAL   = 100 * 1024 * 1024; // ~100MB
 
-  // Your desired limits
-  const BIG_MAX_PER_FILE = 500 * 1024 * 1024;        // 500MB
-  const BIG_MAX_TOTAL = 520 * 1024 * 1024;           // slightly above 500MB to allow a bit of overhead
-  const BIG_MAX_FILES = 5;
+  const BIG_MAX_PER_FILE = 500 * 1024 * 1024;      // 500MB per file
+  const BIG_MAX_TOTAL    = 2 * 1024 * 1024 * 1024; // 2GB total
 
-  const allowed = new Set([
-    "image/jpeg",
-    "image/png",
-    "image/heic",
-    "image/heif",
-    "application/pdf",
-    "application/zip",
-    "application/x-zip-compressed",
-    "video/mp4",
-    "video/quicktime"
+  /* -------------------------
+     File list UI + removal
+  ------------------------- */
+  let selectedFiles = [];
+
+  const ensureFileUI = () => {
+    if (!fileInput) return null;
+
+    let wrap = $("#fileListWrap", form);
+    if (!wrap) {
+      wrap = document.createElement("div");
+      wrap.id = "fileListWrap";
+      wrap.style.marginTop = "10px";
+
+      const list = document.createElement("div");
+      list.id = "fileList";
+      list.style.display = "grid";
+      list.style.gap = "8px";
+
+      wrap.appendChild(list);
+      fileInput.insertAdjacentElement("afterend", wrap);
+    }
+    return wrap;
+  };
+
+  const formatBytes = (bytes) => {
+    const kb = 1024, mb = kb * 1024, gb = mb * 1024;
+    if (bytes >= gb) return (bytes / gb).toFixed(2) + " GB";
+    if (bytes >= mb) return (bytes / mb).toFixed(1) + " MB";
+    if (bytes >= kb) return (bytes / kb).toFixed(1) + " KB";
+    return bytes + " B";
+  };
+
+  const fileKey = (f) => `${f.name}__${f.size}__${f.lastModified}`;
+
+  const syncInputFiles = () => {
+    if (!fileInput) return;
+    const dt = new DataTransfer();
+    selectedFiles.forEach((f) => dt.items.add(f));
+    fileInput.files = dt.files;
+  };
+
+  const renderFileList = () => {
+    if (!fileInput) return;
+
+    const wrap = ensureFileUI();
+    if (!wrap) return;
+
+    const list = $("#fileList", wrap);
+    if (!list) return;
+
+    list.innerHTML = "";
+
+    if (!selectedFiles.length) {
+      const empty = document.createElement("div");
+      empty.className = "muted";
+      empty.style.fontSize = "13px";
+      empty.textContent = "No files selected.";
+      list.appendChild(empty);
+      return;
+    }
+
+    const total = selectedFiles.reduce((s, f) => s + f.size, 0);
+
+    const summary = document.createElement("div");
+    summary.className = "muted";
+    summary.style.fontSize = "13px";
+    summary.textContent = `${selectedFiles.length} file(s) selected • ${formatBytes(total)} total`;
+    list.appendChild(summary);
+
+    selectedFiles.forEach((f, idx) => {
+      const row = document.createElement("div");
+      row.style.display = "grid";
+      row.style.gridTemplateColumns = "1fr auto";
+      row.style.alignItems = "center";
+      row.style.gap = "10px";
+      row.style.padding = "10px 12px";
+      row.style.borderRadius = "14px";
+      row.style.border = "1px solid rgba(255,255,255,0.12)";
+      row.style.background = "rgba(255,255,255,0.04)";
+
+      const left = document.createElement("div");
+      left.style.minWidth = "0";
+
+      const name = document.createElement("div");
+      name.style.fontWeight = "750";
+      name.style.fontSize = "13px";
+      name.style.whiteSpace = "nowrap";
+      name.style.overflow = "hidden";
+      name.style.textOverflow = "ellipsis";
+      name.textContent = f.name;
+
+      const meta = document.createElement("div");
+      meta.className = "muted";
+      meta.style.fontSize = "12px";
+      meta.textContent = `${formatBytes(f.size)} • ${f.type || "unknown type"}`;
+
+      left.appendChild(name);
+      left.appendChild(meta);
+
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "btn ghost";
+      btn.style.padding = "10px 12px";
+      btn.style.borderRadius = "14px";
+      btn.textContent = "Remove";
+      btn.addEventListener("click", () => {
+        selectedFiles.splice(idx, 1);
+        syncInputFiles();
+        renderFileList();
+      });
+
+      row.appendChild(left);
+      row.appendChild(btn);
+      list.appendChild(row);
+    });
+  };
+
+  if (fileInput) {
+    fileInput.addEventListener("change", () => {
+      const incoming = Array.from(fileInput.files || []);
+      if (!incoming.length) {
+        syncInputFiles();
+        renderFileList();
+        return;
+      }
+
+      const existing = new Set(selectedFiles.map(fileKey));
+      for (const f of incoming) {
+        const k = fileKey(f);
+        if (!existing.has(k)) {
+          selectedFiles.push(f);
+          existing.add(k);
+        }
+      }
+
+      syncInputFiles();
+      renderFileList();
+    });
+
+    ensureFileUI();
+    renderFileList();
+  }
+
+  /* -------------------------
+     File type acceptance
+  ------------------------- */
+  const ext = (name) => {
+    const m = String(name || "").toLowerCase().match(/\.([a-z0-9]+)$/);
+    return m ? m[1] : "";
+  };
+
+  const allowedExt = new Set([
+    "png","jpg","jpeg","gif","webp","bmp","tif","tiff","heic","heif","svg",
+    "pdf","zip","rar","7z",
+    "mp4","mov","m4v","avi","mkv"
   ]);
 
+  const isAllowedFile = (f) => {
+    const type = String(f.type || "").toLowerCase().trim();
+    const e = ext(f.name);
+
+    if (type.startsWith("image/")) return true;
+
+    if (type === "application/pdf") return true;
+    if (type === "application/zip" || type === "application/x-zip-compressed") return true;
+    if (type.startsWith("video/")) return true;
+
+    if (!type || type === "application/octet-stream" || type === "binary/octet-stream") {
+      return allowedExt.has(e);
+    }
+
+    return allowedExt.has(e);
+  };
+
   const getFiles = () => {
-    if (!fileInput || !fileInput.files) return [];
-    return Array.from(fileInput.files || []);
+    if (!fileInput) return [];
+    return selectedFiles.length ? selectedFiles.slice() : Array.from(fileInput.files || []);
   };
 
   const needsLargeUploadPath = (files) => {
@@ -427,46 +583,39 @@ window.addEventListener("load", () => {
       total += f.size;
       if (f.size > FORMSPREE_MAX_PER_FILE) return true;
     }
-    if (total > FORMSPREE_MAX_TOTAL) return true;
-    return false;
+    return total > FORMSPREE_MAX_TOTAL;
   };
 
   const validateFiles = () => {
     const files = getFiles();
-    if (!files.length) return { ok: true, mode: "none" };
-
-    if (files.length > BIG_MAX_FILES) {
-      markInvalid(fileInput);
-      return { ok: false, field: fileInput, message: `Please upload ${BIG_MAX_FILES} files or fewer.` };
-    }
+    if (!files.length) return { ok: true, mode: "none", files: [] };
 
     let total = 0;
     for (const f of files) {
       total += f.size;
 
-      const type = (f.type || "").toLowerCase();
-      if (type && !allowed.has(type)) {
+      if (!isAllowedFile(f)) {
         markInvalid(fileInput);
         return {
           ok: false,
           field: fileInput,
-          message: "Unsupported file type. Allowed: JPG, PNG, HEIC, PDF, ZIP, MP4, MOV."
+          message: `File not permitted: ${f.name}. Try PNG/JPG/PDF/ZIP/MP4 or a common format.`
         };
       }
 
       if (f.size > BIG_MAX_PER_FILE) {
         markInvalid(fileInput);
-        return { ok: false, field: fileInput, message: "One file is too large. Max 500MB per file." };
+        return { ok: false, field: fileInput, message: `One file is too large: ${f.name}. Max 500MB per file.` };
       }
     }
 
     if (total > BIG_MAX_TOTAL) {
       markInvalid(fileInput);
-      return { ok: false, field: fileInput, message: "Total upload is too large. Max 500MB total." };
+      return { ok: false, field: fileInput, message: "Total upload is too large. Max 2GB total." };
     }
 
     const mode = needsLargeUploadPath(files) ? "large" : "small";
-    return { ok: true, mode, totalBytes: total, files };
+    return { ok: true, mode, files, totalBytes: total };
   };
 
   const validate = () => {
@@ -525,8 +674,7 @@ window.addEventListener("load", () => {
     const vf = validateFiles();
     if (!vf.ok) return vf;
 
-    // If large mode is needed, require presign endpoint
-    if (vf.mode === "large" && !LARGE_UPLOAD_PRESIGN_ENDPOINT) {
+    if (vf.mode === "large" && vf.files.length && !LARGE_UPLOAD_PRESIGN_ENDPOINT) {
       markInvalid(fileInput);
       return {
         ok: false,
@@ -539,13 +687,14 @@ window.addEventListener("load", () => {
     return { ok: true, filesMode: vf.mode, files: vf.files || [] };
   };
 
+  /* -------------------------
+     Large upload helpers
+  ------------------------- */
   const xhrUpload = (uploadUrl, file, extraHeaders = {}, onProgress) => {
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
       xhr.open("PUT", uploadUrl, true);
 
-      // Some presigned URLs require content-type to match what was signed.
-      // If your backend signs with a specific Content-Type, keep this.
       const headers = {
         "Content-Type": file.type || "application/octet-stream",
         ...extraHeaders
@@ -605,20 +754,16 @@ window.addEventListener("load", () => {
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
 
-      showStatus(
-        "info",
-        `Uploading file ${i + 1} of ${files.length}: ${file.name}`
-      );
+      showStatus("info", `Uploading file ${i + 1} of ${files.length}: ${file.name}`);
 
       const presign = await presignForFile(file);
-
       if ((presign.method || "PUT").toUpperCase() !== "PUT") {
-        throw new Error("Presign endpoint must return a PUT uploadUrl for this client uploader.");
+        throw new Error("Presign endpoint must return a PUT uploadUrl for this uploader.");
       }
 
       let lastShownPct = -1;
 
-      await xhrUpload(presign.uploadUrl, file, presign.headers, (loaded, total) => {
+      await xhrUpload(presign.uploadUrl, file, presign.headers, (loaded) => {
         const overall = uploadedBytesSoFar + loaded;
         const pct = Math.floor((overall / totalBytes) * 100);
         if (pct !== lastShownPct) {
@@ -640,6 +785,9 @@ window.addEventListener("load", () => {
     return results;
   };
 
+  /* -------------------------
+     Submit
+  ------------------------- */
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
@@ -667,7 +815,6 @@ window.addEventListener("load", () => {
     try {
       let uploadedLinks = null;
 
-      // If large uploads are needed, upload to your storage first
       if (v.filesMode === "large" && v.files && v.files.length) {
         uploadedLinks = await uploadLargeFiles(v.files);
         showStatus("info", "Upload complete. Sending your request…");
@@ -675,21 +822,14 @@ window.addEventListener("load", () => {
         showStatus("info", "Sending your request…");
       }
 
-      // Build FormData for Formspree
       const formData = new FormData(form);
 
-      // Always attach metadata fields
       formData.append("userAgent", navigator.userAgent);
       formData.append("referrer", document.referrer || "");
       formData.append("url", window.location.href);
 
-      // If we used large upload mode, do NOT send files to Formspree
       if (uploadedLinks) {
-        // Remove file field from FormData to avoid Formspree size limits
-        // Note: key must match your <input name="attachments" ...>
         formData.delete("attachments");
-
-        // Add the uploaded file links as a JSON string
         formData.append("uploadedFiles", JSON.stringify(uploadedLinks));
       }
 
@@ -711,14 +851,15 @@ window.addEventListener("load", () => {
       }
 
       showStatus("success", "Request sent! We’ll reach out soon.");
+
       form.reset();
       clearInvalid();
+
+      selectedFiles = [];
+      syncInputFiles();
+      renderFileList();
     } catch (err) {
-      showStatus(
-        "error",
-        err?.message ||
-          "Network error. Please try again, or contact us directly using the info on this page."
-      );
+      showStatus("error", err?.message || "Network error. Please try again.");
     } finally {
       if (submitBtn) {
         submitBtn.disabled = false;
