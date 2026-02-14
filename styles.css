@@ -11,6 +11,7 @@
    - Footer MOBILE FIX: clean stacked layout, aligned + evenly spaced
    - Mobile-safe + no horizontal scroll
    - ✅ FIX: Pricing/Services bullet points align + wrap correctly
+   - ✅ FIX: Custom dot bullets (checklist/mini-bullets) centered with text
 ========================================================= */
 
 /* ================= THEME / VARIABLES ================= */
@@ -459,6 +460,7 @@ body::after{
 
 /* =========================================================
    CHECKLIST / SERVICE LISTS (custom dot bullets)
+   ✅ FIX: dots are vertically centered with the first line of text
 ========================================================= */
 .checklist{
   list-style: none;
@@ -480,18 +482,21 @@ body::after{
   width: 8px;
   height: 8px;
   border-radius: 999px;
-  margin-top: 9px;
   flex: 0 0 auto;
   background: linear-gradient(135deg, var(--a1), var(--a3));
   box-shadow: 0 0 18px rgba(74,241,255,0.22);
   opacity: 0.95;
+
+  /* ✅ Center dot with text (no hard-coded px guessing) */
+  margin-top: 0;
+  transform: translateY(0.55em);
 }
 
 .quick-links li{ padding: 4px 0; }
 .quick-links li::before{
   width: 7px;
   height: 7px;
-  margin-top: 9px;
+  transform: translateY(0.55em);
   opacity: 0.80;
 }
 
@@ -505,21 +510,26 @@ body::after{
   color: rgba(255,255,255,0.78);
   line-height: 1.6;
 }
+
 .mini-bullets li{
   display: flex;
   gap: 10px;
   align-items: flex-start;
   padding: 6px 0;
 }
+
 .mini-bullets li::before{
   content:"";
   width: 8px;
   height: 8px;
   border-radius: 999px;
-  margin-top: 9px;
   flex: 0 0 auto;
   background: linear-gradient(135deg, var(--a1), var(--a3));
   box-shadow: 0 0 18px rgba(74,241,255,0.22);
+
+  /* ✅ Center dot with text */
+  margin-top: 0;
+  transform: translateY(0.55em);
 }
 
 /* ================= ABOUT SPLIT ================= */
@@ -764,8 +774,6 @@ html.js .reveal.is-visible{
 
 /* =========================================================
    MOBILE NAV OVERLAY (UNDER FIXED HEADER)
-   - Header stays visible at the very top
-   - Overlay fills the remaining screen space always
 ========================================================= */
 @media (max-width: 900px){
   .nav-toggle{ display:block; }
@@ -1186,11 +1194,9 @@ select.field option:disabled{
 .services ul:not(.checklist):not(.mini-bullets):not(.quick-links) > li,
 .pricing ol > li,
 .services ol > li{
-  display: list-item !important;    /* kills flex-bullet bugs */
+  display: list-item !important;
   line-height: 1.45 !important;
   margin: 0.4rem 0 !important;
-
-  /* this gives clean spacing between bullet and text, and keeps wraps aligned */
   padding-left: 0.35rem !important;
 }
 
