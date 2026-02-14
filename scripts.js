@@ -12,13 +12,6 @@ document.documentElement.classList.add("js");
 /* =========================
    Mobile Nav (FULL SCREEN Overlay)
    Works across ALL pages
-   - Supports menu markup as either:
-     1) <nav class="nav-links" data-nav>...</nav>
-     2) <nav class="nav-links">...</nav>
-     3) any element with [data-nav]
-   - Uses CSS: .open + body.nav-open
-   - Close on link click, outside click, ESC, orientation/resize to desktop
-   - Prevents "half-screen" issues by always toggling the correct menu element
 ========================= */
 (() => {
   const btn = $(".nav-toggle");
@@ -238,8 +231,6 @@ $$('a[href^="#"]').forEach((anchor) => {
 
 /* =========================
    Card Hover Tilt (desktop only-ish)
-   - DISABLED for the contact form card so the form is usable
-   - Also won't tilt while you're interacting with inputs/buttons
 ========================= */
 (() => {
   const cards = $$(".card");
@@ -249,11 +240,9 @@ $$('a[href^="#"]').forEach((anchor) => {
     window.matchMedia("(hover: hover)").matches &&
     !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  // Anything interactive inside a card should not trigger tilt while being used
   const interactiveSel = "input, textarea, select, button, label, a";
 
   cards.forEach((card) => {
-    // ✅ If this card contains the contact form, never tilt it.
     if (card.querySelector("#contactForm")) return;
 
     let raf = null;
@@ -268,7 +257,6 @@ $$('a[href^="#"]').forEach((anchor) => {
       const centerX = rect.width / 2;
       const centerY = rect.height / 2;
 
-      // Softer tilt than before (less dramatic)
       const rotateX = (y - centerY) / 60;
       const rotateY = (x - centerX) / 60;
 
@@ -278,7 +266,6 @@ $$('a[href^="#"]').forEach((anchor) => {
     card.addEventListener("mousemove", (e) => {
       if (!shouldTilt()) return;
 
-      // ✅ If you're hovering over an input/button/link, don't tilt (prevents "fighting" the cursor)
       if (e.target && e.target.closest(interactiveSel)) {
         card.style.transform = "";
         return;
@@ -358,9 +345,10 @@ window.addEventListener("load", () => {
 });
 
 /* =========================
-   Contact Form Handler (Formspree + file uploads)
-   - Sends multipart FormData so attachments work
-   - Keeps your validation + UI behavior
+   Contact Form Handler
+   - Small files: send to Formspree as multipart FormData (original behavior)
+   - Large files (up to 500MB): upload to your storage via presigned URLs,
+     then send Formspree a submission with file links (NOT the files)
 ========================= */
 (() => {
   const form = $("#contactForm");
@@ -370,6 +358,25 @@ window.addEventListener("load", () => {
   const submitBtn = $("#submitBtn");
   const submittedAt = $("#submittedAt");
   const fileInput = $("#attachments", form);
+
+  /* ---- Configure this ----
+     You must create an endpoint on YOUR domain that returns presigned upload URLs.
+     Example: https://bakertsolutions.com/api/upload-url
+
+     Expected response JSON (per file):
+     {
+       "uploadUrl": "https://... presigned PUT url ...",
+       "publicUrl": "https://... file url users can access ...",
+       "method": "PUT",
+       "headers": { "Content-Type": "..." }
+     }
+
+     For multiple files, this script calls it once per file.
+  */
+  const LARGE_UPLOAD_PRESIGN_ENDPOINT =
+    form.getAttribute("data-presign-endpoint") ||
+    window.__BTS_PRESIGN_ENDPOINT__ ||
+    "";
 
   const showStatus = (type, msg) => {
     if (!statusEl) return;
@@ -387,49 +394,79 @@ window.addEventListener("load", () => {
     el.setAttribute("aria-invalid", "true");
   };
 
-  const validateFiles = () => {
-    if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
-      return { ok: true };
+  // Formspree hard limits (cannot be bypassed in JS)
+  const FORMSPREE_MAX_PER_FILE = 25 * 1024 * 1024;   // 25MB
+  const FORMSPREE_MAX_TOTAL = 100 * 1024 * 1024;     // ~100MB
+
+  // Your desired limits
+  const BIG_MAX_PER_FILE = 500 * 1024 * 1024;        // 500MB
+  const BIG_MAX_TOTAL = 520 * 1024 * 1024;           // slightly above 500MB to allow a bit of overhead
+  const BIG_MAX_FILES = 5;
+
+  const allowed = new Set([
+    "image/jpeg",
+    "image/png",
+    "image/heic",
+    "image/heif",
+    "application/pdf",
+    "application/zip",
+    "application/x-zip-compressed",
+    "video/mp4",
+    "video/quicktime"
+  ]);
+
+  const getFiles = () => {
+    if (!fileInput || !fileInput.files) return [];
+    return Array.from(fileInput.files || []);
+  };
+
+  const needsLargeUploadPath = (files) => {
+    if (!files.length) return false;
+    let total = 0;
+    for (const f of files) {
+      total += f.size;
+      if (f.size > FORMSPREE_MAX_PER_FILE) return true;
     }
+    if (total > FORMSPREE_MAX_TOTAL) return true;
+    return false;
+  };
 
-    const files = Array.from(fileInput.files);
-    const allowed = new Set([
-      "image/jpeg",
-      "image/png",
-      "image/heic",
-      "image/heif"
-    ]);
+  const validateFiles = () => {
+    const files = getFiles();
+    if (!files.length) return { ok: true, mode: "none" };
 
-    const maxFiles = 10;
-    const maxPerFile = 25 * 1024 * 1024;  // 25MB
-    const maxTotal = 100 * 1024 * 1024;   // 100MB
-
-    if (files.length > maxFiles) {
+    if (files.length > BIG_MAX_FILES) {
       markInvalid(fileInput);
-      return { ok: false, field: fileInput, message: `Please upload ${maxFiles} photos or fewer.` };
+      return { ok: false, field: fileInput, message: `Please upload ${BIG_MAX_FILES} files or fewer.` };
     }
 
     let total = 0;
     for (const f of files) {
       total += f.size;
 
-      if (!allowed.has((f.type || "").toLowerCase())) {
+      const type = (f.type || "").toLowerCase();
+      if (type && !allowed.has(type)) {
         markInvalid(fileInput);
-        return { ok: false, field: fileInput, message: "Only image files are allowed (JPG, PNG, HEIC)." };
+        return {
+          ok: false,
+          field: fileInput,
+          message: "Unsupported file type. Allowed: JPG, PNG, HEIC, PDF, ZIP, MP4, MOV."
+        };
       }
 
-      if (f.size > maxPerFile) {
+      if (f.size > BIG_MAX_PER_FILE) {
         markInvalid(fileInput);
-        return { ok: false, field: fileInput, message: "One of your images is too large. Max 25MB per file." };
+        return { ok: false, field: fileInput, message: "One file is too large. Max 500MB per file." };
       }
     }
 
-    if (total > maxTotal) {
+    if (total > BIG_MAX_TOTAL) {
       markInvalid(fileInput);
-      return { ok: false, field: fileInput, message: "Total upload is too large. Max 100MB total." };
+      return { ok: false, field: fileInput, message: "Total upload is too large. Max 500MB total." };
     }
 
-    return { ok: true };
+    const mode = needsLargeUploadPath(files) ? "large" : "small";
+    return { ok: true, mode, totalBytes: total, files };
   };
 
   const validate = () => {
@@ -488,7 +525,119 @@ window.addEventListener("load", () => {
     const vf = validateFiles();
     if (!vf.ok) return vf;
 
-    return { ok: true };
+    // If large mode is needed, require presign endpoint
+    if (vf.mode === "large" && !LARGE_UPLOAD_PRESIGN_ENDPOINT) {
+      markInvalid(fileInput);
+      return {
+        ok: false,
+        field: fileInput,
+        message:
+          "Large uploads are enabled, but no presign endpoint is configured. Add data-presign-endpoint to the form or set window.__BTS_PRESIGN_ENDPOINT__."
+      };
+    }
+
+    return { ok: true, filesMode: vf.mode, files: vf.files || [] };
+  };
+
+  const xhrUpload = (uploadUrl, file, extraHeaders = {}, onProgress) => {
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open("PUT", uploadUrl, true);
+
+      // Some presigned URLs require content-type to match what was signed.
+      // If your backend signs with a specific Content-Type, keep this.
+      const headers = {
+        "Content-Type": file.type || "application/octet-stream",
+        ...extraHeaders
+      };
+
+      Object.entries(headers).forEach(([k, v]) => {
+        if (v != null && v !== "") xhr.setRequestHeader(k, String(v));
+      });
+
+      xhr.upload.onprogress = (evt) => {
+        if (!evt.lengthComputable) return;
+        if (typeof onProgress === "function") onProgress(evt.loaded, evt.total);
+      };
+
+      xhr.onload = () => {
+        if (xhr.status >= 200 && xhr.status < 300) return resolve(true);
+        reject(new Error(`Upload failed (${xhr.status})`));
+      };
+
+      xhr.onerror = () => reject(new Error("Upload failed (network error)"));
+      xhr.send(file);
+    });
+  };
+
+  const presignForFile = async (file) => {
+    const res = await fetch(LARGE_UPLOAD_PRESIGN_ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify({
+        filename: file.name,
+        contentType: file.type || "application/octet-stream",
+        size: file.size
+      })
+    });
+
+    const data = await res.json().catch(() => null);
+    if (!res.ok || !data || !data.uploadUrl || !data.publicUrl) {
+      const msg =
+        (data && (data.error || data.message)) ||
+        "Could not start upload. Check your presign endpoint.";
+      throw new Error(msg);
+    }
+
+    return {
+      uploadUrl: data.uploadUrl,
+      publicUrl: data.publicUrl,
+      method: data.method || "PUT",
+      headers: data.headers || {}
+    };
+  };
+
+  const uploadLargeFiles = async (files) => {
+    const results = [];
+    const totalBytes = files.reduce((s, f) => s + f.size, 0);
+    let uploadedBytesSoFar = 0;
+
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+
+      showStatus(
+        "info",
+        `Uploading file ${i + 1} of ${files.length}: ${file.name}`
+      );
+
+      const presign = await presignForFile(file);
+
+      if ((presign.method || "PUT").toUpperCase() !== "PUT") {
+        throw new Error("Presign endpoint must return a PUT uploadUrl for this client uploader.");
+      }
+
+      let lastShownPct = -1;
+
+      await xhrUpload(presign.uploadUrl, file, presign.headers, (loaded, total) => {
+        const overall = uploadedBytesSoFar + loaded;
+        const pct = Math.floor((overall / totalBytes) * 100);
+        if (pct !== lastShownPct) {
+          lastShownPct = pct;
+          showStatus("info", `Uploading… ${pct}%`);
+        }
+      });
+
+      uploadedBytesSoFar += file.size;
+
+      results.push({
+        name: file.name,
+        type: file.type || "application/octet-stream",
+        size: file.size,
+        url: presign.publicUrl
+      });
+    }
+
+    return results;
   };
 
   form.addEventListener("submit", async (e) => {
@@ -515,21 +664,39 @@ window.addEventListener("load", () => {
       submitBtn.textContent = "Sending...";
     }
 
-    showStatus("info", "Sending your request…");
-
     try {
+      let uploadedLinks = null;
+
+      // If large uploads are needed, upload to your storage first
+      if (v.filesMode === "large" && v.files && v.files.length) {
+        uploadedLinks = await uploadLargeFiles(v.files);
+        showStatus("info", "Upload complete. Sending your request…");
+      } else {
+        showStatus("info", "Sending your request…");
+      }
+
+      // Build FormData for Formspree
       const formData = new FormData(form);
 
+      // Always attach metadata fields
       formData.append("userAgent", navigator.userAgent);
       formData.append("referrer", document.referrer || "");
       formData.append("url", window.location.href);
 
+      // If we used large upload mode, do NOT send files to Formspree
+      if (uploadedLinks) {
+        // Remove file field from FormData to avoid Formspree size limits
+        // Note: key must match your <input name="attachments" ...>
+        formData.delete("attachments");
+
+        // Add the uploaded file links as a JSON string
+        formData.append("uploadedFiles", JSON.stringify(uploadedLinks));
+      }
+
       const res = await fetch(endpoint, {
         method: "POST",
         body: formData,
-        headers: {
-          "Accept": "application/json"
-        }
+        headers: { "Accept": "application/json" }
       });
 
       const data = await res.json().catch(() => null);
@@ -547,7 +714,11 @@ window.addEventListener("load", () => {
       form.reset();
       clearInvalid();
     } catch (err) {
-      showStatus("error", "Network error. Please try again, or contact us directly using the info on this page.");
+      showStatus(
+        "error",
+        err?.message ||
+          "Network error. Please try again, or contact us directly using the info on this page."
+      );
     } finally {
       if (submitBtn) {
         submitBtn.disabled = false;
