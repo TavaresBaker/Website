@@ -482,18 +482,7 @@ body::after{
    - Centers the LIST BLOCK inside the card
    - Keeps the list content left-aligned (looks clean)
 ========================================================= */
-.centered-list{
-  display: grid;
-  justify-items: center;
-  margin-top: 6px;
-}
 
-.centered-list > ul,
-.centered-list > ol{
-  display: inline-block;   /* makes it "shrink to fit" so it can be centered */
-  text-align: left;        /* keep text readable */
-  max-width: 100%;
-}
 
 /* small tweak so the quick-links list doesn’t look offset */
 .hero-card .quick-links{
