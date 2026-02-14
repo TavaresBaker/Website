@@ -1175,3 +1175,33 @@ select.field option:disabled{
 .soon-note{
   margin-top: 18px;
 }
+
+/* =========================================
+   LIST ALIGNMENT FIX — Pricing + Services
+========================================= */
+
+.pricing ul,
+.services ul,
+.card ul,
+.panel ul,
+.section ul,
+ul.feature-list,
+ul.service-list {
+  list-style: disc;
+  list-style-position: outside;
+  padding-left: 1.25rem;
+  margin: 0.75rem 0 0;
+}
+
+.pricing li,
+.services li,
+.card li,
+.panel li,
+.section li,
+ul.feature-list li,
+ul.service-list li {
+  margin: 0.4rem 0;
+  padding-left: 0.35rem;
+  line-height: 1.45;
+}
+
