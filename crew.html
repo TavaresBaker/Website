@@ -51,9 +51,27 @@
           <div class="crew-media">
             <img
               class="crew-photo"
-              src="./tavares.jpg?v=1"
+              src="tavares.jpg"
               alt="Tavares Baker"
               loading="lazy"
+              onerror="
+                this.onerror=null;
+                const tries=[
+                  'tavares.jpg',
+                  './tavares.jpg',
+                  '../tavares.jpg',
+                  '../../tavares.jpg',
+                  '/tavares.jpg'
+                ];
+                let i=0;
+                const img=this;
+                const next=()=>{
+                  i++;
+                  if(i<tries.length) img.src = tries[i];
+                };
+                img.addEventListener('error', next);
+                img.src = tries[0];
+              "
             />
           </div>
 
@@ -87,16 +105,13 @@
             </div>
 
             <div class="crew-actions">
-              <!-- Uses YOUR existing .btn styles from styles.css -->
               <a class="btn primary" href="contact.html">Work with me</a>
-              <a class="btn ghost" href="services.html">See services</a>
-            </div>
 
-            <div class="crew-links" aria-label="Crew links">
-              <!-- Uses your existing styles; if .chip doesn't exist globally, it'll still be clickable -->
-              <a class="chip" href="https://github.com/TavaresBaker" target="_blank" rel="noopener">GitHub</a>
-              <a class="chip" href="https://www.linkedin.com/in/tabaker01" target="_blank" rel="noopener">LinkedIn</a>
-              <a class="chip" href="assets/docs/Tavares.Resume.pdf" target="_blank" rel="noopener">Résumé (PDF)</a>
+              <div class="crew-subactions" aria-label="Profile links">
+                <a class="btn ghost" href="https://github.com/TavaresBaker" target="_blank" rel="noopener">GitHub</a>
+                <a class="btn ghost" href="https://www.linkedin.com/in/tabaker01" target="_blank" rel="noopener">LinkedIn</a>
+                <a class="btn ghost" href="assets/docs/Tavares.Resume.pdf" target="_blank" rel="noopener">Résumé (PDF)</a>
+              </div>
             </div>
           </div>
         </article>
@@ -147,17 +162,12 @@
     .crew-role{ margin: 4px 0 0; color: var(--muted); font-weight: 600; }
     .crew-bio p{ margin: 10px 0 0; color: var(--text); }
 
-    .crew-actions{
+    .crew-actions{ margin-top: 14px; }
+    .crew-subactions{
       display:flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 14px;
-    }
-    .crew-links{
-      display:flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 12px;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:10px;
     }
 
     .crew-side{ padding: 16px; }
