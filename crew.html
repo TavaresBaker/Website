@@ -294,6 +294,38 @@
         padding: 18px;
       }
     }
+    /* Replace your current cards styling for the “What I bring” area with this */
+    .bio-skills .cards{
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      justify-items: stretch;
+    }
+    
+    .bio-skills .card{
+      height: 100%;
+    }
+    
+    /* Mobile/tablet fallback */
+    @media (max-width: 920px){
+      .bio-skills .cards{
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    /* Kill the “background square” behind the CTA band */
+    .crew-cta .cta-band{
+      background: transparent;
+      border: 0;
+      box-shadow: none;
+      padding: 0;
+    }
+    
+    /* Keep the CTA spaced away from the skills/cards */
+    .crew-cta .cta-spaced{
+      margin-top: 34px; /* bump up/down as you like */
+    }
+
   </style>
 </body>
 </html>
