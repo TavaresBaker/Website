@@ -49,7 +49,23 @@
       <div class="grid-2 crew-grid">
         <article class="card crew-card">
           <div class="crew-media">
-            <img class="crew-photo" src="tavares.jpg" alt="Tavares Baker" loading="lazy" />
+           <img
+  class="crew-photo"
+  src="tavares.jpg"
+  alt="Tavares Baker"
+  loading="lazy"
+  referrerpolicy="no-referrer"
+  onerror="
+    this.onerror=null;
+    const tries=['./tavares.jpg','../tavares.jpg','/tavares.jpg','assets/images/tavares.jpg','images/tavares.jpg'];
+    let i=0;
+    const img=this;
+    const tryNext=()=>{ if(i>=tries.length) return; img.src=tries[i++]; };
+    img.addEventListener('error', tryNext, { once:false });
+    tryNext();
+  "
+/>
+
           </div>
 
           <div class="crew-body">
