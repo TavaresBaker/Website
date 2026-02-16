@@ -43,15 +43,15 @@
         <div class="crew-intro">
           <h1>Meet the crew.</h1>
           <p class="subhead">
-            The people behind Baker Tech Solutions — practical IT, networking, and security with a hands-on approach.
+            The people behind Baker Tech Solutions. Practical IT, networking, and security with a hands-on approach.
           </p>
           <div class="hero-actions">
-            <a class="btn primary" href="contact.html">Work With Me</a>
+            <a class="btn primary" href="contact.html">Work With Us</a>
             <a class="btn ghost" href="services.html">View Services</a>
           </div>
         </div>
 
-        <section class="bio-square" aria-label="Crew member bio">
+        <section class="bio-square" aria-label="Crew member bio and strengths">
           <div class="bio-grid">
             <div class="bio-media">
               <img class="bio-photo" src="tavares.jpg" alt="Tavares Baker" loading="lazy" />
@@ -92,42 +92,49 @@
                   and technical challenges.
                 </p>
               </div>
+
+              <div class="bio-divider" aria-hidden="true"></div>
+
+              <div class="bio-skills">
+                <div class="bio-skills-head">
+                  <h3>What I bring</h3>
+                  <p class="muted">Hands-on experience, a strong learning mindset, and a focus on real outcomes.</p>
+                </div>
+
+                <div class="cards cards-center">
+                  <article class="card reveal">
+                    <h4>Networking fundamentals</h4>
+                    <p>Routing, switching, and practical troubleshooting.</p>
+                  </article>
+                  <article class="card reveal">
+                    <h4>Security mindset</h4>
+                    <p>Comfortable with real-world challenges, cleanup, and hardening.</p>
+                  </article>
+                  <article class="card reveal">
+                    <h4>IT experience</h4>
+                    <p>2.5 years working with standard processes, compliance, and day-to-day technical issues.</p>
+                  </article>
+                </div>
+              </div>
             </div>
           </div>
         </section>
 
-        <section class="section alt crew-skills">
-          <div class="section-head center">
-            <h2>What I bring</h2>
-            <p>Hands-on experience, a strong learning mindset, and a focus on real outcomes.</p>
-          </div>
-
-          <div class="cards cards-center">
-            <article class="card reveal">
-              <h3>Networking fundamentals</h3>
-              <p>Routing, switching, and practical troubleshooting.</p>
-            </article>
-            <article class="card reveal">
-              <h3>Security mindset</h3>
-              <p>Comfortable with real-world challenges, cleanup, and hardening.</p>
-            </article>
-            <article class="card reveal">
-              <h3>IT experience</h3>
-              <p>2.5 years working with standard processes, compliance, and day-to-day technical issues.</p>
-            </article>
-          </div>
-
-          <div class="cta-band cta-center cta-spaced">
-            <div>
-              <h2>Want to work together?</h2>
-              <p>If you have a project in mind, check services first or reach out for a quote.</p>
-            </div>
-            <div class="cta-actions">
-              <a class="btn primary" href="contact.html">Request a Quote</a>
-              <a class="btn ghost" href="services.html">View Services</a>
+        <section class="section alt crew-cta">
+          <div class="container cta-container">
+            <div class="cta-band cta-center cta-spaced">
+              <div>
+                <h2>Want to work together?</h2>
+                <p>If you have a project in mind, check services first or reach out for a quote.</p>
+              </div>
+              <div class="cta-actions">
+                <a class="btn primary" href="contact.html">Request a Quote</a>
+                <a class="btn ghost" href="services.html">View Services</a>
+              </div>
             </div>
           </div>
         </section>
+
       </div>
     </section>
   </main>
@@ -222,18 +229,36 @@
       margin: 10px 0 0;
     }
 
-    .crew-skills{
-      padding-top: 0;
+    .bio-divider{
+      height: 1px;
+      background: var(--line);
+      margin: 16px 0 16px;
     }
 
-    .section-head.center{
-      text-align:center;
-      margin: 0 auto 12px;
-      max-width: 760px;
+    .bio-skills-head{
+      margin-bottom: 12px;
+    }
+    .bio-skills-head h3{
+      margin: 0;
+      font-size: 1.25rem;
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+    }
+    .bio-skills-head .muted{
+      margin: 6px 0 0;
     }
 
     .cards.cards-center{
       justify-content: center;
+    }
+    .bio-skills .card h4{
+      margin: 0 0 8px;
+      font-size: 1.05rem;
+      line-height: 1.2;
+    }
+
+    .crew-cta{
+      padding-top: 0;
     }
 
     .cta-band.cta-center{
@@ -245,7 +270,7 @@
     }
 
     .cta-spaced{
-      margin-top: 26px;
+      margin-top: 34px;
     }
 
     @media (max-width: 920px){
@@ -259,14 +284,14 @@
       .bio-photo{
         width: min(340px, 100%);
       }
+      .bio-links{
+        justify-content:center;
+      }
     }
 
     @media (max-width: 640px){
       .bio-square{
         padding: 18px;
-      }
-      .bio-links{
-        justify-content:center;
       }
     }
   </style>
