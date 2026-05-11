@@ -4,63 +4,40 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>404 | Baker Tech Solutions</title>
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
 </head>
-
 <body>
+  <div class="bg-grid" aria-hidden="true"></div>
 
-<div class="bg-grid" aria-hidden="true"></div>
-
-<header class="glass-nav">
-  <div class="container nav-wrap">
-    <a class="brand" href="index.html">
-      <span class="brand-mark">◆</span>
-      <span class="brand-text">Baker Tech Solutions</span>
-    </a>
-  </div>
-</header>
-
-<main class="section">
-
-  <div class="container">
-
-    <div class="hero-card" style="text-align:center; max-width:720px; margin:0 auto;">
-
-      <div style="
-        font-size:clamp(80px,15vw,160px);
-        font-weight:900;
-        line-height:1;
-        margin-bottom:12px;
-      ">
-        404
-      </div>
-
-      <h1 style="margin-bottom:12px;">Page Not Found</h1>
-
-      <p class="muted" style="margin-bottom:34px;">
-        The page you’re looking for doesn’t exist, was moved, or never existed.
-      </p>
-
-      <a href="index.html" class="btn primary">
-        Return Home
+  <header class="glass-nav">
+    <div class="container nav-wrap">
+      <a class="brand" href="index.html">
+        <span class="brand-mark">◆</span>
+        <span class="brand-text">Baker Tech Solutions</span>
       </a>
-
     </div>
+  </header>
 
-  </div>
+  <main class="section" style="display:flex; align-items:center;">
+    <div class="container">
+      <div class="hero-card" style="text-align:center; max-width:680px; margin:0 auto; padding:48px 40px;">
+        <div class="error-num">404</div>
+        <h1 style="margin-bottom:12px;">Page not found.</h1>
+        <p class="muted" style="margin-bottom:32px; font-size:15px;">
+          The page you're looking for doesn't exist, was moved, or never existed in the first place.
+        </p>
+        <a href="index.html" class="btn primary">Return Home</a>
+      </div>
+    </div>
+  </main>
 
-</main>
-
-<footer class="footer">
-  <div class="container">
-    © Baker Tech Solutions
-  </div>
-</footer>
-
+  <footer class="footer">
+    <div class="container footer-bottom" style="border-top:none;">
+      <p>© 2026 Baker Tech Solutions</p>
+    </div>
+  </footer>
 </body>
 </html>

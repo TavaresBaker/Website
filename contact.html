@@ -7,7 +7,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="styles.css" />
 </head>
@@ -41,12 +41,16 @@
     <section class="hero">
       <div class="container hero-grid">
         <div class="hero-copy">
-          <h1>Let’s talk.</h1>
-          <p class="subhead">Tell us what you need and we’ll follow up with next steps.</p>
+          <p class="eyebrow">Reach out</p>
+          <h1>Let's talk.</h1>
+          <p class="subhead">
+            Tell us what you're dealing with and we'll follow up with a clear plan.
+            No obligation, no runaround.
+          </p>
 
           <div class="hero-actions">
-            <a class="btn primary" href="#form">Start a request</a>
-            <a class="btn ghost" href="pricing.html">View pricing</a>
+            <a class="btn primary" href="#form">Start a Request</a>
+            <a class="btn ghost" href="pricing.html">View Pricing</a>
           </div>
         </div>
       </div>
@@ -56,16 +60,15 @@
       <div class="container">
         <div class="section-head">
           <h2>Contact form</h2>
-
-          <div class="alert info tiny" role="note" aria-label="Privacy note">
-            <strong>Privacy tip:</strong> Don’t include passwords, recovery codes, or full card numbers.
+          <div class="alert info tiny" role="note">
+            <strong>Privacy tip:</strong> Don't include passwords, recovery codes, or full card numbers.
           </div>
         </div>
 
         <div class="split">
           <article class="card">
             <h3>Send a request</h3>
-            <p class="muted form-help">Fill this out and we’ll get back to you.</p>
+            <p class="form-help">Fill this out and we'll get back to you within 24 hours.</p>
 
             <form
               id="contactForm"
@@ -75,17 +78,7 @@
               enctype="multipart/form-data"
               novalidate
             >
-              <!-- Honeypot (anti-spam) — now truly hidden so it won't show as an extra textbox -->
-              <input
-                type="text"
-                name="website"
-                class="honeypot"
-                tabindex="-1"
-                autocomplete="off"
-                aria-hidden="true"
-                hidden
-              >
-
+              <input type="text" name="website" class="honeypot" tabindex="-1" autocomplete="off" aria-hidden="true" hidden>
               <input type="hidden" name="source" value="contact-page">
               <input type="hidden" name="page" value="/contact.html">
               <input type="hidden" name="submittedAt" id="submittedAt" value="">
@@ -93,45 +86,18 @@
               <div class="form-grid">
                 <div class="form-field">
                   <label for="name">Full Name</label>
-                  <input
-                    id="name"
-                    class="field"
-                    type="text"
-                    name="name"
-                    required
-                    autocomplete="name"
-                    placeholder="John Doe"
-                    minlength="2"
-                  />
+                  <input id="name" class="field" type="text" name="name" required autocomplete="name" placeholder="John Doe" minlength="2" />
                 </div>
 
                 <div class="form-field">
                   <label for="email">Email Address</label>
-                  <input
-                    id="email"
-                    class="field"
-                    type="email"
-                    name="email"
-                    required
-                    autocomplete="email"
-                    placeholder="you@example.com"
-                  />
+                  <input id="email" class="field" type="email" name="email" required autocomplete="email" placeholder="you@example.com" />
                 </div>
 
                 <div class="form-field">
                   <label for="phone">Phone Number</label>
-                  <input
-                    id="phone"
-                    class="field"
-                    type="tel"
-                    name="phone"
-                    required
-                    autocomplete="tel"
-                    placeholder="(555) 555-5555"
-                    inputmode="tel"
-                    pattern="^[0-9+().\s-]{7,}$"
-                  />
-                  <p class="muted tiny" style="margin-top:8px;">We only use this to contact you about your request.</p>
+                  <input id="phone" class="field" type="tel" name="phone" required autocomplete="tel" placeholder="(555) 555-5555" inputmode="tel" pattern="^[0-9+().\s-]{7,}$" />
+                  <p class="muted tiny" style="margin-top:6px;">Used only to follow up on your request.</p>
                 </div>
 
                 <div class="form-field">
@@ -161,9 +127,9 @@
                   <label for="urgency">Urgency</label>
                   <select id="urgency" class="field" name="urgency" required>
                     <option value="" selected disabled>Select urgency</option>
-                    <option value="Low">Low (this week is fine)</option>
-                    <option value="Medium">Medium (next 48–72 hours)</option>
-                    <option value="High">High (today / ASAP)</option>
+                    <option value="Low">Low — this week is fine</option>
+                    <option value="Medium">Medium — next 48–72 hours</option>
+                    <option value="High">High — today / ASAP</option>
                   </select>
                 </div>
 
@@ -179,51 +145,26 @@
                 </div>
 
                 <div class="form-field form-span">
-                  <label for="device">Device / Environment</label>
-                  <input
-                    id="device"
-                    class="field"
-                    type="text"
-                    name="device"
-                    placeholder="Example: Windows 11 PC, MacBook Pro, home Wi-Fi, pfSense, etc."
-                    autocomplete="off"
-                  />
-                  <p class="muted tiny" style="margin-top:8px;">Optional, but it helps.</p>
+                  <label for="device">Device / Environment <span class="muted" style="font-weight:400;">(optional)</span></label>
+                  <input id="device" class="field" type="text" name="device" placeholder="e.g. Windows 11 PC, MacBook, home Wi-Fi, pfSense router…" autocomplete="off" />
+                  <p class="muted tiny" style="margin-top:6px;">Helps us get right to the point.</p>
                 </div>
 
                 <div class="form-field form-span">
                   <label for="message">Brief Description</label>
-                  <textarea
-                    id="message"
-                    class="field"
-                    name="message"
-                    rows="7"
-                    placeholder="What’s going on? What’s your goal? Any error messages?"
-                    required
-                    minlength="10"
-                  ></textarea>
+                  <textarea id="message" class="field" name="message" rows="7" placeholder="What's going on? What are you trying to accomplish? Any error messages or relevant context?" required minlength="10"></textarea>
                 </div>
 
                 <div class="form-field form-span">
-                  <label for="attachments">Add files (optional)</label>
-                  <input
-                    id="attachments"
-                    class="field"
-                    type="file"
-                    name="attachments"
-                    accept="image/*,.png,.jpg,.jpeg,.heic,.heif,.webp,.pdf,.zip"
-                    multiple
-                  />
-                  <p class="muted tiny" style="margin-top:8px;">
-                    If you see “file uploads not permitted”, that’s a Formspree setting/plan restriction for this form.
-                    In that case, we’ll switch to link-based uploads.
-                  </p>
+                  <label for="attachments">Attachments <span class="muted" style="font-weight:400;">(optional)</span></label>
+                  <input id="attachments" class="field" type="file" name="attachments" accept="image/*,.png,.jpg,.jpeg,.heic,.heif,.webp,.pdf,.zip" multiple />
+                  <p class="muted tiny" style="margin-top:6px;">Screenshots or photos of the issue are always helpful.</p>
                 </div>
 
                 <div class="form-field form-span">
-                  <label class="muted tiny" style="display:block; margin-bottom:10px;">
+                  <label class="muted tiny" style="display:flex; gap:8px; align-items:center; margin-bottom:10px; cursor:pointer;">
                     <input type="checkbox" id="noSecrets" name="noSecrets" required>
-                    I understand I should not include passwords or sensitive credentials.
+                    I understand I should not include passwords or sensitive credentials in this form.
                   </label>
                 </div>
 
@@ -231,14 +172,12 @@
                   <button id="submitBtn" type="submit" class="btn primary form-submit">
                     Send Request
                   </button>
-
                   <p class="form-note">We typically respond within 24 hours.</p>
-
                   <div id="formStatus" class="alert info" role="status" aria-live="polite" style="display:none;"></div>
 
                   <noscript>
                     <div class="alert info" role="note" style="margin-top:12px;">
-                      JavaScript is disabled, so this will submit as a standard form POST.
+                      JavaScript is disabled — this will submit as a standard form POST.
                     </div>
                   </noscript>
                 </div>
@@ -252,16 +191,17 @@
             <ul class="checklist contact-list">
               <li>Email: <span class="muted">Tavares.A.Baker@gmail.com</span></li>
               <li>Phone: <span class="muted">773-580-3037</span></li>
-              <li>Service area: <span class="muted">Chicago &amp; Fort Wayne / region</span></li>
-              <li>Hours: <span class="muted">9 AM - 5 PM EST</span></li>
+              <li>Service area: <span class="muted">Chicago &amp; Fort Wayne / surrounding region</span></li>
+              <li>Hours: <span class="muted">9 AM – 5 PM EST</span></li>
             </ul>
 
-            <div class="cta-band cta-slim">
-              <div>
-                <h2 class="cta-title">Want a fast quote?</h2>
-                <p class="cta-text">Include photos/screenshots and a short description of the issue.</p>
-              </div>
-            </div>
+            <div style="height:20px;"></div>
+
+            <h3>Want a fast quote?</h3>
+            <p class="muted" style="font-size:14px; margin-top:6px; line-height:1.6;">
+              Include screenshots or photos of the issue and a short description of what's going on.
+              The more context, the quicker we can turn around an estimate.
+            </p>
           </aside>
         </div>
       </div>
@@ -272,7 +212,7 @@
     <div class="container footer-grid">
       <div>
         <div class="footer-brand">Baker Tech Solutions</div>
-        <p class="muted">Custom hardware • Secure systems • Automation</p>
+        <p class="muted" style="font-size:13px;">Hardware · Networking · Security · Automation</p>
       </div>
       <div class="footer-links">
         <a href="services.html">Services</a>

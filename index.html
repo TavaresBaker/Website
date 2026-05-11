@@ -3,11 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Baker Tech Solutions</title>
+  <title>Baker Tech Solutions — IT, Networking & Security Support</title>
+  <meta name="description" content="Practical IT support, networking, and cybersecurity for home users and small businesses. Clean work. Honest pricing. No runaround." />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="styles.css" />
 </head>
@@ -38,50 +39,65 @@
   </header>
 
   <main>
+
+    <!-- Hero -->
     <section class="hero">
       <div class="container hero-grid">
         <div class="hero-copy">
-          <h1>Reliable tech support for home and small business.</h1>
-
+          <p class="eyebrow">IT · Networking · Cybersecurity</p>
+          <h1>Tech support that actually makes sense.</h1>
           <p class="subhead">
-            Baker Tech Solutions provides practical IT help including hardware and software troubleshooting,
-            networking, security hardening, and automation. All work is delivered with clear communication
-            and clean execution.
+            Baker Tech Solutions handles the technical work so you don't have to guess. From hardware
+            and software to network setup and security hardening — done right, explained clearly,
+            priced fairly.
           </p>
 
           <div class="hero-actions">
-            <a class="btn primary" href="contact.html">Get a Quote</a>
+            <a class="btn primary" href="contact.html">Get a Free Quote</a>
             <a class="btn ghost" href="services.html">Browse Services</a>
           </div>
 
-          <p class="muted" style="margin-top:14px;">
-            Hardware • Software • Networking • Security • Automation
-          </p>
+          <p class="muted tiny">Hardware · Software · Networking · Security · Automation</p>
         </div>
+
+        <aside class="hero-card" aria-label="What we handle">
+          <h2>What we handle</h2>
+          <ul class="checklist">
+            <li>PC builds, upgrades & repairs</li>
+            <li>Home & small business networks</li>
+            <li>VPN setup & router configuration</li>
+            <li>Malware removal & device hardening</li>
+            <li>Server hardening & security reviews</li>
+            <li>Custom automation & scripting</li>
+          </ul>
+          <a class="mini-link" style="margin-top:16px; display:block;" href="services.html">See all services →</a>
+        </aside>
       </div>
     </section>
 
+    <!-- Why us -->
     <section class="section">
       <div class="container split">
         <div class="stack">
-          <h2>Built for clean, secure setups</h2>
-          <p>
-            We focus on work that lasts. That means solving the root issue, documenting what changed,
-            and setting you up so you are not back in the same situation next week.
+          <h2>Built on doing the work right the first time.</h2>
+          <p style="color:var(--muted); font-size:15px; line-height:1.7;">
+            A lot of "tech support" is copy-pasted fixes that don't stick. We dig into the actual
+            cause, document what changed, and hand things off so you're set up for the long run —
+            not just until next week.
           </p>
 
           <div class="bullets">
             <div class="bullet">
-              <h3>Clear communication</h3>
-              <p>Upfront expectations, plain language, and efficient coordination.</p>
+              <h3>No jargon, no runaround</h3>
+              <p>You'll know exactly what's being done and why before anything starts.</p>
             </div>
             <div class="bullet">
               <h3>Security-minded by default</h3>
-              <p>Best-practice settings and safer configurations without unnecessary complexity.</p>
+              <p>Best-practice configurations are the baseline, not an upsell.</p>
             </div>
             <div class="bullet">
-              <h3>Clean delivery</h3>
-              <p>Organized work, practical handoff, and guidance you can follow confidently.</p>
+              <h3>Clean handoff every time</h3>
+              <p>Work is organized, documented, and walked through if you want the tour.</p>
             </div>
           </div>
         </div>
@@ -89,13 +105,13 @@
         <aside class="image-card" aria-label="What you can expect">
           <h3>What you can expect</h3>
           <ul class="checklist">
-            <li>Simple, honest recommendations</li>
-            <li>Secure, stable configurations</li>
+            <li>Straight, honest recommendations</li>
+            <li>Secure and stable configurations</li>
             <li>Performance and reliability improvements</li>
             <li>Optional walkthrough at completion</li>
           </ul>
 
-          <div style="height:12px"></div>
+          <div style="height:16px"></div>
 
           <h3>Ideal for</h3>
           <ul class="checklist">
@@ -105,92 +121,97 @@
             <li>Security checkups and hardening</li>
           </ul>
 
-          <a class="mini-link" href="contact.html">Start a request →</a>
+          <a class="mini-link" href="contact.html" style="margin-top:16px; display:block;">Start a request →</a>
         </aside>
       </div>
     </section>
 
+    <!-- Services overview -->
     <section class="section alt">
       <div class="container">
         <div class="section-head">
           <h2>Services</h2>
-          <p>Select what you need and we will take care of the rest.</p>
+          <p>Pick what you need. We'll handle the rest.</p>
         </div>
 
         <div class="cards">
           <article class="card reveal">
             <h3>Hardware</h3>
-            <p>Builds, upgrades, repairs, maintenance, and performance troubleshooting.</p>
-            <a href="services.html#hardware" class="mini-link">Learn more</a>
+            <p>Custom PC builds, component upgrades, part swaps, cable management, and hardware diagnostics.</p>
+            <a href="services.html#hardware" class="mini-link" style="margin-top:14px; display:block;">Learn more →</a>
           </article>
 
           <article class="card reveal">
             <h3>Software</h3>
-            <p>Installations, cleanup, operating system setup, backups, data transfers, and troubleshooting.</p>
-            <a href="services.html#software" class="mini-link">Learn more</a>
+            <p>OS installs, program setup, data migration, backups, cleanup, and software troubleshooting.</p>
+            <a href="services.html#software" class="mini-link" style="margin-top:14px; display:block;">Learn more →</a>
           </article>
 
           <article class="card reveal">
             <h3>Networking</h3>
-            <p>Wi-Fi optimization, router configuration, VPN setup, and reliable network design.</p>
-            <a href="services.html#networking" class="mini-link">Learn more</a>
+            <p>Home and small business Wi-Fi setup, router config, VPN, firewall rules, and network troubleshooting.</p>
+            <a href="services.html#networking" class="mini-link" style="margin-top:14px; display:block;">Learn more →</a>
           </article>
 
           <article class="card reveal">
             <h3>Security</h3>
-            <p>System hardening, malware assistance, device protection, and network security reviews.</p>
-            <a href="services.html#security" class="mini-link">Learn more</a>
+            <p>Malware removal, device and server hardening, vulnerability assessments, and security consultations.</p>
+            <a href="services.html#security" class="mini-link" style="margin-top:14px; display:block;">Learn more →</a>
           </article>
 
           <article class="card reveal">
             <h3>Programming</h3>
-            <p>Automation, scripting, lightweight tools, and troubleshooting for existing projects.</p>
-            <a href="services.html#programming" class="mini-link">Learn more</a>
+            <p>Automation scripts, code review, lightweight tools, custom websites, and dev troubleshooting.</p>
+            <a href="services.html#programming" class="mini-link" style="margin-top:14px; display:block;">Learn more →</a>
           </article>
         </div>
       </div>
     </section>
 
+    <!-- Process -->
     <section class="section">
       <div class="container">
         <div class="section-head">
-          <h2>Our Process</h2>
-          <p>A clear and structured approach from request to resolution.</p>
+          <h2>How it works</h2>
+          <p>Three steps from first contact to finished work.</p>
         </div>
 
         <div class="cards">
           <article class="card reveal">
             <h3>1. Submit a request</h3>
             <p>
-              Share what you are trying to accomplish and what is not working.
-              Include screenshots or error messages if available.
+              Describe what's going on and what you're trying to accomplish. Screenshots or error
+              messages help, but aren't required.
             </p>
           </article>
 
           <article class="card reveal">
-            <h3>2. Receive a plan</h3>
+            <h3>2. Get a clear plan</h3>
             <p>
-              We review the request, confirm scope, and outline the recommended path forward.
+              We review your request, confirm the scope, and outline exactly what we'll do and
+              what it'll cost. No surprises.
             </p>
           </article>
 
           <article class="card reveal">
-            <h3>3. Implementation and handoff</h3>
+            <h3>3. Done and handed off</h3>
             <p>
-              We complete the work, verify performance, and provide clear guidance for ongoing use.
+              Work is completed, tested, and documented. We walk you through what changed and
+              how to stay in good shape going forward.
             </p>
           </article>
         </div>
       </div>
     </section>
 
+    <!-- Community CTA -->
     <section class="section alt">
       <div class="container cta-band">
-        <div class="stack">
-          <h2>Community</h2>
+        <div>
+          <h2>Community first.</h2>
           <p>
-            We support student programs and local initiatives through mentoring,
-            technical assistance, and volunteer service when possible.
+            Beyond client work, Baker Tech Solutions supports student programs, local organizations,
+            and tech literacy initiatives through mentoring, technical assistance, and volunteer service.
           </p>
         </div>
         <div class="cta-actions">
@@ -200,25 +221,28 @@
       </div>
     </section>
 
+    <!-- Final CTA -->
     <section class="section">
       <div class="container final-cta">
-        <h2>Need assistance with a device, network, or security concern?</h2>
+        <h2>Ready to get something fixed, built, or secured?</h2>
         <p>
-          Submit a brief description of your situation and we will follow up with next steps.
+          Send a short description of what you need and we'll follow up with a clear plan and
+          honest pricing.
         </p>
-        <div class="hero-actions" style="justify-content:center;">
-          <a class="btn primary" href="contact.html">Contact</a>
+        <div class="hero-actions">
+          <a class="btn primary" href="contact.html">Contact Us</a>
           <a class="btn ghost" href="pricing.html">View Pricing</a>
         </div>
       </div>
     </section>
+
   </main>
 
   <footer class="footer">
     <div class="container footer-grid">
-      <div class="stack">
+      <div>
         <div class="footer-brand">Baker Tech Solutions</div>
-        <p class="muted">Hardware • Security • Automation</p>
+        <p class="muted" style="font-size:13px;">Hardware · Networking · Security · Automation</p>
       </div>
       <div class="footer-links">
         <a href="services.html">Services</a>
@@ -227,7 +251,6 @@
         <a href="contact.html">Contact</a>
       </div>
     </div>
-
     <div class="container footer-bottom">
       <p>© 2026 Baker Tech Solutions</p>
     </div>

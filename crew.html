@@ -7,7 +7,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="styles.css" />
 </head>
@@ -40,10 +40,13 @@
   <main>
     <section class="hero hero-small">
       <div class="container crew-page">
+
         <div class="crew-intro">
+          <p class="eyebrow">The team</p>
           <h1>Meet the crew.</h1>
           <p class="subhead">
-            The people behind Baker Tech Solutions. Practical IT, networking, and security with a hands-on approach.
+            Baker Tech Solutions is hands-on by design. Real experience, real tools,
+            and a genuine interest in building a more tech-literate world.
           </p>
           <div class="hero-actions">
             <a class="btn primary" href="contact.html">Work With Us</a>
@@ -51,8 +54,9 @@
           </div>
         </div>
 
-        <section class="bio-square" aria-label="Crew member bio and strengths">
+        <section class="bio-square" aria-label="Crew member bio">
           <div class="bio-grid">
+
             <div class="bio-media">
               <img class="bio-photo" src="tavares.jpg" alt="Tavares Baker" loading="lazy" />
             </div>
@@ -60,31 +64,31 @@
             <div class="bio-content">
               <div class="bio-head">
                 <h2>Tavares Baker</h2>
-                <p class="muted">Aspiring Network Engineer</p>
+                <p class="muted">Founder · Aspiring Network Engineer</p>
               </div>
 
               <div class="bio-links" aria-label="Profile links">
                 <a class="mini-link" href="https://github.com/TavaresBaker" target="_blank" rel="noopener">GitHub</a>
-                <span class="muted">•</span>
+                <span class="muted" aria-hidden="true">·</span>
                 <a class="mini-link" href="https://www.linkedin.com/in/tabaker01" target="_blank" rel="noopener">LinkedIn</a>
-               
               </div>
 
               <div class="bio-text">
                 <p>
-                  My name is Tavares Baker. I’m an aspiring network engineer who enjoys exploring new technologies and
-                  experimenting with configuration and features. I’m driven by seeing a more advanced and more
-                  technologically literate world.
+                  Born and raised in Chicago, currently studying Computer Science at Indiana Institute of Technology
+                  in Fort Wayne. I'm driven by a simple idea: technology should work for people,
+                  and the people working on it should know what they're doing.
                 </p>
-
                 <p>
-                  I was born and raised in Chicago, Illinois, and I currently live in Fort Wayne, Indiana for school.
-                  I attend Indiana Tech as a Computer Science major.
+                  Over 2.5 years in IT — from end-user support and device imaging to homelab infrastructure
+                  and security competition work — I've built a foundation that's practical first and
+                  theoretical second. I'm actively competing with the Indiana Tech Cyber Warriors,
+                  studying real-world firewall and routing platforms like pfSense, Palo Alto, and Cisco ASA,
+                  and building tooling that addresses the problems I actually encounter.
                 </p>
-
                 <p>
-                  I have 2.5 years of experience in the IT field and I am familiar with standard processes, compliance,
-                  and technical challenges.
+                  Baker Tech Solutions is the direct extension of that — accessible, well-executed tech support
+                  for the people and businesses that usually get overlooked or overcharged.
                 </p>
               </div>
 
@@ -93,24 +97,25 @@
               <div class="bio-skills">
                 <div class="bio-skills-head">
                   <h3>What I bring</h3>
-                  <p class="muted">Hands-on experience, a strong learning mindset, and a focus on real outcomes.</p>
+                  <p class="muted">Practical experience across IT, networking, and security — backed by real projects.</p>
                 </div>
 
-                <div class="cards cards-center">
+                <div class="cards">
                   <article class="card reveal">
-                    <h4>Networking fundamentals</h4>
-                    <p>Routing, switching, and practical troubleshooting.</p>
+                    <h4>Networking & Infrastructure</h4>
+                    <p>VLANs, DHCP, DNS, routing and switching fundamentals. Running Dell PowerEdge and Cisco gear in a live homelab.</p>
                   </article>
                   <article class="card reveal">
-                    <h4>Security mindset</h4>
-                    <p>Comfortable with real-world challenges, cleanup, and hardening.</p>
+                    <h4>Security & Hardening</h4>
+                    <p>Active competition work with Indiana Tech Cyber Warriors. Building SenseSation — a pfSense hardening and incident response tool.</p>
                   </article>
                   <article class="card reveal">
-                    <h4>IT experience</h4>
-                    <p>2.5 years working with standard processes, compliance, and day-to-day technical issues.</p>
+                    <h4>Hands-On IT Experience</h4>
+                    <p>2.5+ years across end-user support, device deployment, help desk, and mentoring students in Python and automation.</p>
                   </article>
                 </div>
               </div>
+
             </div>
           </div>
         </section>
@@ -123,7 +128,7 @@
     <div class="container footer-grid">
       <div>
         <div class="footer-brand">Baker Tech Solutions</div>
-        <p class="muted">Custom hardware • Secure systems • Automation</p>
+        <p class="muted" style="font-size:13px;">Hardware · Networking · Security · Automation</p>
       </div>
       <div class="footer-links">
         <a href="services.html">Services</a>
@@ -138,174 +143,5 @@
   </footer>
 
   <script src="scripts.js" defer></script>
-
-  <style>
-    .crew-page{
-      display:flex;
-      flex-direction: column;
-      gap: 22px;
-      padding-top: 18px;
-      padding-bottom: 18px;
-    }
-
-    .crew-intro{
-      text-align: center;
-      max-width: 920px;
-      margin: 0 auto;
-    }
-    .crew-intro .hero-actions{
-      justify-content: center;
-    }
-
-    .bio-square{
-      width: min(1100px, 100%);
-      margin: 0 auto;
-      border-radius: 20px;
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,0.05);
-      box-shadow: 0 20px 60px rgba(0,0,0,0.25);
-      padding: 22px;
-    }
-
-    .bio-grid{
-      display:grid;
-      grid-template-columns: 320px 1fr;
-      gap: 18px;
-      align-items: start;
-    }
-
-    .bio-photo{
-      width: 100%;
-      aspect-ratio: 1 / 1;
-      object-fit: cover;
-      border-radius: 18px;
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,0.04);
-      display:block;
-    }
-
-    .bio-head h2{
-      margin: 0;
-      font-size: 1.5rem;
-      line-height: 1.2;
-      letter-spacing: -0.01em;
-    }
-    .bio-head .muted{
-      margin: 6px 0 0;
-    }
-
-    .bio-links{
-      margin-top: 10px;
-      display:flex;
-      flex-wrap:wrap;
-      gap: 8px;
-      align-items:center;
-    }
-
-    .bio-text{
-      margin-top: 10px;
-    }
-    .bio-text p{
-      margin: 10px 0 0;
-    }
-
-    .bio-divider{
-      height: 1px;
-      background: var(--line);
-      margin: 16px 0 16px;
-    }
-
-    .bio-skills-head{
-      margin-bottom: 12px;
-    }
-    .bio-skills-head h3{
-      margin: 0;
-      font-size: 1.25rem;
-      line-height: 1.2;
-      letter-spacing: -0.01em;
-    }
-    .bio-skills-head .muted{
-      margin: 6px 0 0;
-    }
-
-    .cards.cards-center{
-      justify-content: center;
-    }
-    .bio-skills .card h4{
-      margin: 0 0 8px;
-      font-size: 1.05rem;
-      line-height: 1.2;
-    }
-
-    .crew-cta{
-      padding-top: 0;
-    }
-
-    .cta-band.cta-center{
-      align-items:center;
-      text-align:center;
-    }
-    .cta-band.cta-center .cta-actions{
-      justify-content:center;
-    }
-
-    .cta-spaced{
-      margin-top: 34px;
-    }
-
-    @media (max-width: 920px){
-      .bio-grid{
-        grid-template-columns: 1fr;
-      }
-      .bio-media{
-        display:flex;
-        justify-content:center;
-      }
-      .bio-photo{
-        width: min(340px, 100%);
-      }
-      .bio-links{
-        justify-content:center;
-      }
-    }
-
-    @media (max-width: 640px){
-      .bio-square{
-        padding: 18px;
-      }
-    }
-    /* Replace your current cards styling for the “What I bring” area with this */
-    .bio-skills .cards{
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
-      justify-items: stretch;
-    }
-    
-    .bio-skills .card{
-      height: 100%;
-    }
-    
-    /* Mobile/tablet fallback */
-    @media (max-width: 920px){
-      .bio-skills .cards{
-        grid-template-columns: 1fr;
-      }
-    }
-    
-    /* Kill the “background square” behind the CTA band */
-    .crew-cta .cta-band{
-      background: transparent;
-      border: 0;
-      box-shadow: none;
-      padding: 0;
-    }
-    
-    /* Keep the CTA spaced away from the skills/cards */
-    .crew-cta .cta-spaced{
-      margin-top: 34px; /* bump up/down as you like */
-    }
-
-  </style>
 </body>
 </html>
