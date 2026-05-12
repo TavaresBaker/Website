@@ -3,38 +3,170 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Baker Tech Solutions — IT, Networking & Security Support</title>
-  <meta name="description" content="Practical IT support, networking, and cybersecurity for home users and small businesses. Clean work. Honest pricing. No runaround." />
-
+  <title>Baker Tech Solutions</title>
+  <meta name="description" content="Practical IT support, networking, and cybersecurity for home users and small businesses. Clean work, honest pricing." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
 </head>
-
 <body>
-  <div class="bg-grid" aria-hidden="true"></div>
+<div class="bg-grid" aria-hidden="true"></div>
 
-  <header class="glass-nav">
-    <div class="container nav-wrap">
-      <a class="brand" href="index.html" aria-label="Baker Tech Solutions home">
-        <span class="brand-mark" aria-hidden="true">◆</span>
-        <span class="brand-text">Baker Tech Solutions</span>
-      </a>
+<header class="glass-nav">
+  <div class="container nav-wrap">
+    <a class="brand" href="index.html" aria-label="Baker Tech Solutions home">
+      <span class="brand-mark" aria-hidden="true">◆</span>
+      <span class="brand-text">Baker Tech Solutions</span>
+    </a>
+    <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav">
+      <span></span><span></span><span></span>
+    </button>
+    <nav id="site-nav" class="nav-links" data-nav>
+      <a href="index.html" aria-current="page">Home</a>
+      <a href="services.html">Services</a>
+      <a href="contact.html" class="nav-btn">Contact</a>
+    </nav>
+  </div>
+</header>
 
-      <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav">
-        <span></span><span></span><span></span>
-      </button>
+<main>
 
-      <nav id="site-nav" class="nav-links" data-nav>
-        <a href="index.html" aria-current="page">Home</a>
-        <a href="services.html">Services</a>
-        <a href="pricing.html">Pricing</a>
-        <a href="community.html">Community</a>
-        <a href="crew.html">Meet the Crew</a>
-        <a href="contact.html" class="nav-btn">Contact</a>
-      </nav>
+  <!-- Hero -->
+  <section class="home-hero">
+    <div class="container">
+      <h1>Your tech, <span class="grad">handled right.</span></h1>
+      <p class="lead">
+        Baker Tech Solutions provides hands-on IT support, networking, and cybersecurity
+        for home users and small businesses. No jargon, no guesswork, no surprises on the bill.
+      </p>
+      <div class="btn-group">
+        <a class="btn primary" href="contact.html">Get a Free Quote</a>
+        <a class="btn ghost" href="services.html">See What We Do</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Service pillars -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <h2>What we take care of</h2>
+        <p>Three areas, done well.</p>
+      </div>
+      <div class="pillars">
+        <div class="pillar reveal">
+          <span class="pillar-icon">🖥</span>
+          <h3>IT Support</h3>
+          <p>PC builds and upgrades, hardware repairs, OS installs, software setup, data transfers, and troubleshooting whatever is giving you a headache.</p>
+          <a class="mini-link" href="services.html#it" style="margin-top:12px;display:block;">See IT services</a>
+        </div>
+        <div class="pillar reveal">
+          <span class="pillar-icon">🌐</span>
+          <h3>Networking</h3>
+          <p>Home and small business Wi-Fi setup, router and firewall configuration, VPN setup, and tracking down connectivity issues at the source.</p>
+          <a class="mini-link" href="services.html#networking" style="margin-top:12px;display:block;">See networking services</a>
+        </div>
+        <div class="pillar reveal">
+          <span class="pillar-icon">🔒</span>
+          <h3>Cybersecurity</h3>
+          <p>Malware removal, device and server hardening, vulnerability assessments, and security consultations for people who want to stay protected.</p>
+          <a class="mini-link" href="services.html#security" style="margin-top:12px;display:block;">See security services</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why us -->
+  <section class="section alt">
+    <div class="container">
+      <div class="section-head">
+        <h2>How we work</h2>
+        <p>A few things that matter to us on every job.</p>
+      </div>
+      <div class="cards">
+        <article class="card reveal">
+          <h3>Straight communication</h3>
+          <p>You hear exactly what is going on before anything starts. No vague estimates and no surprises when the work is done.</p>
+        </article>
+        <article class="card reveal">
+          <h3>Security by default</h3>
+          <p>Good security practices are part of the work, not an add-on. Every job leaves things in a safer state than we found them.</p>
+        </article>
+        <article class="card reveal">
+          <h3>Clean delivery</h3>
+          <p>Work is organized, documented, and handed off clearly. If you want a walkthrough of what changed, just say the word.</p>
+        </article>
+        <article class="card reveal">
+          <h3>Fair, transparent pricing</h3>
+          <p>Flat rates and hourly rates, depending on the job. Parts and shipping are always billed separately and listed upfront.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Process -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <h2>Three steps to done</h2>
+        <p>Simple from start to finish.</p>
+      </div>
+      <div class="steps">
+        <div class="step reveal">
+          <div class="step-num">Step 1</div>
+          <h3>Tell us what is going on</h3>
+          <p>Fill out the contact form or send a message. Describe the issue, your device, and how urgent it is. Screenshots help but are not required.</p>
+        </div>
+        <div class="step reveal">
+          <div class="step-num">Step 2</div>
+          <h3>Get a clear plan</h3>
+          <p>We review your request and follow up with a recommended approach, a scope, and a price. No guessing, no waiting around.</p>
+        </div>
+        <div class="step reveal">
+          <div class="step-num">Step 3</div>
+          <h3>Work done and handed off</h3>
+          <p>We complete the job, confirm everything is working, and hand off clearly documented results so you are set up for the long run.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="section alt">
+    <div class="container cta-band">
+      <div>
+        <h2>Ready to get something sorted?</h2>
+        <p>Send a quick description of what you need and we will follow up with next steps.</p>
+      </div>
+      <div class="cta-actions">
+        <a class="btn primary" href="contact.html">Contact Us</a>
+        <a class="btn ghost" href="services.html">View Services and Pricing</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="container footer-grid">
+    <div>
+      <div class="footer-brand">Baker Tech Solutions</div>
+      <p class="muted" style="font-size:13px;">Hardware · Networking · Security</p>
+    </div>
+    <div class="footer-links">
+      <a href="services.html">Services</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <p>© 2026 Baker Tech Solutions</p>
+  </div>
+</footer>
+
+<script src="scripts.js" defer></script>
+</body>
+</html>      </nav>
     </div>
   </header>
 
