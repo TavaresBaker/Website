@@ -3,229 +3,419 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Contact | Baker Tech Solutions</title>
-
+  <title>Baker Tech Solutions</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
 </head>
-
 <body>
-  <div class="bg-grid" aria-hidden="true"></div>
+<div class="bg-grid" aria-hidden="true"></div>
 
-  <header class="glass-nav">
-    <div class="container nav-wrap">
-      <a class="brand" href="index.html" aria-label="Baker Tech Solutions home">
-        <span class="brand-mark" aria-hidden="true">◆</span>
-        <span class="brand-text">Baker Tech Solutions</span>
-      </a>
+<header class="glass-nav">
+  <div class="container nav-wrap">
+    <a class="brand" href="index.html" aria-label="Baker Tech Solutions home">
+      <span class="brand-mark" aria-hidden="true">◆</span>
+      <span class="brand-text">Baker Tech Solutions</span>
+    </a>
+    <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav">
+      <span></span><span></span><span></span>
+    </button>
+    <nav id="site-nav" class="nav-links" data-nav>
+      <a href="index.html">Home</a>
+      <a href="services.html">Services</a>
+      <a href="contact.html" class="nav-btn" aria-current="page">Contact</a>
+    </nav>
+  </div>
+</header>
 
-      <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav">
-        <span></span><span></span><span></span>
-      </button>
+<main>
 
-      <nav id="site-nav" class="nav-links" data-nav>
-        <a href="index.html">Home</a>
-        <a href="services.html">Services</a>
-        <a href="pricing.html">Pricing</a>
-        <a href="community.html">Community</a>
-        <a href="crew.html">Meet the Crew</a>
-        <a href="contact.html" class="nav-btn" aria-current="page">Contact</a>
-      </nav>
+  <section class="hero hero-sm">
+    <div class="container">
+      <h1 style="font-size:clamp(28px,4.5vw,50px);font-weight:800;margin-bottom:14px;padding-bottom:4px;overflow:visible;">Let's talk.</h1>
+      <p style="color:var(--muted);font-size:16px;max-width:54ch;line-height:1.7;margin-bottom:28px;">
+        Fill out the form below and we will follow up with a clear plan, usually within 24 hours.
+        You will also receive a copy of your submission by email so you have a record of what you sent.
+      </p>
+      <div class="btn-group">
+        <a class="btn ghost" href="services.html">View Services and Pricing</a>
+      </div>
     </div>
-  </header>
+  </section>
 
-  <main>
-    <section class="hero">
-      <div class="container hero-grid">
-        <div class="hero-copy">
-          <p class="eyebrow">Reach out</p>
-          <h1>Let's talk.</h1>
-          <p class="subhead">
-            Tell us what you're dealing with and we'll follow up with a clear plan.
-            No obligation, no runaround.
-          </p>
-
-          <div class="hero-actions">
-            <a class="btn primary" href="#form">Start a Request</a>
-            <a class="btn ghost" href="pricing.html">View Pricing</a>
-          </div>
+  <section class="section alt">
+    <div class="container">
+      <div class="section-head">
+        <h2>Send a request</h2>
+        <div class="alert info tiny" role="note" style="max-width:600px;">
+          <strong>Privacy note:</strong> Do not include passwords, recovery codes, or sensitive account credentials in this form.
         </div>
       </div>
-    </section>
 
-    <section class="section alt" id="form">
-      <div class="container">
-        <div class="section-head">
-          <h2>Contact form</h2>
-          <div class="alert info tiny" role="note">
-            <strong>Privacy tip:</strong> Don't include passwords, recovery codes, or full card numbers.
-          </div>
-        </div>
+      <div class="split">
 
-        <div class="split">
-          <article class="card">
-            <h3>Send a request</h3>
-            <p class="form-help">Fill this out and we'll get back to you within 24 hours.</p>
+        <article style="background:var(--panel2);border:1px solid var(--line2);border-radius:var(--r);padding:28px;">
 
-            <form
-              id="contactForm"
-              class="form"
-              action="https://formspree.io/f/mzdaeybj"
-              method="POST"
-              enctype="multipart/form-data"
-              novalidate
-            >
-              <input type="text" name="website" class="honeypot" tabindex="-1" autocomplete="off" aria-hidden="true" hidden>
-              <input type="hidden" name="source" value="contact-page">
-              <input type="hidden" name="page" value="/contact.html">
-              <input type="hidden" name="submittedAt" id="submittedAt" value="">
+          <form
+            id="contactForm"
+            class="form"
+            action="https://formspree.io/f/mzdaeybj"
+            method="POST"
+            enctype="multipart/form-data"
+            novalidate
+          >
+            <input type="text" name="website" class="honeypot" tabindex="-1" autocomplete="off" aria-hidden="true" hidden>
+            <input type="hidden" name="source" value="contact-page">
+            <input type="hidden" name="submittedAt" id="submittedAt" value="">
+            <!-- Formspree will send a confirmation copy to _replyto address -->
+            <input type="hidden" name="_replyto" id="replytoField" value="">
 
-              <div class="form-grid">
-                <div class="form-field">
-                  <label for="name">Full Name</label>
-                  <input id="name" class="field" type="text" name="name" required autocomplete="name" placeholder="John Doe" minlength="2" />
-                </div>
+            <div class="form-grid">
 
-                <div class="form-field">
-                  <label for="email">Email Address</label>
-                  <input id="email" class="field" type="email" name="email" required autocomplete="email" placeholder="you@example.com" />
-                </div>
-
-                <div class="form-field">
-                  <label for="phone">Phone Number</label>
-                  <input id="phone" class="field" type="tel" name="phone" required autocomplete="tel" placeholder="(555) 555-5555" inputmode="tel" pattern="^[0-9+().\s-]{7,}$" />
-                  <p class="muted tiny" style="margin-top:6px;">Used only to follow up on your request.</p>
-                </div>
-
-                <div class="form-field">
-                  <label for="preferred">Preferred Contact</label>
-                  <select id="preferred" class="field" name="preferredContact" required>
-                    <option value="" selected disabled>Choose one</option>
-                    <option value="Email">Email</option>
-                    <option value="Phone">Phone</option>
-                    <option value="Text">Text</option>
-                  </select>
-                </div>
-
-                <div class="form-field form-span">
-                  <label for="category">Service Category</label>
-                  <select id="category" class="field" name="category" required>
-                    <option value="" selected disabled>Choose a category</option>
-                    <option value="Hardware">Hardware</option>
-                    <option value="Software">Software</option>
-                    <option value="Networking">Networking</option>
-                    <option value="Security">Security</option>
-                    <option value="Programming">Programming</option>
-                    <option value="Not sure">Not sure</option>
-                  </select>
-                </div>
-
-                <div class="form-field">
-                  <label for="urgency">Urgency</label>
-                  <select id="urgency" class="field" name="urgency" required>
-                    <option value="" selected disabled>Select urgency</option>
-                    <option value="Low">Low — this week is fine</option>
-                    <option value="Medium">Medium — next 48–72 hours</option>
-                    <option value="High">High — today / ASAP</option>
-                  </select>
-                </div>
-
-                <div class="form-field">
-                  <label for="bestTime">Best Time to Reach You</label>
-                  <select id="bestTime" class="field" name="bestTime" required>
-                    <option value="" selected disabled>Select a window</option>
-                    <option value="Morning">Morning</option>
-                    <option value="Afternoon">Afternoon</option>
-                    <option value="Evening">Evening</option>
-                    <option value="Anytime">Anytime</option>
-                  </select>
-                </div>
-
-                <div class="form-field form-span">
-                  <label for="device">Device / Environment <span class="muted" style="font-weight:400;">(optional)</span></label>
-                  <input id="device" class="field" type="text" name="device" placeholder="e.g. Windows 11 PC, MacBook, home Wi-Fi, pfSense router…" autocomplete="off" />
-                  <p class="muted tiny" style="margin-top:6px;">Helps us get right to the point.</p>
-                </div>
-
-                <div class="form-field form-span">
-                  <label for="message">Brief Description</label>
-                  <textarea id="message" class="field" name="message" rows="7" placeholder="What's going on? What are you trying to accomplish? Any error messages or relevant context?" required minlength="10"></textarea>
-                </div>
-
-                <div class="form-field form-span">
-                  <label for="attachments">Attachments <span class="muted" style="font-weight:400;">(optional)</span></label>
-                  <input id="attachments" class="field" type="file" name="attachments" accept="image/*,.png,.jpg,.jpeg,.heic,.heif,.webp,.pdf,.zip" multiple />
-                  <p class="muted tiny" style="margin-top:6px;">Screenshots or photos of the issue are always helpful.</p>
-                </div>
-
-                <div class="form-field form-span">
-                  <label class="muted tiny" style="display:flex; gap:8px; align-items:center; margin-bottom:10px; cursor:pointer;">
-                    <input type="checkbox" id="noSecrets" name="noSecrets" required>
-                    I understand I should not include passwords or sensitive credentials in this form.
-                  </label>
-                </div>
-
-                <div class="form-field form-span">
-                  <button id="submitBtn" type="submit" class="btn primary form-submit">
-                    Send Request
-                  </button>
-                  <p class="form-note">We typically respond within 24 hours.</p>
-                  <div id="formStatus" class="alert info" role="status" aria-live="polite" style="display:none;"></div>
-
-                  <noscript>
-                    <div class="alert info" role="note" style="margin-top:12px;">
-                      JavaScript is disabled — this will submit as a standard form POST.
-                    </div>
-                  </noscript>
-                </div>
+              <div class="form-field">
+                <label for="name">Full Name <span style="color:var(--err)">*</span></label>
+                <input id="name" class="field" type="text" name="name" required autocomplete="name"
+                  placeholder="Jane Smith" minlength="2" maxlength="120" />
+                <span class="field-error tiny" id="err-name" role="alert" style="color:var(--err);display:none;"></span>
               </div>
-            </form>
-          </article>
 
-          <aside class="image-card">
-            <h3>Other ways to reach us</h3>
+              <div class="form-field">
+                <label for="email">Email Address <span style="color:var(--err)">*</span></label>
+                <input id="email" class="field" type="email" name="email" required autocomplete="email"
+                  placeholder="you@example.com" maxlength="254" />
+                <span class="field-error tiny" id="err-email" role="alert" style="color:var(--err);display:none;"></span>
+              </div>
 
-            <ul class="checklist contact-list">
-              <li>Email: <span class="muted">Tavares.A.Baker@gmail.com</span></li>
-              <li>Phone: <span class="muted">773-580-3037</span></li>
-              <li>Service area: <span class="muted">Chicago &amp; Fort Wayne / surrounding region</span></li>
-              <li>Hours: <span class="muted">9 AM – 5 PM EST</span></li>
-            </ul>
+              <div class="form-field">
+                <label for="phone">Phone Number <span style="color:var(--err)">*</span></label>
+                <input id="phone" class="field" type="tel" name="phone" required autocomplete="tel"
+                  placeholder="(555) 555-5555" inputmode="tel" maxlength="30" />
+                <p class="muted tiny" style="margin-top:5px;">Used only to follow up on your request.</p>
+                <span class="field-error tiny" id="err-phone" role="alert" style="color:var(--err);display:none;"></span>
+              </div>
 
-            <div style="height:20px;"></div>
+              <div class="form-field">
+                <label for="preferred">Preferred Contact Method <span style="color:var(--err)">*</span></label>
+                <select id="preferred" class="field" name="preferredContact" required>
+                  <option value="" selected disabled>Choose one</option>
+                  <option value="Email">Email</option>
+                  <option value="Phone call">Phone call</option>
+                  <option value="Text message">Text message</option>
+                </select>
+                <span class="field-error tiny" id="err-preferred" role="alert" style="color:var(--err);display:none;"></span>
+              </div>
 
-            <h3>Want a fast quote?</h3>
-            <p class="muted" style="font-size:14px; margin-top:6px; line-height:1.6;">
-              Include screenshots or photos of the issue and a short description of what's going on.
-              The more context, the quicker we can turn around an estimate.
-            </p>
-          </aside>
-        </div>
-      </div>
-    </section>
-  </main>
+              <div class="form-field form-span">
+                <label for="category">Service Category <span style="color:var(--err)">*</span></label>
+                <select id="category" class="field" name="category" required>
+                  <option value="" selected disabled>Choose a category</option>
+                  <option value="IT Support">IT Support (hardware or software)</option>
+                  <option value="Networking">Networking</option>
+                  <option value="Security">Cybersecurity</option>
+                  <option value="Not sure">Not sure</option>
+                </select>
+                <span class="field-error tiny" id="err-category" role="alert" style="color:var(--err);display:none;"></span>
+              </div>
 
-  <footer class="footer">
-    <div class="container footer-grid">
-      <div>
-        <div class="footer-brand">Baker Tech Solutions</div>
-        <p class="muted" style="font-size:13px;">Hardware · Networking · Security · Automation</p>
-      </div>
-      <div class="footer-links">
-        <a href="services.html">Services</a>
-        <a href="pricing.html">Pricing</a>
-        <a href="community.html">Community</a>
-        <a href="contact.html" aria-current="page">Contact</a>
+              <div class="form-field">
+                <label for="urgency">Urgency <span style="color:var(--err)">*</span></label>
+                <select id="urgency" class="field" name="urgency" required>
+                  <option value="" selected disabled>Select urgency</option>
+                  <option value="Low">Low (this week is fine)</option>
+                  <option value="Medium">Medium (next 48 to 72 hours)</option>
+                  <option value="High">High (today or as soon as possible)</option>
+                </select>
+                <span class="field-error tiny" id="err-urgency" role="alert" style="color:var(--err);display:none;"></span>
+              </div>
+
+              <div class="form-field">
+                <label for="bestTime">Best Time to Reach You <span style="color:var(--err)">*</span></label>
+                <select id="bestTime" class="field" name="bestTime" required>
+                  <option value="" selected disabled>Select a window</option>
+                  <option value="Morning (before noon)">Morning (before noon)</option>
+                  <option value="Afternoon (noon to 5pm)">Afternoon (noon to 5pm)</option>
+                  <option value="Evening (after 5pm)">Evening (after 5pm)</option>
+                  <option value="Anytime">Anytime</option>
+                </select>
+                <span class="field-error tiny" id="err-bestTime" role="alert" style="color:var(--err);display:none;"></span>
+              </div>
+
+              <div class="form-field form-span">
+                <label for="device">Device or Environment <span class="muted" style="font-weight:400;">(optional)</span></label>
+                <input id="device" class="field" type="text" name="device" autocomplete="off" maxlength="200"
+                  placeholder="Windows 11 laptop, home Wi-Fi router, pfSense firewall, etc." />
+                <p class="muted tiny" style="margin-top:5px;">Helps us understand your setup before responding.</p>
+              </div>
+
+              <div class="form-field form-span">
+                <label for="message">Description <span style="color:var(--err)">*</span></label>
+                <textarea id="message" class="field" name="message" rows="7" required minlength="15" maxlength="3000"
+                  placeholder="What is going on? What are you trying to accomplish? Any error messages or relevant context?"></textarea>
+                <div style="display:flex;justify-content:flex-end;margin-top:4px;">
+                  <span id="charCount" class="muted tiny">0 / 3000</span>
+                </div>
+                <span class="field-error tiny" id="err-message" role="alert" style="color:var(--err);display:none;"></span>
+              </div>
+
+              <div class="form-field form-span">
+                <label for="attachments">Attachments <span class="muted" style="font-weight:400;">(optional)</span></label>
+                <input id="attachments" class="field" type="file" name="attachments"
+                  accept="image/*,.pdf,.zip" multiple />
+                <p class="muted tiny" style="margin-top:5px;">Screenshots or photos of the issue are always helpful.</p>
+              </div>
+
+              <div class="form-field form-span">
+                <label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer;line-height:1.5;">
+                  <input type="checkbox" id="noSecrets" name="noSecrets" required style="margin-top:3px;accent-color:var(--p1);flex-shrink:0;">
+                  <span class="muted tiny">I understand I should not include passwords or sensitive credentials in this form.</span>
+                </label>
+                <span class="field-error tiny" id="err-noSecrets" role="alert" style="color:var(--err);display:none;"></span>
+              </div>
+
+              <div class="form-field form-span">
+                <button id="submitBtn" type="submit" class="btn primary form-submit">
+                  Send Request
+                </button>
+                <p class="form-note">We typically respond within 24 hours. You will receive a confirmation copy at the email address you provided.</p>
+                <div id="formStatus" class="alert" role="status" aria-live="polite" style="display:none;"></div>
+              </div>
+
+            </div>
+          </form>
+        </article>
+
+        <aside class="aside-card">
+          <h3>Other ways to reach us</h3>
+          <ul class="checklist" style="margin-bottom:24px;">
+            <li>Email: <span class="muted">Tavares.A.Baker@gmail.com</span></li>
+            <li>Phone: <span class="muted">773-580-3037</span></li>
+            <li>Service area: <span class="muted">Chicago and Fort Wayne region</span></li>
+            <li>Hours: <span class="muted">9 AM to 5 PM EST</span></li>
+          </ul>
+
+          <h3 style="margin-bottom:10px;">Tips for a faster response</h3>
+          <ul class="checklist">
+            <li>Include the make, model, or operating system of your device</li>
+            <li>Attach screenshots of any error messages you are seeing</li>
+            <li>Describe what you were doing when the problem started</li>
+            <li>Let us know if anything changed recently before the issue appeared</li>
+          </ul>
+        </aside>
+
       </div>
     </div>
-    <div class="container footer-bottom">
-      <p>© 2026 Baker Tech Solutions</p>
-    </div>
-  </footer>
+  </section>
 
-  <script src="scripts.js" defer></script>
+</main>
+
+<footer class="footer">
+  <div class="container footer-grid">
+    <div>
+      <div class="footer-brand">Baker Tech Solutions</div>
+      <p class="muted" style="font-size:13px;">Hardware · Networking · Security</p>
+    </div>
+    <div class="footer-links">
+      <a href="services.html">Services</a>
+      <a href="contact.html" aria-current="page">Contact</a>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <p>© 2026 Baker Tech Solutions</p>
+  </div>
+</footer>
+
+<script src="scripts.js" defer></script>
+<script>
+// ── Enhanced form validation ──
+(function(){
+  const form = document.getElementById('contactForm');
+  if (!form) return;
+
+  const statusEl = document.getElementById('formStatus');
+  const submitBtn = document.getElementById('submitBtn');
+  const msgField = document.getElementById('message');
+  const charCount = document.getElementById('charCount');
+  const replytoField = document.getElementById('replytoField');
+  const emailField = document.getElementById('email');
+
+  // Character counter
+  if (msgField && charCount) {
+    msgField.addEventListener('input', () => {
+      const len = msgField.value.length;
+      charCount.textContent = len + ' / 3000';
+      charCount.style.color = len > 2800 ? 'var(--err)' : 'var(--muted)';
+    });
+  }
+
+  // Keep _replyto in sync with email
+  if (emailField && replytoField) {
+    emailField.addEventListener('input', () => {
+      replytoField.value = emailField.value.trim();
+    });
+  }
+
+  function showError(fieldId, msg) {
+    const el = document.getElementById('err-' + fieldId);
+    const field = document.getElementById(fieldId) || form.elements[fieldId];
+    if (el) { el.textContent = msg; el.style.display = 'block'; }
+    if (field) field.setAttribute('aria-invalid', 'true');
+  }
+
+  function clearErrors() {
+    form.querySelectorAll('.field-error').forEach(e => { e.style.display = 'none'; e.textContent = ''; });
+    form.querySelectorAll('[aria-invalid]').forEach(e => e.setAttribute('aria-invalid', 'false'));
+  }
+
+  function showStatus(type, msg) {
+    if (!statusEl) return;
+    statusEl.className = 'alert ' + type;
+    statusEl.textContent = msg;
+    statusEl.style.display = 'block';
+    statusEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function isValidEmail(v) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim());
+  }
+
+  function isValidPhone(v) {
+    const digits = v.replace(/\D/g, '');
+    return digits.length >= 7 && digits.length <= 15;
+  }
+
+  function validate() {
+    clearErrors();
+    let ok = true;
+    let firstBad = null;
+
+    // Honeypot
+    const hp = form.querySelector('[name="website"]');
+    if (hp && hp.value.trim()) return { ok: false, silent: true };
+
+    // Name
+    const name = (form.elements.name?.value || '').trim();
+    if (name.length < 2) {
+      showError('name', 'Please enter your full name.');
+      ok = false; firstBad = firstBad || form.elements.name;
+    }
+
+    // Email
+    const email = (form.elements.email?.value || '').trim();
+    if (!isValidEmail(email)) {
+      showError('email', 'Please enter a valid email address.');
+      ok = false; firstBad = firstBad || form.elements.email;
+    }
+
+    // Phone
+    const phone = (form.elements.phone?.value || '').trim();
+    if (!isValidPhone(phone)) {
+      showError('phone', 'Please enter a valid phone number (at least 7 digits).');
+      ok = false; firstBad = firstBad || form.elements.phone;
+    }
+
+    // Preferred contact
+    if (!form.elements.preferredContact?.value) {
+      showError('preferred', 'Please choose a preferred contact method.');
+      ok = false; firstBad = firstBad || form.elements.preferredContact;
+    }
+
+    // Category
+    if (!form.elements.category?.value) {
+      showError('category', 'Please choose a service category.');
+      ok = false; firstBad = firstBad || form.elements.category;
+    }
+
+    // Urgency
+    if (!form.elements.urgency?.value) {
+      showError('urgency', 'Please select an urgency level.');
+      ok = false; firstBad = firstBad || form.elements.urgency;
+    }
+
+    // Best time
+    if (!form.elements.bestTime?.value) {
+      showError('bestTime', 'Please select the best time to reach you.');
+      ok = false; firstBad = firstBad || form.elements.bestTime;
+    }
+
+    // Message
+    const msg = (form.elements.message?.value || '').trim();
+    if (msg.length < 15) {
+      showError('message', 'Please provide at least a sentence describing the issue.');
+      ok = false; firstBad = firstBad || form.elements.message;
+    }
+
+    // Checkbox
+    if (!form.elements.noSecrets?.checked) {
+      showError('noSecrets', 'Please confirm before submitting.');
+      ok = false; firstBad = firstBad || form.elements.noSecrets;
+    }
+
+    return { ok, firstBad };
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const submittedAt = document.getElementById('submittedAt');
+    if (submittedAt) submittedAt.value = new Date().toISOString();
+
+    // Sync replyto
+    if (emailField && replytoField) replytoField.value = emailField.value.trim();
+
+    const v = validate();
+    if (v.silent) return;
+    if (!v.ok) {
+      showStatus('error', 'Please fix the highlighted fields before submitting.');
+      if (v.firstBad && typeof v.firstBad.focus === 'function') v.firstBad.focus();
+      return;
+    }
+
+    const oldText = submitBtn ? submitBtn.textContent : '';
+    if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Sending...'; }
+    showStatus('info', 'Sending your request...');
+
+    try {
+      const formData = new FormData(form);
+      formData.append('userAgent', navigator.userAgent);
+      formData.append('url', window.location.href);
+
+      const res = await fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        headers: { Accept: 'application/json' }
+      });
+
+      const data = await res.json().catch(() => null);
+
+      if (!res.ok) {
+        const msg = (data?.errors?.[0]?.message) || data?.error || 'Something went wrong. Please try again.';
+        showStatus('error', msg);
+        return;
+      }
+
+      showStatus('success', 'Request sent. Check your email for a confirmation copy. We will follow up within 24 hours.');
+      form.reset();
+      clearErrors();
+      if (charCount) charCount.textContent = '0 / 3000';
+    } catch (err) {
+      showStatus('error', err?.message || 'Network error. Please try again or email us directly.');
+    } finally {
+      if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = oldText || 'Send Request'; }
+    }
+  });
+
+  // Real-time validation on blur
+  ['name','email','phone','message'].forEach(id => {
+    const el = form.elements[id];
+    if (!el) return;
+    el.addEventListener('blur', () => {
+      // Only re-validate if it was already marked invalid
+      if (el.getAttribute('aria-invalid') === 'true') validate();
+    });
+  });
+
+})();
+</script>
 </body>
 </html>
